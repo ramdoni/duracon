@@ -1,0 +1,26 @@
+.left_col, .sidebar-footer, .nav_title {
+	background: #ffffff;
+}
+
+.menu_section h3  {
+	color: black;
+	text-shadow: 0 0;
+}
+.nav.child_menu>li>a, 
+.nav.side-menu>li>a, 
+.nav.child_menu>li>a:hover, 
+.nav.side-menu>li>a:hover, 
+ {
+	color: black !important;
+}
+.nav.side-menu>li>a:hover{
+	color: black;
+}
+
+.nav.child_menu>li>a, 
+.nav.side-menu>li>a,
+.nav.child_menu>li>a:hover, 
+.nav.side-menu>li>a:hover
+ {
+	color: black !important;
+}
