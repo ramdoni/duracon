@@ -187,6 +187,10 @@ class Employeeqo extends CI_Controller {
             $this->db->update($this->model->t_table, $post);
 			$this->db->flush_cache();
 
+			#$this->db->where('quotation_order_id', $id);
+			#$this->db->delete('quotation_order_products');
+			#$this->db->flush_cache();
+
 			$product_table = $this->input->post('ProductForm');
 			if(isset($product_table))
 			{
@@ -206,6 +210,7 @@ class Employeeqo extends CI_Controller {
 				}
 			}
 			
+
 			redirect('employeeqo/index','location');
 		}
 		
@@ -230,74 +235,52 @@ class Employeeqo extends CI_Controller {
 			redirect('employeeqo/index','location');
 		}
 		
-		$count_revisi = $model['count_revisi']+1;
-
-		if (strpos($model['no_po'], 'R')) {
-			$no_quotation = str_replace('R'.$model['count_revisi'], 'R'.($count_revisi), $model['no_po']);
-		}else{
-			$no_quotation = $model['no_po'].'/R1';
-		}
-		$model['no_po'] = $no_quotation;
-
 		if($this->input->post())
 		{
-			$post 	= $this->input->post() ;
-			$qo  	= $post['Employee_po'];
-			
-			if($qo['proccess'] == 1)
+			$post  = $this->input->post('Employee_po');
+			$post['update_time'] = date('Y-m-d H:i:s');
+
+			if($post['proccess'] == 1)
 			{
-				// update data quotion lama ke history revisi
-				$qo_param_rev['no_po'] 			= $model['no_po'];
-				$qo_param_rev['sales_id'] 		= $model['sales_id'];
-				$qo_param_rev['marketing_id'] 	= $model['marketing_id'];
-				$qo_param_rev['customer_id'] 	= $model['customer_id'];
-				$qo_param_rev['proyek'] 		= $model['proyek'];
-				$qo_param_rev['area_id'] 		= $model['area_id'];
-				$qo_param_rev['sistem_pembayaran']= $model['sistem_pembayaran'];
-				$qo_param_rev['tanggal'] 		= $model['tanggal'];
-				$qo_param_rev['penurunan_barang']= $model['penurunan_barang'];
-				$qo_param_rev['tipe_pekerjaan'] = $model['tipe_pekerjaan'];
-				$qo_param_rev['create_time']	= date('Y-m-d H:i:s');
-				$qo_param_rev['quotition_order_id']= $id;
+				$post['position'] = 2;
 
+				$post['count_revisi'] = $model['count_revisi']+1;
 
-				$this->db->insert('quotation_order_revisi', $qo_param_rev);
-				$this->db->flush_cache();
-
-				// update quotation 
-				$qo['position'] = 2;
-				$qo['update_time'] = date('Y-m-d H:i:s');
-				$qo['count_revisi'] = $count_revisi;
-
- 				unset($qo['proccess']);
-
-				$this->db->where('id', $id);
-	            $this->db->update($this->model->t_table, $qo);
-				$this->db->flush_cache();
-
-				$quotation_order_products_old = $this->db->get_where('quotation_order_products',['quotation_order_id' => $id])->result_array();
-
-				// backup product yang lama
-				foreach($quotation_order_products_old as $k => $i)
-				{
-					unset($i['id']);
-
-					$param = $i;
-					$this->db->insert('quotation_order_products_revisi', $param);					
+				if (strpos($model['no_po'], 'R')) {
+					$no_quotation = str_replace('R'.$model['count_revisi'], 'R'.($model['count_revisi']+1), $model['no_po']);
+				}else{
+					$no_quotation = $model['no_po'].'/R1';
 				}
-				$this->db->flush_cache();
 
-				// delete semua product
-				$this->db->where('quotation_order_id', $id);
-				$this->db->delete('quotation_order_products');	
-				$this->db->flush_cache();
+				$post['no_po'] = $no_quotation;
 				
-				// insert dengan data yang baru
-				$product_table = $this->input->post('ProductForm');
+				$this->session->set_flashdata('messages', 'Quotation berhasil diproses');
+
+			}else{
+				$post['position'] = 1;
+				
+				$this->session->set_flashdata('messages', 'Quotation berhasil disimpan');
+
+			}
+			unset($post['proccess']);
+
+			$this->db->where('id', $id);
+            $this->db->update($this->model->t_table, $post);
+			$this->db->flush_cache();
+
+			#$this->db->where('quotation_order_id', $id);
+			#$this->db->delete('quotation_order_products');
+			#$this->db->flush_cache();
+
+			$product_table = $this->input->post('ProductForm');
+			if(isset($product_table))
+			{
 				foreach($product_table as $i)
 				{
 					$param = [];
 					$param['quotation_order_id'] = $id;
+					
+					unset($i['id']);
 
 					foreach($i as $key => $val)
 					{
@@ -305,12 +288,10 @@ class Employeeqo extends CI_Controller {
 					}
 
 					$this->db->insert('quotation_order_products', $param);
-					$this->db->flush_cache();
 				}
-
-				$this->session->set_flashdata('messages', 'Quotation berhasil direvisi');	
 			}
 			
+
 			redirect('employeeqo/index','location');
 		}
 		
@@ -320,11 +301,60 @@ class Employeeqo extends CI_Controller {
 		$this->load->view('layouts/main', $params);
 	}
 
-	/**
-	 * [delete description]
-	 * @param  integer $id [description]
-	 * @return [type]      [description]
-	 */
+
+	/*
+	public function revisi($id=0)
+	{
+		$model = $this->model->get_by_id($id);
+
+		if($this->input->post())
+		{
+			$post  = $this->input->post('Employee_po');
+			$post['update_time'] = date('Y-m-d H:i:s');
+			
+			$temp = $this->db->get_where($this->model->t_table, ['id' => $id])->row_array();
+			
+			$this->db->flush_cache();
+			if($post['proccess'] == 1)
+			{
+				$post['position'] = 2;
+			}
+
+			unset($post['proccess']);
+			
+			$post['count_revisi'] = $temp['count_revisi'] + 1;
+
+			$this->db->where('id', $id);
+            $this->db->update($this->model->t_table, $post);
+			$this->db->flush_cache();
+
+			unset($post['count_revisi']);
+			$data_temp = [];
+			foreach($post as $key => $i){
+
+				if($post[$key] !== $temp[$key])
+					$data_temp[$key] = $temp[$key];
+			}
+
+			$data_temp['quotation_order_id'] = $id;
+			
+			$this->db->insert('quotation_order_revisi', $data_temp);
+
+			
+
+			redirect('employeeqo/index','location');
+		}
+		
+		$no_quotation = str_replace('R'.$model['count_revisi'], 'R'.($model['count_revisi']+1), $model['no_po']);
+
+		$params['no_quotation'] = $no_quotation;
+		$params['page'] = 'employeeqo/revisi';
+		$params['data'] = $model;
+		
+		$this->load->view('layouts/main', $params);
+	}
+	*/
+
 	public function delete($id=0)
 	{
 		$this->db->where('id', $id);
@@ -333,11 +363,6 @@ class Employeeqo extends CI_Controller {
 		redirect(site_url('employeeqo'));
 	}
 
-	/**
-	 * [printpo description]
-	 * @param  integer $id [description]
-	 * @return [type]      [description]
-	 */
 	public function printpo($id=0)
 	{
 		$params['data'] = $this->model->get_by_id($id);

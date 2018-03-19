@@ -115,6 +115,7 @@
           </div>
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Area Kirim </label>
+            <!--<label class="control-label col-md-6 col-sm-6 col-xs-12 area-kirim" style="text-align: left;">: <?=(isset($data['area_kirim'])?$data['area_kirim'] : '')?></label>-->
             <div class="col-md-6 col-sm-6 col-xs-12">
               <select name="Employee_po[area_id]" required id="area_id" class="form-control">
                 <option value=""> - Area Kirim - </option>
@@ -248,27 +249,14 @@
                     ?>
                         <tr class="tr-<?=$i['id']?> list-product">
                           <td><?=($key+1)?>
-                            <!--
-                            <input type="hidden" name="ProductForm[<?=$key?>][product_id]" value="<?=$i['product_id']?>" />
-                            <input type="hidden" name="ProductForm[<?=$key?>][kode]" value="<?=$i['kode']?>" />
-                            <input type="hidden" name="ProductForm[<?=$key?>][uraian]" value="<?=$i['uraian']?>" />
-                            <input type="hidden" name="ProductForm[<?=$key?>][vol]" class="input-hidden-vol" value="<?=$i['vol']?>" />
-                            <input type="hidden" name="ProductForm[<?=$key?>][satuan]" value="<?=$i['satuan']?>" />
-                            <input type="hidden" name="ProductForm[<?=$key?>][harga_satuan]" class="input-hidden-harga" value="<?=$i['harga_satuan']?>" />
-                            <input type="hidden" name="ProductForm[<?=$key?>][disc_ppn]" class="input-hidden-disc_ppn" value="<?=$i['disc_ppn']?>" />
-                            <input type="hidden" name="ProductForm[<?=$key?>][weight]" class="input-hidden-weight" value="<?=$i['weight']?>" />
-                            -->
-
-                            <input type="hidden" value="<?=$i['product_id']?>" name="ProductForm[<?=$key?>][product_id]" />
-                            <input type="hidden" value="<?=$i['kode']?>" name="ProductForm[<?=$key?>][kode]" />
-                            <input type="hidden" value="<?=$i['uraian']?>" name="ProductForm[<?=$key?>][uraian]\" />
-                            <input type="hidden" value="<?=$i['satuan']?>" name="ProductForm[<?=$key?>][satuan]\" />
-                            <input type="hidden" class="input-hidden-harga" value="<?=$i['harga_satuan']?>" name="ProductForm[<?=$key?>][harga_satuan]" />
-                            <input type="hidden" class="input-hidden-vol" value="<?=$i['vol']?>" name="ProductForm[<?=$key?>][vol]"  />
-                            <input type="hidden" class="input-hidden-disc_ppn" value="<?=$i['disc_ppn']?>" name="ProductForm[<?=$key?>][disc_ppn]" />
-                            <input type="hidden" class="input-hidden-weight" value="<?=$i['weight']?>" name="ProductForm[<?=$key?>][weight]" />
-                            <input type="hidden" class="input-hidden-transport" value="<?=$i['transport']?>" name="ProductForm[<?=$key?>][transport]" />
-
+                            <input type="hidden" name="ProductFormTemp[<?=$key?>][product_id]" value="<?=$i['product_id']?>" />
+                            <input type="hidden" name="ProductFormTemp[<?=$key?>][kode]" value="<?=$i['kode']?>" />
+                            <input type="hidden" name="ProductFormTemp[<?=$key?>][uraian]" value="<?=$i['uraian']?>" />
+                            <input type="hidden" name="ProductFormTemp[<?=$key?>][vol]" class="input-hidden-vol" value="<?=$i['vol']?>" />
+                            <input type="hidden" name="ProductFormTemp[<?=$key?>][satuan]" value="<?=$i['satuan']?>" />
+                            <input type="hidden" name="ProductFormTemp[<?=$key?>][harga_satuan]" class="input-hidden-harga" value="<?=$i['harga_satuan']?>" />
+                            <input type="hidden" name="ProductFormTemp[<?=$key?>][disc_ppn]" class="input-hidden-disc_ppn" value="<?=$i['disc_ppn']?>" />
+                            <input type="hidden" name="ProductFormTemp[<?=$key?>][weight]" class="input-hidden-weight" value="<?=$i['weight']?>" />
                           </td>
                           <td class="kode"><?=$i['kode']?></td>
                           <td class="uraian"><?=$i['uraian']?></td>
@@ -305,6 +293,8 @@
           <div class="form-group">
             <div>
               <a href="<?=site_url('employeeqo')?>" class="btn btn-danger btn-sm"><i class="fa fa-arrow-left"></i> Cancel</a>
+              <button class="btn btn-warning btn-sm" id="btn-reset" type="reset"><i class="fa fa-refresh"></i> Reset</button>
+              <button type="submit" class="btn btn-primary btn-sm" title="Simpan data sebagai draft sebelum di lanjutkan ke proses approval"> <i class="fa fa-save"></i> Save as Draft</button>
               <span class="btn btn-success btn-proccess btn-sm">Submit Revisi <i class="fa fa-arrow-right"></i></span>
             </div>
           </div>
@@ -387,4 +377,4 @@
 <script type="text/javascript">
   var total = <?=empty($total) ? 0 : $total?>;
 </script>
-<script src="<?=base_url()?>assets/js/quotation-revisi.js?rand=<?=date('His')?>"></script>
+<script src="<?=base_url()?>assets/js/quotation.js?rand=<?=date('His')?>"></script>

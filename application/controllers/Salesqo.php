@@ -61,7 +61,7 @@ class Salesqo extends CI_Controller {
 			if($post['approved'] == 1){
 				$post['position'] = 4; 
 				$status  = 2; // Approved
-				$position = 2; // AR 
+				$position = 2; // AR
 			}else{
 				$post['position'] = 1;
 

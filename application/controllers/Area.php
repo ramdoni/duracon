@@ -48,9 +48,8 @@ class Area extends CI_Controller {
             $this->db->flush_cache();
 
 			$lokasi = $this->input->post('LokasiForm');
-
 			if(isset($lokasi))
-			{
+            {
 				foreach($lokasi as $i)
 				{
 					$param = [];
@@ -114,6 +113,7 @@ class Area extends CI_Controller {
             $this->db->flush_cache();
 
             $lokasi = $this->input->post('LokasiForm');
+            
             if(isset($lokasi))
             {
 				foreach($lokasi as $i)

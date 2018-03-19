@@ -106,6 +106,37 @@
                         </tr>
                         <?php 
                             $total += $harga_diskon*$i['vol'];
+                        ?>
+
+                        <?php 
+                        // cek revisi 
+                        $this->db->where(['quotation_order_products_id' => $i['id']]);
+                        $this->db->order_by('id', 'desc');
+
+                        $revisi = $this->db->get('quotation_order_products_revisi')->result_array();
+                        if($revisi):
+                          foreach($revisi as $k_rev => $val_rev):
+
+                            $employe = $this->db->query("SELECT e.name, ea.label as access FROM employee e
+                                                          inner join employee_access ea on ea.id=e.`employee_access_id` WHERE e.id={$val_rev['employee_id']};")->row_array();
+                        ?>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td><?=$employe['name']?> ( <?=$employe['access']?> ) Revisi : <?=date('d M Y H:i', strtotime($val_rev['create_time']))?></td>
+                              <td>Rp. <?=number_format((($i['harga_satuan'] -($i['harga_satuan'] * $val_rev['disc_ppn'] / 100))))?></td>
+                              <td><?=$val_rev['disc_ppn']?>%</td>
+                              <td>
+                                <?php if($val_rev['employee_id'] != $this->session->userdata('employee_id')):?>
+                                <a href="javascript:" title="Approve" onclick="alert('Fungsi masih dalam proses')"><i class="fa fa-check"></i></a>
+                              <?php endif; ?>
+                              </td>
+                          </tr>
+                          <?php endforeach; ?>
+                        <?php endif; ?>
+                    <?php
                         endforeach;
                       }
                     ?>

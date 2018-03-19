@@ -55,10 +55,8 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sales">Sales <span class="required">*</span>
             </label>
-            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-sales_id" style="text-align: left;">
-              <?=isset($data['sales']) ? $data['sales'] : ''?>
-            </label>
-            <input type="hidden" name="Employee_po[sales_id]" class="sales_id" value="<?=isset($data['sales_id']) ? $data['sales_id'] : ''?>">
+            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-sales_id" style="text-align: left;"></label>
+            <input type="hidden" name="Employee_po[sales_id]" class="sales_id">
           </div>
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sales">Marketing <span class="required">*</span>
@@ -121,10 +119,8 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sistem_pembayaran">Sistem Pembayaran <span class="required">*</span>
             </label>
-            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-sistem_pembayaran" style="text-align: left;">
-              <?=isset($data['sistem_pembayaran']) ? $data['sistem_pembayaran'] : ''?>
-            </label>
-            <input type="hidden" name="Employee_po[sistem_pembayaran]" class="sistem_pembayaran" value="<?=isset($data['sistem_pembayaran']) ? $data['sistem_pembayaran'] : ''?>">
+            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-sistem_pembayaran" style="text-align: left;"></label>
+            <input type="hidden" name="Employee_po[sistem_pembayaran]" class="sistem_pembayaran">
 
             <!--
             <div class="col-md-6 col-sm-6 col-xs-12">

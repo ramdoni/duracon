@@ -86,9 +86,6 @@
                       <?php endif;?>
                       <br />
                       <span onclick="detail_quotation(<?=$item['id']?>,'<?=$item['no_po']?>')" target="_blank" class="btn btn-default btn-xs" title="Detail Quotation"><i class="fa fa-search-plus"></i> Detail</span>
-
-                    
-
                     </td>
                 </tr>
             <?php 
