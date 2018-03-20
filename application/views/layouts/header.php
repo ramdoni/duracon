@@ -137,7 +137,8 @@
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 
-                    <?php if(empty($this->session->userdata('foto'))){?>
+                    <?php 
+                    if(empty($foto)){?>
                     <img src="<?=base_url()?>assets/images/people.png" alt="...">
                     <?php } else { ?>
                     <img src="<?=base_url()?>upload/photo/<?=$this->session->userdata('user_id')?>/<?=$this->session->userdata('foto')?>" >
