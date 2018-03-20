@@ -59,6 +59,18 @@
       var site_url = '<?=site_url()?>';
       var base_url = '<?=base_url()?>';
     </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116069041-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-116069041-1');
+    </script>
+
+
   </head>
 <?php 
   $controller = $this->uri->segment('1');
