@@ -86,7 +86,9 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <?php if(empty($this->session->userdata('foto'))){?>
+                <?php 
+                $foto = $this->session->userdata('foto');
+                if(empty($foto)){?>
                 <img src="<?=base_url()?>assets/images/people.png" alt="..." class="img-circle profile_img">
                 <?php } else { ?>
                 <img src="<?=base_url()?>upload/photo/<?=$this->session->userdata('user_id')?>/<?=$this->session->userdata('foto')?>" class="img-circle profile_img">
