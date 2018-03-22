@@ -122,7 +122,7 @@
                   <option value=""> - Sistem Pembayaran - </option>
                   <?php 
                     
-                  $sistem_pembayaran  = ['Cash' => 'Cash', 'Kredit' => 'Kredit','Kredit dengan DP' => 'Kredit denga DP', 'SCF' => 'SCF (Supply Chain Finance)', 'SKBDN' => 'SKBDN (Surat Kredit Berdokumen Dalam Negeri)' ];
+                  $sistem_pembayaran  = ['Cash' => 'Cash', 'Kredit' => 'Kredit','Kredit dengan DP' => 'Kredit dengan DP', 'SCF' => 'SCF (Supply Chain Finance)', 'SKBDN' => 'SKBDN (Surat Kredit Berdokumen Dalam Negeri)' ];
 
                   foreach($sistem_pembayaran as $i => $k):
 
