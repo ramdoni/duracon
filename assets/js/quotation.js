@@ -8,6 +8,79 @@ var num_row=0;
 var transport = 0;
 var is_transport = 1;
 
+$("select[name='provinsi']").on('change', function(){
+
+  var id = $(this).val();
+
+  $.ajax({
+      url: site_url + "ajax/getkabupaten", 
+      data: {'id' : id },
+      type: 'GET',
+      success: function(result){
+        $("select[name='kabupaten']").html(result);
+      }
+  })
+});
+
+$("select[name='kabupaten']").on('change', function(){
+
+  var id = $(this).val();
+
+  $.ajax({
+      url: site_url + "ajax/getkecamatan", 
+      data: {'id' : id },
+      type: 'GET',
+      success: function(result){
+        $("select[name='kecamatan']").html(result);
+      }
+  })
+});
+
+$("select[name='kecamatan']").on('change', function(){
+
+  var id = $(this).val();
+
+  $.ajax({
+      url: site_url + "ajax/getkelurahan", 
+      data: {'id' : id },
+      type: 'GET',
+      success: function(result){
+        $("select[name='kelurahan']").html(result);
+      }
+  })
+});
+
+
+$("select[name='kelurahan']").on('change', function(){
+
+  var provinsi_id   = $("select[name='provinsi']").val();
+  var kabupaten_id  = $("select[name='kabupaten']").val();
+  var kecamatan_id  = $("select[name='kecamatan']").val();
+  var kelurahan_id  = $(this).val();
+
+  $.ajax({
+      url: site_url + "ajax/cekareakirim", 
+      data: {'provinsi_id' : provinsi_id, 'kabupaten_id' : kabupaten_id, 'kecamatan_id': kecamatan_id, 'kelurahan_id' : kelurahan_id },
+      type: 'GET',
+      success: function(result){
+        
+        obj = JSON.parse(result); 
+
+        if(obj.message == 'success')
+        { 
+          var transport = obj.data.price; 
+          console.log(obj.data);
+          $("input[name='Employee_po[area_id]']").val(obj.data.id);
+          $('.label-area_kirim').html(obj.data.area);
+
+        }else{
+          _alert("Area kirim tidak ditemukan untuk kelurahan ini, silahkan pilih kelurahan yang lain !");
+        }
+      }
+  })
+});
+
+
 $("select[name='perihal']").on('change', function(){
 
   if( $(this).val() == 'Harga Satuan')
@@ -62,16 +135,6 @@ $('.select_customer').on('change', function(){
       }
   });
 });
-
-
-$('select#area_id').on('change', function(){
-
-    var selected = $(this).find('option:selected');
-    var transport = selected.data('price');
-
-    console.log(transport);
-});
-
 
 $('select.select_transport').on('change', function(){
 

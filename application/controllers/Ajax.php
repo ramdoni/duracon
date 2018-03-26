@@ -23,6 +23,96 @@ class Ajax extends CI_Controller {
 		endif;
 	}
 
+	/**
+	 * [getkabupaten description]
+	 * @return [type] [description]
+	 */
+	public function getkabupaten()
+	{
+		$id = isset($_GET['id']) ? $_GET['id'] : '';
+
+		if($id)
+		{
+			$kabupaten =  $this->db->get_where('kabupaten', ['id_prov' => $id])->result_array();
+			$html = '<option value="">Pilih Kabupaten</option>';
+			foreach($kabupaten as $item)
+			{
+				$html .= '<option value="'. $item['id_kab'] .'">'. $item['nama'] .'</option>';
+			}
+
+			echo $html;
+		}
+	}	
+
+	/**
+	 * [getkecamatan description]
+	 * @return [type] [description]
+	 */
+	public function getkecamatan()
+	{
+		$id = isset($_GET['id']) ? $_GET['id'] : '';
+
+		if($id)
+		{
+			$kabupaten =  $this->db->get_where('kecamatan', ['id_kab' => $id])->result_array();
+			$html = '<option value="">Pilih Kecamatan</option>';
+			foreach($kabupaten as $item)
+			{
+				$html .= '<option value="'. $item['id_kec'] .'">'. $item['nama'] .'</option>';
+			}
+
+			echo $html;
+		}
+	}
+
+	/**
+	 * [getkelurahan description]
+	 * @return [type] [description]
+	 */
+	public function getkelurahan()
+	{
+		$id = isset($_GET['id']) ? $_GET['id'] : '';
+
+		if($id)
+		{
+			$kelurahan =  $this->db->get_where('kelurahan', ['id_kec' => $id])->result_array();
+			$html = '<option value="">Pilih Kelurahan</option>';
+			foreach($kelurahan as $item)
+			{
+				$html .= '<option value="'. $item['id_kel'] .'">'. $item['nama'] .'</option>';
+			}
+
+			echo $html;
+		}
+	}
+
+	/**
+	 * [cekareakirim description]
+	 * @return [type] [description]
+	 */
+	public function cekareakirim()
+	{
+		$provinsi_id 	= $_GET['provinsi_id'];
+		$kabupaten_id 	= $_GET['kabupaten_id'];
+		$kecamatan_id 	= $_GET['kecamatan_id'];
+		$kelurahan_id	= $_GET['kelurahan_id'];
+
+		//$data = $this->db->get_where('area_kelurahan', ['provinsi_id' => $provinsi_id, 'kabupaten_id' => $kabupaten_id, 'kecamatan_id' => $kecamatan_id, 'kelurahan_id' => $kelurahan_id])->row_array();
+
+		$data = $this->db->query('SELECT ak.*, a.area FROM area_kelurahan ak inner join area a on a.id=ak.area_id where provinsi_id = '. $provinsi_id .' and kabupaten_id = '. $kabupaten_id . ' and kecamatan_id  = '. $kecamatan_id .' and kelurahan_id = '. $kelurahan_id )->row_array();
+
+		if($data)
+		{
+			echo json_encode(['message' => 'success', 'data' => $data]);
+		}else{
+			echo json_encode(['message' => 'error']);
+		}
+	}
+
+	/**
+	 * [cekschedule description]
+	 * @return [type] [description]
+	 */
 	public function cekschedule()
 	{
 		$post = $this->input->post();

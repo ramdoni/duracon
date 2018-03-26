@@ -48,82 +48,6 @@
                 </select>
             </div>
           </div>
-          <!--
-          <div>
-            <div class="x_panel">
-              <div class="x_title">
-                <h2>Harga Rupiah Perkilo Berdasarkan Jenis Mobil</h2>
-                <div class="clearfix"></div>      
-              </div>
-              <div class="x_content">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th style="width: 50px !important;">No</th>
-                      <th>Jenis Mobil</th>
-                      <th>Rp. Rupiah Perkilo</th>
-                    </tr>
-                  </thead>
-                  <tbody class="">
-
-                    <?php 
-                    if(!isset($data['id'])):
-                      $mobil = $this->db->get('jenis_mobil')->result_array();
-                        foreach($mobil as $k => $i):
-                      ?>
-                      <input type="hidden" name="jenis_mobil[]" value="<?=$i['id']?>">
-                      <tr>
-                        <td><?=($k+1)?></td>
-                        <td><?=$i['jenis_mobil']?></td>
-                        <td>Rp. <input type="text" name="rupiah_perkilo[]" class="form-control"></td>
-                      </tr>
-                      <?php endforeach; ?>
-                    <?php endif; ?>
-
-
-                    <?php if(isset($data['id'])): ?>
-                      <?php 
-                        
-                        $sql = "SELECT a.id, a.jenis_mobil_id, j.jenis_mobil, a.rupiah_perkilo FROM area_biaya_pengiriman a inner join jenis_mobil j on a.jenis_mobil_id=j.id WHERE a.area_id={$data['id']}";
-                        
-                        $mobil = $this->db->query($sql)->result_array();
-
-                        foreach($mobil as $k => $i):
-                      ?>
-                          <input type="hidden" name="jenis_mobil[]" value="<?=$i['jenis_mobil_id']?>">
-                          <tr>
-                            <td><?=($k+1)?></td>
-                            <td><?=$i['jenis_mobil']?></td>
-                            <td>Rp. <input type="text" name="rupiah_perkilo[]" value="<?=$i['rupiah_perkilo']?>" class="form-control"></td>
-                          </tr>
-                      <?php endforeach; ?> 
-
-                      <?php  
-                      
-                      $total_ = $this->db->query($sql)->num_rows();
-                      
-                      if($total_ == 0):
-
-                          $mobil = $this->db->get('jenis_mobil')->result_array();
-                          foreach($mobil as $k => $i):
-                        ?>
-                        <input type="hidden" name="jenis_mobil[]" value="<?=$i['id']?>">
-                        <tr>
-                          <td><?=($k+1)?></td>
-                          <td><?=$i['jenis_mobil']?></td>
-                          <td>Rp. <input type="text" name="rupiah_perkilo[]" class="form-control"></td>
-                        </tr>
-                        <?php endforeach; ?>
-                      <?php endif; ?>
-
-                    <?php endif; ?>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        -->
-
           <div>
             <div class="x_panel">
               <div class="x_title">
@@ -135,30 +59,34 @@
                   <thead>
                     <tr>
                       <th style="width: 50px !important;">No</th>
-                      <th>Lokasi</th>
+                      <th>Provinsi</th>
+                      <th>Kabupaten</th>
+                      <th>Kecamatan</th>
+                      <th>Kelurahan</th>
                       <th>#</th>
                     </tr>
                   </thead>
                   <tbody class="add-table-lokasi">
-                  <?php
-                  if(isset($data['id'])):
-                      $this->db->select('lokasi.id, lokasi.name, area_lokasi.id as id_area_lokasi');
-                      $this->db->from('area_lokasi');
-                      $this->db->join('lokasi', 'lokasi.id=area_lokasi.lokasi_id', 'left');
-                      $this->db->where(['area_id' => $data['id']]);
+                  <?php 
+                      $area = $this->db->query("
 
-                      $product = $this->db->get();
-
-                     foreach($product->result_array() as $key => $i):
-                    ?>
-                      <tr class="tr-<?=$i['id_area_lokasi']?>">
-                        <td><?=($key+1)?></td>
-                        <td><a href="#" class="editable-text" data-type="text" data-url="<?=site_url()?>ajax/savelokasiname" data-pk="<?=$i['id']?>" ><?=$i['name']?></a></td>
-                        <td>
-                            <a href="javascript:" title="Hapus" onclick="hapus_item(<?=$i['id_area_lokasi']?>)"><i class="fa fa-trash"></i></a></td>
+                          SELECT ak.*, p.nama as provinsi, k.nama as kabupaten, kc.nama as kecamatan, kl.nama as kelurahan FROM area_kelurahan ak
+                          LEFT JOIN provinsi p on p.id_prov=ak.provinsi_id
+                          LEFT JOIN kabupaten k on k.id_kab=ak.kabupaten_id
+                          LEFT JOIN kecamatan kc on kc.id_kec=ak.kecamatan_id
+                          LEFT JOIN kelurahan kl on kl.id_kel=ak.kelurahan_id
+                          WHERE ak.area_id=". $data['id'])->result_array();
+                      foreach($area as $key => $item):
+                  ?>
+                      <tr>
+                          <td><?=($key+1)?></td>
+                          <td><?=$item['provinsi']?></td>
+                          <td><?=$item['kabupaten']?></td>
+                          <td><?=$item['kecamatan']?></td>
+                          <td><?=$item['kelurahan']?></td>
+                          <td><a href="<?=site_url()?>area/hapus_area_kelurahan?id=<?=$item['id']?>&area_id=<?=$data['id']?>" class="btn btn-danger btn-xs" onclick="return confirm('Hapus Area Kelurahan ini ?')">Hapus</a></td>
                       </tr>
-                    <?php endforeach; ?>
-                  <?php endif; ?>
+                  <?php endforeach; ?>
                   </tbody>
                 </table>
                 <a class="btn btn-default btn-sm" style="float: right;" data-toggle="modal" href="#myModal"><i class="fa fa-plus"></i> Add Lokasi</a> 
@@ -191,13 +119,49 @@
           
           <form id="modal-lokasi" method="post" onsubmit="return false;" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
 
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Lokasi <span class="required">*</span>
-            </label>
+
+           <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Provinsi </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" name="lokasi" class="form-control modal-label-lokasi" />
-            </div>
+              <select class="form-control" name="provinsi">
+                <option value="">Pilih Provinsi</option>
+                <?php
+                  $this->db->from('provinsi');
+                  $provinsi = $this->db->get()->result_array();
+                  foreach($provinsi as $item)
+                  {
+                ?>
+                    <option value="<?=$item['id_prov']?>"><?=$item['nama']?></option>
+
+                <?php } ?>
+              </select>
+            </div>  
           </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kabupaten </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select class="form-control" name="kabupaten">
+                <option value="">Pilih Kabupaten</option>
+              </select>
+            </div>  
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kecamatan </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select class="form-control" name="kecamatan">
+                <option value="">Pilih Kecamatan</option>
+              </select>
+            </div>  
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kelurahan </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select class="form-control" name="kelurahan">
+                <option value="">Pilih Kelurahan</option>
+              </select>
+            </div>  
+          </div>
+
           <div class="ln_solid"></div>
           <div class="form-group">
             <div>
@@ -211,27 +175,77 @@
     </div>
   </div>
   <script type="text/javascript">
-  
+    
+
+
+  $("select[name='provinsi']").on('change', function(){
+
+  var id = $(this).val();
+
+  $.ajax({
+      url: site_url + "ajax/getkabupaten", 
+      data: {'id' : id },
+      type: 'GET',
+      success: function(result){
+        $("select[name='kabupaten']").html(result);
+      }
+  })
+});
+
+$("select[name='kabupaten']").on('change', function(){
+
+  var id = $(this).val();
+
+  $.ajax({
+      url: site_url + "ajax/getkecamatan", 
+      data: {'id' : id },
+      type: 'GET',
+      success: function(result){
+        $("select[name='kecamatan']").html(result);
+      }
+  })
+});
+
+$("select[name='kecamatan']").on('change', function(){
+
+  var id = $(this).val();
+
+  $.ajax({
+      url: site_url + "ajax/getkelurahan", 
+      data: {'id' : id },
+      type: 'GET',
+      success: function(result){
+        $("select[name='kelurahan']").html(result);
+      }
+  })
+});
+
+
   var num_row=0;
   $('.btn-add-modal').click(function(){
 
-    if($('form#modal-lokasi input.modal-label-lokasi').val() == ""){
+    if($("select[name='provinsi']").val() == "" || $("select[name='kabupaten']").val() == "" || $("select[name='kecamatan']").val() == "" || $("select[name='kelurahan']").val() == ""){
 
-      _alert("Lokasi harus harus diisi");
+      _alert("Data harus harus diisi");
 
       return false;
     } 
 
     num_row = ($('tbody.add-table-lokasi tr').length+1);
 
-    var lokasi = $('input.modal-label-lokasi');
     var t_add = "<tr class=\"tr-"+(num_row)+"\">";
     
 
     t_add += "<td>"+ (num_row) 
-                    +"<input type=\"hidden\" value=\""+lokasi.val()+"\" name=\"LokasiForm["+num_row+"][name]\" />";
+                    +"<input type=\"hidden\" value=\""+ $("select[name='provinsi']").val() +"\" name=\"LokasiForm["+num_row+"][provinsi_id]\" />"
+                    +"<input type=\"hidden\" value=\""+ $("select[name='kabupaten']").val() +"\" name=\"LokasiForm["+num_row+"][kabupaten_id]\" />"
+                    +"<input type=\"hidden\" value=\""+ $("select[name='kecamatan']").val() +"\" name=\"LokasiForm["+num_row+"][kecamatan_id]\" />"
+                    +"<input type=\"hidden\" value=\""+ $("select[name='kelurahan']").val() +"\" name=\"LokasiForm["+num_row+"][kelurahan_id]\" />";
     t_add += "</td>";
-    t_add += "<td>"+ lokasi.val() +"</td>";
+    t_add += "<td>"+ $("select[name='provinsi'] :selected").text() +"</td>";
+    t_add += "<td>"+ $("select[name='kabupaten'] :selected").text() +"</td>";
+    t_add += "<td>"+ $("select[name='kecamatan'] :selected").text() +"</td>";
+    t_add += "<td>"+ $("select[name='kelurahan'] :selected").text() +"</td>";
     t_add += "<td class=\"btn-action\"><a href=\"javascript:\" title=\"Hapus\" onclick=\"hapus_item_temp("+ (num_row) +")\"><i class=\"fa fa-trash\"></i></a> &nbsp;";
     t_add += '</td>';
     t_add += "</tr>";

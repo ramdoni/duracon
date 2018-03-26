@@ -49,6 +49,7 @@ class Pabrikjadwaltulangan extends CI_Controller {
 			$post  = $this->input->post();
 			
 			$param['create_time'] 		= date('Y-m-d H:i:s');
+			$param['tahun']			 	= date('Y');
 			$param['bulan']				= $post['bulan'];
 			$param['minggu']			= $post['minggu'];
 			$param['plan'] 				= $post['jadwal']['plan'];

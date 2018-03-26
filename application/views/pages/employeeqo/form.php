@@ -109,10 +109,53 @@
               <input type="text" id="proyek" required="required" value="<?=(isset($data['proyek']) ? $data['proyek'] : '')?>" name="Employee_po[proyek]" class="form-control col-md-7 col-xs-12">
             </div>
           </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Provinsi </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select class="form-control" name="provinsi">
+                <option value="">Pilih Provinsi</option>
+                <?php
+                  $this->db->from('provinsi');
+                  $provinsi = $this->db->get()->result_array();
+                  foreach($provinsi as $item)
+                  {
+                ?>
+                    <option value="<?=$item['id_prov']?>"><?=$item['nama']?></option>
+
+                <?php } ?>
+              </select>
+            </div>  
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kabupaten </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select class="form-control" name="kabupaten">
+                <option value="">Pilih Kabupaten</option>
+              </select>
+            </div>  
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kecamatan </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select class="form-control" name="kecamatan">
+                <option value="">Pilih Kecamatan</option>
+              </select>
+            </div>  
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kelurahan </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select class="form-control" name="kelurahan">
+                <option value="">Pilih Kelurahan</option>
+              </select>
+            </div>  
+          </div>
+        
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Area Kirim </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <select name="Employee_po[area_id]" required id="area_id" class="form-control">
+             <!--  <select name="Employee_po[area_id]" required id="area_id" class="form-control">
                 <option value=""> - Area Kirim - </option>
                 <?php 
                   $area = $this->db->get('area')->result_array();
@@ -129,7 +172,11 @@
                 ?>
                 <option <?=$selected?> value="<?=$i['id']?>" data-price="<?=$i['price']?>"><?=$i['area']?></option>
                 <?php endforeach; ?>
-              </select>
+              </select> -->
+
+              <label class="control-label col-md-6 col-sm-6 col-xs-12 label-area_kirim" style="text-align: left;"></label>
+              <input type="hidden" name="Employee_po[area_id]" class="area_id">
+
             </div>
           </div>
           <div class="form-group">
@@ -137,28 +184,6 @@
             </label>
             <label class="control-label col-md-6 col-sm-6 col-xs-12 label-sistem_pembayaran" style="text-align: left;"></label>
             <input type="hidden" name="Employee_po[sistem_pembayaran]" class="sistem_pembayaran">
-
-            <!--
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <select name="Employee_po[sistem_pembayaran]" required id="sistem_pembayaran" class="form-control">
-                <option value=""> - Pembayaran - </option>
-                <?php 
-                  foreach(['Cash', 'Kredit', 'SCF'] as $i):
-
-                    $selected = '';
-                    if(isset($data['sistem_pembayaran']))
-                    {
-                      if($data['sistem_pembayaran'] == $i)
-                      {
-                        $selected = ' selected';
-                      }
-                    }
-                ?>
-                <option <?=$selected?>><?=$i?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>-->
-            
           </div>
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tanggal">Tanggal <span class="required">*</span>

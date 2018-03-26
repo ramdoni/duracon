@@ -55,40 +55,16 @@ class Area extends CI_Controller {
 					$param = [];
 					$param['area_id'] = $id;
 					$param['create_time'] = date('Y-m-d H:i:s');
-					
-					foreach($i as $key => $val)
-					{
-						$loc = [];
-						$loc['name'] = $val;
+					$param['provinsi_id'] = $i['provinsi_id'];
+					$param['kabupaten_id'] = $i['kabupaten_id'];
+					$param['kecamatan_id'] = $i['kecamatan_id'];
+					$param['kelurahan_id'] = $i['kelurahan_id'];
 
-						$this->db->insert('lokasi', $loc);
-						$lokasi_id = $this->db->insert_id();
-						$this->db->flush_cache();
-						
-						$param['lokasi_id'] = $lokasi_id;
-						$this->db->insert('area_lokasi', $param);
-						$this->db->flush_cache();
-					}
-				}
-			}
-
-			$jenis_mobil = $this->input->post('jenis_mobil');
-			$post = $this->input->post();
-			
-			if(isset($jenis_mobil))
-			{
-				foreach($jenis_mobil as $key => $item)
-				{
-					$param = [];
-					$param['area_id'] = $id;
-					$param['jenis_mobil_id'] = $item;
-					$param['rupiah_perkilo'] = $post['rupiah_perkilo'][$key];
-
-					$this->db->insert('area_biaya_pengiriman', $param);
+					$this->db->insert('area_kelurahan', $loc);
 					$this->db->flush_cache();
 				}
 			}
-			
+
 			$this->session->set_flashdata('messages', 'Data berhasil disimpan');
 
 			redirect('area/index','location');
@@ -97,6 +73,18 @@ class Area extends CI_Controller {
 		$params['page'] = 'area/form';
 
 		$this->load->view('layouts/main', $params);
+	}
+
+	/**
+	 * [hapus_area_kelurahan description]
+	 * @return [type] [description]
+	 */
+	public function hapus_area_kelurahan()
+	{
+		$this->db->where(['id' => $_GET['id']]);
+		$this->db->delete('area_kelurahan');
+
+		redirect('area/edit/'. $_GET['area_id']);
 	}
 
 	public function edit($id=0)
@@ -113,7 +101,7 @@ class Area extends CI_Controller {
             $this->db->flush_cache();
 
             $lokasi = $this->input->post('LokasiForm');
-            
+           
             if(isset($lokasi))
             {
 				foreach($lokasi as $i)
@@ -121,50 +109,12 @@ class Area extends CI_Controller {
 					$param = [];
 					$param['area_id'] = $id;
 					$param['create_time'] = date('Y-m-d H:i:s');
-					
-					foreach($i as $key => $val)
-					{
-						$loc = [];
-						$loc['name'] = $val;
+					$param['provinsi_id'] = $i['provinsi_id'];
+					$param['kabupaten_id'] = $i['kabupaten_id'];
+					$param['kecamatan_id'] = $i['kecamatan_id'];
+					$param['kelurahan_id'] = $i['kelurahan_id'];
 
-						$this->db->insert('lokasi', $loc);
-						$lokasi_id = $this->db->insert_id();
-						$this->db->flush_cache();
-						
-						$param['lokasi_id'] = $lokasi_id;
-						$this->db->insert('area_lokasi', $param);
-						$this->db->flush_cache();
-					}
-				}
-			}
-
-			$jenis_mobil = $this->input->post('jenis_mobil');
-			$post = $this->input->post();
-
-			if(isset($jenis_mobil))
-			{
-				foreach($jenis_mobil as $key => $item)
-				{
-					$param = [];
-					$num = $this->db->get_where('area_biaya_pengiriman', ['area_id' => $id, 'jenis_mobil_id' => $item])->num_rows();
-
-					if($num ==0){
-
-						$this->db->flush_cache();
-						$param['area_id'] = $id;
-						$param['jenis_mobil_id'] = $item;
-						$param['rupiah_perkilo'] = $post['rupiah_perkilo'][$key];
-						
-						$this->db->insert('area_biaya_pengiriman', $param);
-
-					}else{
-						$param['rupiah_perkilo'] = $post['rupiah_perkilo'][$key];
-						
-						$this->db->flush_cache();
-						$this->db->where(['area_id' => $id, 'jenis_mobil_id' => $item]);
-						$this->db->update('area_biaya_pengiriman', $param);
-					}
-
+					$this->db->insert('area_kelurahan', $param);
 					$this->db->flush_cache();
 				}
 			}

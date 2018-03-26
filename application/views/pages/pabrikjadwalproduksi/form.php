@@ -221,7 +221,7 @@
                   </tbody>
                 </table>
               </div>
-            <a class="btn btn-primary btn-sm" data-toggle="modal" href="#myModal" ><i class="fa fa-plus"></i> Tambah Produk</a>
+            <a class="btn btn-primary btn-xs" data-toggle="modal" href="#myModal" ><i class="fa fa-plus"></i> Tambah Produk</a>
             <div class="ln_solid"></div>
             <div class="form-group">
             <div>

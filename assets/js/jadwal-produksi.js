@@ -30,7 +30,11 @@ function hapus_plan_item(id)
   });
 }
 
+$("select[name='jadwal[plan]']").on('change', function(){
 
+  cek_exist_schedule($(this));
+
+});
 
 $("select[name='bulan']").on('change', function(){
   cek_exist_schedule($(this));
@@ -147,6 +151,15 @@ $('.btn-add-modal').click(function(){
   var jumlah_cor      = $('.jumlah_cor').val(); 
   
 
+  if($("select[name='jadwal[plan]']").val() == "")
+  {
+    _alert("Plan harus dipilih terlebih dahulu !");
+    
+    $('#myModal').modal('hide');
+
+    return false;
+  }
+
   if($('form#modal-product select').val() == ""){
 
     _alert("Pilih Produk !");
@@ -165,7 +178,6 @@ $('.btn-add-modal').click(function(){
     _alert("Jumlah Cetak / Cor harus diisi !");
     return false;
   }
-
 
   var total_cetak     = parseInt(jumlah_cetakan) * parseInt(jumlah_cor);
   var shift           = Math.ceil(total_cetak / 2);

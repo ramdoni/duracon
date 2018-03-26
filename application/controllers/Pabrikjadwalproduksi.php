@@ -61,12 +61,9 @@ class Pabrikjadwalproduksi extends CI_Controller {
 		if($this->input->post())
 		{
 			$post  = $this->input->post();
-			//$tanggal = explode('to', $post['tanggal']);
 			
 			$param['create_time'] 		= date('Y-m-d H:i:s');
-			//$param['start_date'] 		= $tanggal[0];
-			//$param['end_date'] 			= $tanggal[1];
-
+			$param['tahun'] 		 	= date('Y');
 			$param['bulan']				= $post['bulan'];
 			$param['minggu']			= $post['minggu'];
 			$param['plan'] 				= $post['jadwal']['plan'];
@@ -104,7 +101,7 @@ class Pabrikjadwalproduksi extends CI_Controller {
 				}
 			endif;
 
-			$this->session->set_flashdata('messages', 'Schedule berhasil dibuat');
+			$this->session->set_flashdata('messages', 'Schedule produksi berhasil dibuat');
 
 			redirect('pabrikjadwalproduksi/index','location');
 		}
