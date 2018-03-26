@@ -94,7 +94,7 @@
           <div class="form-group">
             <div>
               <a href="<?=site_url('arsik')?>" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
-              <a class="btn btn-success btn-proccess btn-sm">Approved <i class="fa fa-check"></i></a>
+              <a class="btn btn-success btn-proccess btn-sm"><i class="fa fa-check"></i> Approved</a>
             </div>
           </div>
 

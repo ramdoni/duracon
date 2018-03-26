@@ -13,13 +13,14 @@ $("select[name='perihal']").on('change', function(){
   if( $(this).val() == 'Harga Satuan')
   {
     $("input[name='volume[volume]']").attr('readonly', true).val(1);
+    $("input[name='products[disc_ppn]']").attr('readonly', true).val(0);
   }
   else
   {
     $("input[name='volume[volume]']").removeAttr('readonly');
+    $("input[name='products[disc_ppn]']").removeAttr('readonly');
   }
 });
-
 
 $('.select_customer').on('change', function(){
 
@@ -123,10 +124,19 @@ $("#btn-reset").click(function(){
           }          
         }
       });
-
   });
 
   $('.btn-add-modal').click(function(){
+
+
+    if($("select[name='perihal'").val() == "")
+    {
+      _alert('Perihal harus dipilih terlebih dahulu !');
+
+      $("#myModal").modal('hide');
+
+      return false;
+    }
 
     if($('select#area_id').val() == ""){
 
@@ -212,7 +222,6 @@ $("#btn-reset").click(function(){
     });
     
     $('form#modal-product select').val("");
-
 
     $('th.total_').html('Rp. '+numberWithComma(total) );
 

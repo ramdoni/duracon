@@ -141,7 +141,7 @@ class Employeeso extends CI_Controller {
 			
 		$count = $this->db->get('sales_order')->num_rows();
 
-		$params['no_so'] = ($count + 1).'/SO/JKT/'.date('y');
+		$params['no_so'] = ($count + 1).'/SO/JKT/'.date('m').'/'. date('y');
 		$params['page'] = 'employeeso/form';
 
 		$this->load->view('layouts/main', $params);

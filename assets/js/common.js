@@ -196,9 +196,8 @@ function detail_sales_order_sales(quotation_order_id, sales_order_id, title)
           content_detail_product += "<td>"+val.kode+"</td>";
           content_detail_product += "<td>"+val.uraian+"</td>";
           content_detail_product += "<td>"+val.vol+"</td>";
-          content_detail_product += "<td>"+val.satuan+"</td>";
           content_detail_product += "<td>"+numberWithComma(val.harga_satuan)+"</td>";
-         
+          content_detail_product += "<td>"+numberWithComma(parseInt(harga_diskon) * parseInt(val.vol))+"</td></tr>";
           content_detail_product += "</tr>";
 
           total_ += (parseInt(harga_diskon) * parseInt(val.vol)); 

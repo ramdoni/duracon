@@ -116,11 +116,9 @@
 		</ol>
 		<strong style="float: right;">FOR B 0901</strong>
 	</div>	
-
-	<div style="page-break-before: always; "></div>
+	<br />
+	<!-- <div style="page-break-before: always; "></div> -->
 	<div class="kotak">
-		
-		<img src="<?=site_url()?>assets/images/logo.png" style="width: 250px;" />
 		<p style="margin-top: 0;padding-top: 0;font-size: 10px;">Jl. Ciputat Raya No. 20 H Pondok Pinang Jakarta 12310</p>
 		<br style="clear: both" />
 		<table border="1" style="width: 100%;">
