@@ -22,6 +22,7 @@
                 <th class="column-title">Jadwal Mulai </th>
                 <th class="column-title">Jadwal Selesai </th>
                 <th class="column-title">Sales </th>
+                <th class="column-title">Catatan AR </th>
                 <th class="column-title">Posisi / Status</th>
                 <th class="column-title no-link last"></th>
               </tr>
@@ -42,6 +43,9 @@
                     <td><?=$item['jadwal_mulai']?></td>
                     <td><?=$item['jadwal_selesai']?></td>
                     <td><?=$item['sales']?></td>
+                    <td>
+                      <?=catatan_ar_by_so_id($item['id'])?>
+                    </td>
                     <td><?=position_so($item['position'])?></td>
                     <td>
                       <?php if($item['position'] == 1):?>
@@ -55,7 +59,7 @@
 
                       <?php if($item['position'] >= 4):?>
                         <a href="<?=site_url("employeeso/printso/{$item['id']}")?>" target="_blank" class="btn btn-default btn-xs" title="Print"><i class="fa fa-print"></i> Print</a>
-                        <a onclick="_confirm('Sales Order Closed atau sudah selesai?','<?=site_url("employeeso/soselesai/{$item['id']}")?>')" class="btn btn-success btn-xs" title="Print"><i class="fa fa-check"></i> Selesai</a>
+                        <a onclick="_confirm('Close Sales Order ini ?','<?=site_url("employeeso/soselesai/{$item['id']}")?>')" class="btn btn-danger btn-xs" title="Print"><i class="fa fa-check"></i> Close SO</a>
                       <?php endif;?>
                         <span onclick="detail_sales_order(<?=$item['quotation_order_id']?>,<?=$item['id']?>,'<?=$item['no_po']?>')" target="_blank" class="btn btn-default btn-xs" title="Detail Quotation"><i class="fa fa-search-plus"></i> Detail</span>
                     </td>

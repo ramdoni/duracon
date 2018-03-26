@@ -51,12 +51,12 @@
 	<table style="width: 100%;" class="border">
 		<tr>
 			<td rowspan="4" colspan="7" style="border-right:0;border-bottom:0;">
-				<p><?=(label_customer($pt['id']))?></p>
+				<p><?=(label_customer_pt($pt['id']))?></p>
 				<p>Address</p>
 				<p><?=$pt['address']?></p>
 			</td>
 			<td style="border: 0px;border-top:1px solid;">Contact Person</td>
-			<td style="width: 100px;"><?=nama_customer($pt['id'])?></td>
+			<td style="width: 100px;"><?=label_customer_pt($pt['id'])?></td>
 			<td>Project : <?=$data['proyek']?></td>
 		</tr>
 		<tr>
@@ -84,7 +84,7 @@
 			<td>Customer Type</td>
 			<td colspan="3">Credit App</td>
 			<td colspan="2">Warning List</td>
-			<td colspan="3">Payment Term</td>
+			<td colspan="3">Payment Term : <?=$data['sistem_pembayaran']?></td>
 		</tr>
 		<tr>
 			<th>Check / Approve Paraf</th>

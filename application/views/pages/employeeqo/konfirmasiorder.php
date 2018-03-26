@@ -49,20 +49,8 @@
 				<td>: <?=$data['no_po']?></td>
 			</tr>
 			<tr>
-				<td>No. PO</td>
-				<td>: </td>
-			</tr>
-			<tr>
-				<td>No. Konfirmasi Order</td>
-				<td>:</td>
-			</tr>
-			<tr>
-				<td>Lokasi Pengiriman</td>
-				<td>: </td>
-			</tr>
-			<tr>
-				<td>Penerima Lapangan</td>
-				<td>: </td>
+				<td>Ketentuan Pembayaran</td>
+				<td>: <?=$data['sistem_pembayaran']?></td>
 			</tr>
 		</table>
 	</div>

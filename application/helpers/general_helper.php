@@ -1,6 +1,33 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * [catatan_so_by_so_id description]
+ * @param  [type] $id [description]
+ * @return [type]     [description]
+ */
+function catatan_ar_by_so_id($id)
+{
 
+    $ini = get_instance();
+
+    $catatan_ar = $ini->db->get_where('sales_order_catatan_ar', ['sales_order_id' => $id])->result_array();
+    
+    $html = '';
+
+    foreach($catatan_ar as $cat)
+    {
+      $html .= $cat['catatan']. '<br />';
+    }
+
+    return $html;
+}
+
+
+/**
+ * [total_invoice_perso description]
+ * @param  [type] $id [description]
+ * @return [type]     [description]
+ */
 function total_invoice_perso($id)
 {
     $ini = get_instance();

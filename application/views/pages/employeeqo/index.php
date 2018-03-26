@@ -70,7 +70,7 @@
                       <?php }?>
                       
                       <?php if($item['position'] >= 1):?>
-                        <a href="javascript:;" onclick="show_history(<?=$item['id']?>)" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-history"></i> History</a><br />
+                        <a href="javascript:;" onclick="show_history(<?=$item['id']?>)" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-history"></i> History Approval</a><br />
                       <?php endif; ?>
 
                       <?php if($item['position'] == 1 and empty($item['count_revisi'])):?>

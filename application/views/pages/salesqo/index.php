@@ -18,7 +18,7 @@
 
       <div class="x_content">
         <div class="table-responsive">
-          <table class="table table-striped jambo_table bulk_action">
+          <table id="datatable-buttons" class="table table-striped table-bordered">
             <thead>
               <tr class="headings">
                 <th class="column-title">No</th>
@@ -57,6 +57,9 @@
                         <a href="<?=site_url("salesqo/printqo/{$item['id']}")?>" target="_blank" class="btn btn-default btn-xs" title="Print"><i class="fa fa-print"></i> Print</a><br />
                       <?php endif; ?>
                         <span onclick="detail_quotation(<?=$item['id']?>,'<?=$item['no_po']?>')" target="_blank" class="btn btn-default btn-xs" title="Detail Quotation"><i class="fa fa-search-plus"></i> Detail</span>
+
+                        <br /><a href="javascript:;" onclick="show_history(<?=$item['id']?>)" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-history"></i> History Approval</a><br />
+
                     </td>
                 </tr>
             <?php 
@@ -68,3 +71,45 @@
       </div>
     </div>
 </div>
+
+<div id="modal-history" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">History</h4>
+      </div>
+      <div class="modal-body">
+        <ul class="list-unstyled timeline widget list-history"></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+  function show_history(quotation_order_id)
+  {
+    $('.list-history').html("");
+    $.post("<?=site_url('ajax/getquotaionorderhistory')?>",
+    {
+      id : quotation_order_id
+    },
+    function(data, status){
+
+      obj = JSON.parse(data);
+      
+      var str_ = "";
+      $.each(obj, function(key, val){
+        str_ += '<li><div class="block"><div class="block_content"><h2 class="title"><a>'+ val.jabatan +' - '+  val.name+'</a></h2><div class="byline"><span>'+ val.create_time +'</span></div><p class="excerpt">'+val.note+'</a></p></div></div></li>';
+      });
+
+      $('.list-history').html(str_);
+       
+    });
+    $('#modal-history').modal('show');
+  }
+
+</script>
