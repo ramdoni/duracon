@@ -268,6 +268,148 @@
   </div>
 </div>
 
+
+<!-- detail sales order -->
+<div class="modal fade modal-wide" id="modal_detail_products_sales_order_sales" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Detail</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="x_content">
+          <form class="form-horizontal form-label-left">
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_po">No Quotation : 
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                  <label class="control-label label-no_po"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_po">No PO : 
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                  <label class="control-label label-no_po_sales_order"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sales">Sales : </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-sales_id"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sales">Marketing : </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-marketing_id"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sales">Customer / Perusahaan : 
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-customer_id"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="proyek">Proyek : </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                  <label class="control-label label-proyek"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Area Kirim : </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-area_id"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sistem_pembayaran">Sistem Pembayaran : 
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-sistem_pembayaran"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sistem_pembayaran">Tipe Pekerjaan : 
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-tipe_pekerjaan"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tanggal">Tanggal : 
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-tanggal"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Penurunan Barang : 
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-penurunan_barang"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Jadwal Mulai : 
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-jadwal_mulai"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Jadwal Selesai : 
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-jadwal_selesai"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Penerima Lapangan : 
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-penerima_lapangan"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">No Telepon : 
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label label-no_telepon"></label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <br style="clear: both" />
+        <h4>Products</h4>
+        <hr>
+        <div style="overflow: auto;">
+            <table class="detail-products-sales-order-sales table table-striped">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Kode</th>
+                  <th>Uraian</th>
+                  <th>Volume</th>
+                  <th>Harga Satuan</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <hr />
+          <span class="btn btn-primary btn-xs" data-dismiss="modal" style="float: right;"><i class="fa fa-close"></i> Close</span><br style="clear: both">
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- detail Surat Izin Kirim -->
 <div class="modal fade modal-wide" id="modal_detail_products_sik" role="dialog">
   <div class="modal-dialog">
@@ -374,7 +516,7 @@
     background: #e4e4e4ee;
   }
 
-    #modal_detail_products.modal-wide .modal-dialog, #modal_detail_products_sales_order.modal-wide .modal-dialog, #modal_detail_products_sik.modal-wide .modal-dialog, 
+    #modal_detail_products.modal-wide .modal-dialog, #modal_detail_products_sales_order.modal-wide, #modal_detail_products_sales_order_sales.modal-wide .modal-dialog, #modal_detail_products_sik.modal-wide .modal-dialog, 
     #modal_detail_spm_done.modal-wide .modal-dialog
      {
         width: 80%;
@@ -406,6 +548,7 @@
 
     #modal_detail_products.modal-wide .modal-dialog, 
     #modal_detail_products_sales_order.modal-wide .modal-dialog,
+    #modal_detail_products_sales_order_sales.modal-wide .modal-dialog,
     #modal_detail_products_sik.modal-wide .modal-dialog  {
       width: auto;
     }
@@ -414,6 +557,7 @@
   @media only screen and (max-width:400px){
     #modal_detail_products.modal-wide .modal-dialog , 
     #modal_detail_products_sales_order.modal-wide .modal-dialog,
+    #modal_detail_products_sales_order_sales.modal-wide .modal-dialog,
     #modal_detail_products_sik.modal-wide .modal-dialog  {
       width: auto;
     } 
@@ -422,6 +566,7 @@
   @media only screen and (max-width:320px){
     #modal_detail_products.modal-wide .modal-dialog , 
     #modal_detail_products_sales_order.modal-wide .modal-dialog,
+    #modal_detail_products_sales_order_sales.modal-wide .modal-dialog,
     #modal_detail_products_sik.modal-wide .modal-dialog  {
       width: auto;
     } 

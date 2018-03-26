@@ -55,7 +55,7 @@
                          <a href="<?=site_url("salesso/proccess/{$item['id']}")?>" title="Proccess"><span class="btn btn-success btn-xs"> Proses <i class="fa fa-arrow-right"></i></span></a>
                       <?php endif;?>
 
-                      <span onclick="detail_sales_order(<?=$item['quotation_order_id']?>,<?=$item['id']?>,'<?=$item['no_po']?>')" target="_blank" class="btn btn-default btn-xs" title="Detail Quotation"><i class="fa fa-search-plus"></i> Detail</span>
+                      <span onclick="detail_sales_order_sales(<?=$item['quotation_order_id']?>,<?=$item['id']?>,'<?=$item['no_po']?>')" target="_blank" class="btn btn-default btn-xs" title="Detail Quotation"><i class="fa fa-search-plus"></i> Detail</span>
                       
                       <?php if($item['position'] >= 5):?>
                           <a href="<?=site_url('salesso/historysik/'. $item['id'])?>" class="btn btn-default btn-xs" title="Buat Surat Izin Kirim"><i class="fa fa-plus"></i> SIK (Surat Izin Kirim)</a>

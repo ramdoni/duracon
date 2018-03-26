@@ -35,6 +35,22 @@ class Salesso extends CI_Controller {
 	}
 
 	/**
+	 * [stock_product description]
+	 * @return [type] [description]
+	 */
+	public function stock_product()
+	{
+		$params = [];
+
+		$this->load->model('Products_model');
+
+		$params['page'] = 'salesso/stock';
+		$params['data'] = $this->Products_model->data_();
+		
+		$this->load->view('layouts/main', $params);
+	}
+
+	/**
 	 * @return html
 	 */
 	public function index()

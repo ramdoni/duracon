@@ -148,6 +148,69 @@ function detail_quotation(id_quotation_order, title)
     });
   }
 
+function detail_sales_order_sales(quotation_order_id, sales_order_id, title)
+{
+    $("#modal_detail_products_sales_order_sales").modal("show");
+    $('#modal_detail_products_sales_order_sales .modal-title').html("No PO : "+ title);
+    $.ajax({
+      url: site_url+"ajax/getsalesorderroducts", 
+      data: {'quotation_order_id' : quotation_order_id, 'sales_order_id' : sales_order_id},
+      type: 'POST',
+      success: function(result){
+
+        if(result == null) return false;
+
+        obj = JSON.parse(result); 
+
+        var content_detail_product = '';
+
+        var total=0;
+
+        var modal_ = $("#modal_detail_products_sales_order_sales");
+
+        modal_.find('label.label-no_po').html(obj.no_po);
+        modal_.find('label.label-no_po_sales_order').html(obj.sales_order.no_po);
+        modal_.find('label.label-sales_id').html(obj.sales);
+        modal_.find('label.label-marketing_id').html(obj.marketing);
+        modal_.find('label.label-customer_id').html(obj.customer);
+        modal_.find('label.label-proyek').html(obj.proyek);
+        modal_.find('label.label-area_id').html(obj.area);
+        modal_.find('label.label-sistem_pembayaran').html(obj.sistem_pembayaran);
+        modal_.find('label.label-tanggal').html(obj.tanggal);
+        modal_.find('label.label-penurunan_barang').html(obj.penurunan_barang);
+        modal_.find('label.label-tipe_pekerjaan').html(obj.tipe_pekerjaan);
+        modal_.find('label.label-jadwal_mulai').html(obj.sales_order.jadwal_mulai);
+        modal_.find('label.label-jadwal_selesai').html(obj.sales_order.jadwal_selesai);
+        modal_.find('label.label-penerima_lapangan').html(obj.sales_order.penerima_lapangan);
+        modal_.find('label.label-no_telepon').html(obj.sales_order.no_telepon);
+
+        total_ = 0;
+        $(obj.data).each(function(index,val){
+
+          var harga_diskon = parseInt(val.harga_satuan) * parseInt(val.disc_ppn) / 100;
+          
+          harga_diskon = parseInt(val.harga_satuan) - parseInt(harga_diskon);
+          total += (parseInt(harga_diskon) * parseInt(val.vol));
+          
+          content_detail_product += "<tr><td>"+(index+1)+"</td>";
+          content_detail_product += "<td>"+val.kode+"</td>";
+          content_detail_product += "<td>"+val.uraian+"</td>";
+          content_detail_product += "<td>"+val.vol+"</td>";
+          content_detail_product += "<td>"+val.satuan+"</td>";
+          content_detail_product += "<td>"+numberWithComma(val.harga_satuan)+"</td>";
+         
+          content_detail_product += "</tr>";
+
+          total_ += (parseInt(harga_diskon) * parseInt(val.vol)); 
+        });
+
+        content_detail_product += "<tr><th colspan=\"5\"  style=\"text-align: right;\">Total : </td><td>Rp. "+ numberWithComma(total_) +"</th></tr>";
+        $('.detail-products-sales-order-sales tbody').html(content_detail_product);
+      }
+    });
+  }
+
+
 function detail_sales_order(quotation_order_id, sales_order_id, title)
 {
     $("#modal_detail_products_sales_order").modal("show");
