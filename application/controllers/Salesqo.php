@@ -113,14 +113,24 @@ class Salesqo extends CI_Controller {
         //this the the PDF filename that user will get to download
 		$pdfFilePath = "Quotation ".date('d M Y')." - ". $params['data']['customer'] .".pdf";
 
-        //load mPDF library
+		//load mPDF library
 		$this->load->library('m_pdf');
+		$this->m_pdf = new mPDF();
+
+       	$this->m_pdf->AddPage('P', // L - landscape, P - portrait
+            '', '', '', '',
+            5, // margin_left
+            5, // margin right
+            35, // margin top
+            35, // margin bottom
+            5, // margin header
+            5); // margin footer
 
        //generate the PDF from the given html
-		$this->m_pdf->pdf->WriteHTML($html);
+		$this->m_pdf->WriteHTML($html);
 
         //download it.
-		$this->m_pdf->pdf->Output($pdfFilePath, "I");
+		$this->m_pdf->Output($pdfFilePath, "I");
 	}
 
 	/**
@@ -150,8 +160,8 @@ class Salesqo extends CI_Controller {
             '', '', '', '',
             5, // margin_left
             5, // margin right
-            5, // margin top
-            5, // margin bottom
+            15, // margin top
+            15, // margin bottom
             5, // margin header
             5); // margin footer
 

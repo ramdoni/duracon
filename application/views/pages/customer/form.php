@@ -88,7 +88,7 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kode">Kode Customer</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" id="kode" name="Customer[kode]" value="<?=(isset($data['kode']) ? $data['kode'] : '')?>" class="form-control col-md-7 col-xs-12">
+              <input type="text" id="kode" required name="Customer[kode]" value="<?=(isset($data['kode']) ? $data['kode'] : '')?>" class="form-control col-md-7 col-xs-12">
             </div>
           </div>
           <div class="form-group">
@@ -140,6 +140,13 @@
           <?php
             if(isset($data['sistem_pembayaran']) and ($data['sistem_pembayaran'] == 'Kredit' || $data['sistem_pembayaran'] == 'Kredit denga DP' || $data['sistem_pembayaran'] == 'SCF' || $data['sistem_pembayaran']=='SKBDN' )){
           ?>
+          <div class="form-group dp">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dp">DP (%)</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input type="number" id="dp" name="Customer[dp]" value="<?=(isset($data['dp']) ? $data['dp'] : '')?>" class="form-control col-md-7 col-xs-12">
+            </div>
+          </div>
+
           <div class="form-group overdue_field">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kredit_overdue_day">Limit Overdue Kredit (Day)</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -147,6 +154,13 @@
             </div>
           </div>
           <?php } else { ?>
+           <div class="form-group dp"  style="display: none;">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dp">DP (%)</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input type="number" id="dp" name="Customer[dp]" value="<?=(isset($data['dp']) ? $data['dp'] : '')?>" class="form-control col-md-7 col-xs-12">
+            </div>
+          </div>
+
             <div class="form-group overdue_field" style="display: none;">
               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kredit_overdue_day">Limit Overdue Kredit (Day)</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
@@ -181,8 +195,9 @@
      
      if($(this).val() != 'Cash'){
       $('.overdue_field').show();
+      $('.dp').show();
      }else{
-      $('.overdue_field').hide();
+      $('.dp').hide();
      }    
   })
 

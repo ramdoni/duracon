@@ -51,7 +51,7 @@
 	<table style="width: 100%;" class="border">
 		<tr>
 			<td rowspan="4" colspan="7" style="border-right:0;border-bottom:0;">
-				<p>Customer</p>
+				<p><?=(label_customer($pt['id']))?></p>
 				<p>Address</p>
 				<p><?=$pt['address']?></p>
 			</td>

@@ -9,6 +9,22 @@
         <br>
         <form id="form-quotation" method="post" class="form-horizontal form-label-left">
           <input type="hidden" name="Employee_po[proccess]" value="0" />
+          
+            <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_po">Perihal <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select name="perihal" required class="form-control">
+                  <option value=""> Pilih Perihal</option>
+                  <option>Penawaran Harga</option>
+                  <option>Revisi Penawaran Harga</option>
+                  <option>Harga Nett</option>
+                  <option>Revisi Harga Nett</option>
+                  <option>Harga Satuan</option>
+              </select>
+            </div>
+          </div>
+          
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_po">No Quotation <span class="required">*</span>
             </label>

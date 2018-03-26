@@ -67,7 +67,7 @@ class Ajax extends CI_Controller {
 	{
 		$post = $this->input->post();
 
-		$data  = $this->db->query("SELECT c.*, u.name as sales FROM customer c INNER JOIN user u on u.id=c.sales_id WHERE c.id={$post['id']}")->row_array();
+		$data  = $this->db->query("SELECT c.*, u.name as sales, u.sales_code, u.kode_area FROM customer c LEFT JOIN user u on u.id=c.sales_id WHERE c.id={$post['id']}")->row_array();
 
 		echo json_encode($data);
 	}

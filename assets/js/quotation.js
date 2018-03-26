@@ -8,6 +8,18 @@ var num_row=0;
 var transport = 0;
 var is_transport = 1;
 
+$("select[name='perihal']").on('change', function(){
+
+  if( $(this).val() == 'Harga Satuan')
+  {
+    $("input[name='volume[volume]']").attr('readonly', true).val(1);
+  }
+  else
+  {
+    $("input[name='volume[volume]']").removeAttr('readonly');
+  }
+});
+
 
 $('.select_customer').on('change', function(){
 
@@ -25,6 +37,27 @@ $('.select_customer').on('change', function(){
 
         $('input.sales_id').val(obj.sales_id);
         $('.label-sales_id').html(obj.sales);
+
+        var no_po = $("input#no_po");
+        var no_po_split = no_po.val().split('/');
+        
+        if(result == null) return false;
+
+          if(obj.sales_code == "" || obj.sales_code == null) return false;
+
+          var replace_no_po = "";
+
+          $.each(no_po_split, function(key, value){
+            
+            if(key ==3)
+              replace_no_po += obj.sales_code + "/";
+            else
+              replace_no_po += value +"/";
+          })
+          
+          no_po_split[0]+ '/'+ no_po_split[1]+ '/'+ no_po_split[2]+ '/'+obj.sales_code+"/"+ no_po_split[4]+ '/'+ no_po_split[5]+ '/'+no_po_split[6]+ '/';
+
+          no_po.val(replace_no_po.slice(0, -1))
       }
   });
 });

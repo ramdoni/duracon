@@ -80,6 +80,25 @@ function get_user_name($id)
 }
 
 /**
+ * [label_customer_pt description]
+ * @param  [type] $id [description]
+ * @return [type]     [description]
+ */
+function label_customer_pt($id)
+{
+    $CI = get_instance();
+    
+    $customer = $CI->db->get_where('customer', ['id' => $id])->row_array();
+    if($customer)
+    {
+        if($customer['tipe_customer'] == 'Perorangan')
+            return $customer['name'];
+        else
+            return $customer['company'];    
+    }
+}   
+
+/**
  * [total_nominal_quotation description]
  * @param  [type] $id [description]
  * @return [type]     [description]

@@ -66,11 +66,8 @@
 			</tr>
 		</table>
 	</div>
-	<p>
-		Dengan Hormat<br />
-		Dengan ini kami bermaksud untuk memberikan Harga Beton Pracetak, berikut perinciannya;<br />
-		Proyek : <strong><?=$data['proyek']?></strong>
-	</p>
+	<div style="clear:both"></div>
+	<br />
 	<table border="1" width="100%">
 		<tr>
 			<td>No</td>
@@ -145,7 +142,8 @@
 	<div style="width: 40%; float: right;">
 		<p>Hormat Kami,</p>
 		<br />
-		<p><?=label_customer_kebalik($pt['id'])?><br /></p>
+		<br />
+		<p><?=label_customer_pt($pt['id'])?><br /></p>
 	</div>
 	<br style="clear: both;" />
 	<p style="position: absolute; bottom:10px; left: 10px;"><small>

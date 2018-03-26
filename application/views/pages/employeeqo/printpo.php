@@ -13,7 +13,7 @@
 		$pt = $this->db->get_where('customer', ['id' => $data['customer_id']])->row_array();
 	?>
 	<p>Nomor : <?=$data['no_po']?><br />
-	Perihal : <br />
+	Perihal : <?=$data['perihal']?><br />
 	Kepada Yth,<br />
 	<?=label_customer($data['customer_id'])?>
 	</p>
@@ -58,7 +58,7 @@
 			$temp_price = 0;
 			$temp_price = ($item['harga_satuan'] - ($item['harga_satuan']*($item['disc_ppn'] / 100)));
 
-			$total_price +=$temp_price;
+			$total_price +=$temp_price * $item['vol'];
 
 			$p = $this->db->get_where('products', ['id' => $item['product_id']])->row_array();
 		?>
@@ -149,7 +149,6 @@
 	</div>
 	<div style="width: 40%; float: right;">
 		<p>Hormat Kami,<br />
-			<strong>PT. DURACONINDO PRATAMA</strong>
 		</p>
 		<br />
 		<p>

@@ -22,7 +22,7 @@
                 <th class="column-title">Handhone </th>
                 <th class="column-title">Address </th>
                 <th class="column-title">Status </th>
-                <th class="column-title">Kredit Overdue </th>
+                <th class="column-title">Sistem Pembayaran </th>
                 <th class="column-title">Create Time  </th>
                 <th class="column-title no-link last"></th>
               </tr>
@@ -38,7 +38,19 @@
                     <td><?=$item['handphone']?></td>
                     <td><?=$item['address']?></td>
                     <td><a href="#" class="edit-active" data-type="select" data-url="<?=site_url()?>/ajax/savecustomer" data-pk="<?=$item['id']?>" ><?=($item['active'] == 1 ? 'Active' : 'Inactive')?></a></td>
-                    <td><?=$item['kredit_overdue_day']?> Day</td>
+                    <td>
+                        <?php 
+
+                            if($item['sistem_pembayaran'] !== 'Cash')
+                            {
+                                echo $item['sistem_pembayaran'] .'<br />Limit Overdue Day : '. $item['kredit_overdue_day'] .' Day<br />Dp : '. $item['dp'] ."%";
+                            }   
+                            else
+                            {
+                                echo $item['sistem_pembayaran'];
+                            }
+                        ?>
+                    </td>
                     <td><?=$item['create_time']?></td>
                     <td>
                         <a href="<?=site_url("customer/edit/{$item['id']}")?>" title="Edit"><i class="fa fa-edit"></i></a>    

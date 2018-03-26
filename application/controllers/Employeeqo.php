@@ -382,8 +382,8 @@ class Employeeqo extends CI_Controller {
             '', '', '', '',
             5, // margin_left
             5, // margin right
-            5, // margin top
-            5, // margin bottom
+            35, // margin top
+            35, // margin bottom
             5, // margin header
             5); // margin footer
 
@@ -421,8 +421,8 @@ class Employeeqo extends CI_Controller {
             '', '', '', '',
             5, // margin_left
             5, // margin right
-            5, // margin top
-            5, // margin bottom
+            15, // margin top
+            15, // margin bottom
             5, // margin header
             5); // margin footer
 
@@ -460,8 +460,8 @@ class Employeeqo extends CI_Controller {
             '', '', '', '',
             5, // margin_left
             5, // margin right
-            5, // margin top
-            5, // margin bottom
+            15, // margin top
+            15, // margin bottom
             5, // margin header
             5); // margin footer
 
