@@ -4,7 +4,8 @@
 	<title>Surat Jalan <?=$no_surat_jalan?></title>
 	<style type="text/css">
 		body {
-			font-size: 12px;
+			font-size: 11px;
+			font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
 		}
 		.kotak {
 			border:2px solid black;
@@ -13,16 +14,18 @@
 		table.table-header tr th {
 			padding: 3px 0;
 		}
+
 	</style>
 </head>
 <body>
 	<div class="kotak">
 		
-		<img src="<?=site_url()?>assets/images/logo.png" style="width: 250px;" />
-		<p style="margin-top: 0;padding-top: 0;font-size: 10px;">Jl. Ciputat Raya No. 20 H Pondok Pinang Jakarta 12310</p>
+		<!-- <img src="<?=site_url()?>assets/images/logo.png" style="width: 250px;" />
+
+		<p style="margin-top: 0;padding-top: 0;font-size: 10px;">Jl. Ciputat Raya No. 20 H Pondok Pinang Jakarta 12310</p> -->
 		<br style="clear: both" />
 
-		<table style="width: 100%;" class="table-header">
+		<table style="width: 100%;margin-top: 60px;" class="table-header">
 			<tr>
 				<th colspan="4" style="text-align: center;padding-bottom:20px;"><h1><u>SURAT JALAN</u></h1><br /></th>
 			</tr>
@@ -78,26 +81,26 @@
 			<br />
 			<br />
 			<br />
-			<p>......................</p>
+			<p>..................</p>
 		</div>
 		<div style="float: left; width: 20%;text-align: center;">
 			<p><strong>Supir / Trucking</strong></p>
 			<br />
 			<br />
 			<br />
-			<p>......................</p>
+			<p>..................</p>
 		</div>
 		<div style="float: left; width: 20%;text-align: center;">
 			<p><strong>Quality Control <br />Duracon</strong></p>
 			<br />
 			<br />
-			<p>......................</p>
+			<p>..................</p>
 		</div>
 		<div style="float: left; width: 20%;text-align: center;">
 			<p><strong>Security <br />Duracon</strong></p>
 			<br />
 			<br />
-			<p>......................</p>
+			<p>..................</p>
 		</div>
 		
 		
@@ -105,7 +108,7 @@
 			<p><strong>Yang Menerima / <br /> Pihak Proyek</strong></p>
 			<br />
 			<br />
-			<p>......................</p>
+			<p>..................</p>
 		</div>
 		<br style="clear: both;" />
 
@@ -117,8 +120,9 @@
 		<strong style="float: right;">FOR B 0901</strong>
 	</div>	
 	<br />
+
 	<!-- <div style="page-break-before: always; "></div> -->
-	<div class="kotak">
+	<!--<div class="kotak">
 		<p style="margin-top: 0;padding-top: 0;font-size: 10px;">Jl. Ciputat Raya No. 20 H Pondok Pinang Jakarta 12310</p>
 		<br style="clear: both" />
 		<table border="1" style="width: 100%;">
@@ -171,30 +175,32 @@
 		<div style="float:left; width: 20%;text-align: center;">
 			Proyek
 			<br /><br /><br />
-			(........................)
+			(...............)
 		</div>
 		<div style="float:left; width: 20%;text-align: center;">
 			Supir
 			<br /><br /><br />
-			(........................)
+			(...............)
 		</div>
 		<div style="float:left; width: 20%;text-align: center;">
 			Pengiriman
 			<br /><br /><br />
-			(........................)
+			(...............)
 		</div>
 		<div style="float:left; width: 20%;text-align: center;">
 			Stockyard
 			<br /><br /><br />
-			(........................)
+			(...............)
 		</div>
 		<div style="float:left; width: 18%;text-align: center;">
 			Quality Control
 			<br /><br /><br />
-			(........................)
+			(...............)
 		</div>
 	</div>
 	<div style="float: left;text-align: left; width: 30%;"><small>Form Bukti Pengembalian Produk - 2015</small></div>
 	<div style="float: right;text-align: right; width: 50%;"><small>Issued : 19.12.2015 Ki</small></div>
+	-->
+
 </body>
 </html>

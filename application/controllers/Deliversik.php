@@ -379,7 +379,7 @@ class Deliversik extends CI_Controller {
 		$data = [];
 
         //this the the PDF filename that user will get to download
-		$pdfFilePath = "Sales Order ". date('d M Y')." - ". $params['data']['customer'] ." .pdf";
+		$pdfFilePath = "Surat Jalan ". date('d M Y')." - ". $params['data']['customer'] ." .pdf";
 
         //load mPDF library
 		$this->load->library('m_pdf');
@@ -446,7 +446,7 @@ class Deliversik extends CI_Controller {
 		$html = $this->load->view('pages/deliversik/suratjalan_print', $params, true);
 
         //this the the PDF filename that user will get to download
-		$pdfFilePath = "Surat Jalan ". date('d M Y').".pdf";
+        $pdfFilePath = 'Surat Jalan-'. str_replace('/','', $params['no_surat_jalan']) . ".pdf";
 		
         //load mPDF library
 		$this->load->library('m_pdf');
@@ -485,7 +485,7 @@ class Deliversik extends CI_Controller {
 		$data = [];
 
         //this the the PDF filename that user will get to download
-		$pdfFilePath = "Sales Order ". date('d M Y')." - ". $params['data']['customer'] ." .pdf";
+		$pdfFilePath = "SPM ". date('d M Y')." - ". $params['data']['customer'] ." .pdf";
 
         //load mPDF library
 		$this->load->library('m_pdf');

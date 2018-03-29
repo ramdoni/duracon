@@ -18,7 +18,7 @@ class Dispensasi extends CI_Controller {
 
 			// cek akses
 			$access = $this->session->userdata('access_id');
-			if($access != 6) {
+			if($access != 10) {
 				$this->session->set_flashdata('error', 'Access denied');
 				redirect('/?access=forbidden');
 			}
