@@ -444,19 +444,31 @@ class Deliversik extends CI_Controller {
 		}
 
 		$html = $this->load->view('pages/deliversik/suratjalan_print', $params, true);
-
+		
         //this the the PDF filename that user will get to download
         $pdfFilePath = 'Surat Jalan-'. str_replace('/','', $params['no_surat_jalan']) . ".pdf";
 		
-        //load mPDF library
+		//load mPDF library
 		$this->load->library('m_pdf');
 
+		$this->m_pdf = new mPDF();
+		
+		$this->m_pdf->showImageErrors = true;
+
+		$this->m_pdf->AddPage('P', // L - landscape, P - portrait
+            'A4', '', '', '',
+            5, // margin_left
+            5, // margin right
+            5, // margin top
+            5, // margin bottom
+            5, // margin header
+            5); // margin footer
+
        //generate the PDF from the given html
-		$this->m_pdf->pdf->WriteHTML($html);
+		$this->m_pdf->WriteHTML($html);
 
         //download it.
-		$this->m_pdf->pdf->Output($pdfFilePath, "I");	
-		
+		$this->m_pdf->Output($pdfFilePath, "I");	
 	}
 
 
