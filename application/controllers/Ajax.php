@@ -90,16 +90,13 @@ class Ajax extends CI_Controller {
 	 * [cekareakirim description]
 	 * @return [type] [description]
 	 */
-	public function cekareakirim()
-	{
-		$provinsi_id 	= $_GET['provinsi_id'];
-		$kabupaten_id 	= $_GET['kabupaten_id'];
-		$kecamatan_id 	= $_GET['kecamatan_id'];
+	public function cekareakirim(){
+
 		$kelurahan_id	= $_GET['kelurahan_id'];
 
 		//$data = $this->db->get_where('area_kelurahan', ['provinsi_id' => $provinsi_id, 'kabupaten_id' => $kabupaten_id, 'kecamatan_id' => $kecamatan_id, 'kelurahan_id' => $kelurahan_id])->row_array();
 
-		$data = $this->db->query('SELECT ak.*, a.area FROM area_kelurahan ak inner join area a on a.id=ak.area_id where provinsi_id = '. $provinsi_id .' and kabupaten_id = '. $kabupaten_id . ' and kecamatan_id  = '. $kecamatan_id .' and kelurahan_id = '. $kelurahan_id )->row_array();
+		$data = $this->db->query('SELECT ak.*, a.area, a.price FROM area_kelurahan ak inner join area a on a.id=ak.area_id where kelurahan_id = '. $kelurahan_id )->row_array();
 
 		if($data)
 		{
@@ -825,6 +822,15 @@ class Ajax extends CI_Controller {
 		$this->db->where(['id' => $post['pk']]);
 	
 		$this->db->update('products', ['active' => $post['value']]);
+	}
+
+	/**
+	 * empty page
+	 * @return [type] [description]
+	 */
+	public function savequotationproducthargaakhir()
+	{
+
 	}
 
 	/**

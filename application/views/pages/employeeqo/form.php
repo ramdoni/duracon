@@ -111,43 +111,22 @@
           </div>
 
           <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Provinsi </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <select class="form-control" name="provinsi">
-                <option value="">Pilih Provinsi</option>
-                <?php
-                  $this->db->from('provinsi');
-                  $provinsi = $this->db->get()->result_array();
-                  foreach($provinsi as $item)
-                  {
-                ?>
-                    <option value="<?=$item['id_prov']?>"><?=$item['nama']?></option>
-
-                <?php } ?>
-              </select>
-            </div>  
-          </div>
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kabupaten </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <select class="form-control" name="kabupaten">
-                <option value="">Pilih Kabupaten</option>
-              </select>
-            </div>  
-          </div>
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kecamatan </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <select class="form-control" name="kecamatan">
-                <option value="">Pilih Kecamatan</option>
-              </select>
-            </div>  
-          </div>
-          <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kelurahan </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <select class="form-control" name="kelurahan">
                 <option value="">Pilih Kelurahan</option>
+                <?php 
+                  $this->db->from('area_kelurahan a');
+                  $this->db->select('a.*, k.nama as kelurahan, kec.nama as kecamatan, kab.nama as kabupaten');
+                  $this->db->join('kelurahan k', 'k.id_kel=a.kelurahan_id', 'LEFT');
+                  $this->db->join('kecamatan kec', 'kec.id_kec=a.kecamatan_id', 'LEFT');
+                  $this->db->join('kabupaten kab', 'kab.id_kab=a.kabupaten_id', 'LEFT');
+                  $this->db->group_by('a.kelurahan_id');
+
+                  $kelurahan = $this->db->get();
+                  foreach($kelurahan->result_array() as $item):?>
+                  <option value="<?=$item['kelurahan_id']?>"><?=$item['kelurahan'] .' - '. $item['kecamatan'] .' - '. $item['kabupaten']?></option>
+                <?php endforeach; ?>
               </select>
             </div>  
           </div>
@@ -176,6 +155,7 @@
 
               <label class="control-label col-md-6 col-sm-6 col-xs-12 label-area_kirim" style="text-align: left;"></label>
               <input type="hidden" name="Employee_po[area_id]" class="area_id">
+              <input type="hidden" name="transport_area" />
 
             </div>
           </div>
@@ -255,8 +235,9 @@
                       <th>Satuan</th>
                       <th>Price List</th>
                       <th>Transport</th>
+                      <th>Harga Awal</th>
                       <th>Disc</th>
-                      <th>Harga Satuan</th>
+                      <th>Harga Akhir</th>
                       <th>Subtotal</th>
                       <th></th>
                     </tr>
@@ -292,8 +273,9 @@
                           <td class="satuan"><?=$i['satuan']?></td>
                           <td class="harga_satuan">Rp. <?=number_format($i['harga_satuan'])?></td>
                           <td class="transport"><?=$i['transport']?></td>
-                          <td class="disc_ppn"><?=($i['disc_ppn'])?>%</td>
                           <td class="disc_harga_satuan">Rp. <?=number_format($harga_diskon)?></td>
+                          <td class="disc_ppn"><?=($i['disc_ppn'])?>%</td>
+                          <td class="disc_harga_akhir"></td>
                           <td class="subtotal">Rp. <?=number_format($harga_diskon*$i['vol'])?></td>
                           <td class="btn-action">
                               <a href="javascript:" title="Hapus" onclick="hapus_item(<?=$i['id']?>)"><i class="fa fa-remove"></i></a>
@@ -364,12 +346,22 @@
             <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-uraian" style="text-align: left;"></label>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="satuan">Satuan : </label>
-            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-satuan" style="text-align: left;"></label>
-          </div>
-          <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="weight">Weight : </label>
             <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-weight" style="text-align: left;"></label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="satuan">Price Transport : </label>
+            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-transport" style="text-align: left;"></label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Price List : </label>
+            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-price" style="text-align: left;"></label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volume">Volume : </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input type="text" id="input-volume" required="required" name="volume[volume]" value="0" class="form-control col-md-7 col-xs-12">
+            </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Transport : </label>
@@ -381,21 +373,17 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Price : </label>
-            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-price" style="text-align: left;"></label>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volume">Volume : </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" id="input-volume" required="required" name="volume[volume]" value="0" class="form-control col-md-7 col-xs-12">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="disc_ppn">Disc</label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="disc_ppn">Persentase Up</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="text" id="input-disc_ppn" required="required" name="products[disc_ppn]" class="form-control col-md-7 col-xs-12">
             </div>
           </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Price : </label>
+            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-price-up" style="text-align: left;"></label>
+          </div>
+
           <div class="ln_solid"></div>
           <div class="form-group">
             <div>

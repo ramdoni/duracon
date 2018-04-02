@@ -57,10 +57,15 @@ $("select[name='kelurahan']").on('change', function(){
   var kabupaten_id  = $("select[name='kabupaten']").val();
   var kecamatan_id  = $("select[name='kecamatan']").val();
   var kelurahan_id  = $(this).val();
+  
+  if($(this).val() == "")
+  {
+    return false;
+  }
 
   $.ajax({
       url: site_url + "ajax/cekareakirim", 
-      data: {'provinsi_id' : provinsi_id, 'kabupaten_id' : kabupaten_id, 'kecamatan_id': kecamatan_id, 'kelurahan_id' : kelurahan_id },
+      data: {'kelurahan_id' : kelurahan_id },
       type: 'GET',
       success: function(result){
         
@@ -69,9 +74,10 @@ $("select[name='kelurahan']").on('change', function(){
         if(obj.message == 'success')
         { 
           var transport = obj.data.price; 
-          console.log(obj.data);
+
           $("input[name='Employee_po[area_id]']").val(obj.data.id);
           $('.label-area_kirim').html(obj.data.area);
+          $("input[name='transport_area']").val(obj.data.price);
 
         }else{
           _alert("Area kirim tidak ditemukan untuk kelurahan ini, silahkan pilih kelurahan yang lain !");
@@ -236,22 +242,22 @@ $("#btn-reset").click(function(){
         harga_diskon = parseInt(obj.biaya_setting) + harga_diskon;
     }
 
-    var transport_selected = $('select#area_id').find('option:selected');
-    var transport = transport_selected.data('price');
+    var transport = $("input[name='transport_area']").val();
 
     var harga_transport = (transport*obj.weight);
 
-    t_add = "<tr class=\"tr-"+(obj.id+1)+" list-product\">";
+    t_add = "<tr class=\"tr-"+(obj.id)+" list-product\">";
     t_add += "<td>"+ (num_row+1) 
                     +"<input type=\"hidden\" value=\""+obj.id+"\" name=\"ProductForm["+num_row+"][product_id]\" />"
                     +"<input type=\"hidden\" value=\""+obj.kode+"\" name=\"ProductForm["+num_row+"][kode]\" />"
                     +"<input type=\"hidden\" value=\""+obj.uraian+"\" name=\"ProductForm["+num_row+"][uraian]\" />"
                     +"<input type=\"hidden\" value=\""+obj.satuan+"\" name=\"ProductForm["+num_row+"][satuan]\" />"
-                    +"<input type=\"hidden\" class=\"input-hidden-harga\" value=\""+harga_diskon+"\" name=\"ProductForm["+num_row+"][harga_satuan]\" />"
+                    +"<input type=\"hidden\" class=\"input-hidden-harga\" value=\""+obj.harga_up+"\" name=\"ProductForm["+num_row+"][harga_satuan]\" />"
                     +"<input type=\"hidden\" class=\"input-hidden-vol\" value=\""+obj.vol+"\" name=\"ProductForm["+num_row+"][vol]\"  />"
-                    +"<input type=\"hidden\" class=\"input-hidden-disc_ppn\" value=\""+obj.disc_ppn+"\" name=\"ProductForm["+num_row+"][disc_ppn]\" />"
+                    +"<input type=\"hidden\" class=\"input-hidden-disc_ppn\" value=\"0\" name=\"ProductForm["+num_row+"][disc_ppn]\" />"
                     +"<input type=\"hidden\" class=\"input-hidden-weight\" value=\""+obj.weight+"\" name=\"ProductForm["+num_row+"][weight]\" />"
                     +"<input type=\"hidden\" class=\"input-hidden-transport\" value=\""+transport+"\" name=\"ProductForm["+num_row+"][transport]\" />"
+                    +"<input type=\"hidden\" class=\"input-hidden-harga_akhir\" value=\""+obj.harga_up+"\" />"
                     ;
 
     t_add += "</td>";
@@ -261,10 +267,10 @@ $("#btn-reset").click(function(){
     t_add += "<td>"+ obj.satuan +"</td>";
     t_add += "<td>Rp. "+ numberWithComma(obj.price) +"</td>";
     t_add += "<td>Rp. "+ numberWithComma(harga_transport) +"</td>";
-    t_add += "<td class=\"disc_ppn\"> <a href=\"#\" class=\"editable-disc\" data-type=\"text\" data-url=\""+site_url+"ajax/savequotationproductvol\" data-pk=\""+ obj.id +"\" >"+ obj.disc_ppn +"</a>%</td>";
-    t_add += "<td class=\"disc_harga_satuan\">Rp. "+ numberWithComma(harga_diskon) +"</td>";
-    t_add += "<td class=\"subtotal\">Rp. "+ numberWithComma((parseInt(harga_diskon) * parseInt(obj.vol))) +"</td>";
-
+    t_add += "<td class=\"disc_harga_satuan\">Rp. "+ numberWithComma(precisionRound(obj.harga_up, -2)) +"</td>";
+    t_add += "<td class=\"disc_ppn\"><a href=\"#\" class=\"editable-disc\" data-type=\"text\" data-url=\""+site_url+"ajax/savequotationproducthargaakhir\" data-pk=\""+ obj.id +"\" >0</a>%</td>";
+    t_add += "<td class=\"harga_akhir\">Rp. <a href=\"#\" class=\"editable-harga_akhir\" data-type=\"text\" data-url=\""+site_url+"ajax/savequotationproducthargaakhir\" data-pk=\""+ obj.id +"\" > "+ numberWithComma(precisionRound(obj.harga_up, -2)) +"</a></td>";
+    t_add += "<td class=\"subtotal\">Rp. "+ numberWithComma(precisionRound(parseInt(obj.harga_up), -2) * parseInt(obj.vol)) +"</td>";
     t_add += "<td class=\"btn-action\"><a href=\"javascript:\" title=\"Hapus\" onclick=\"hapus_itemTemp("+ (num_row+1) +")\"><i class=\"fa fa-remove\"></i></a> &nbsp;";
     t_add += '</td>';
     t_add += "</tr>";
@@ -274,7 +280,7 @@ $("#btn-reset").click(function(){
     $('.add-table-product').append(t_add);
     
     // set total
-    total += (parseInt(harga_diskon) * parseInt(obj.vol));
+    total += (precisionRound(parseInt(obj.harga_up), -2) * parseInt(obj.vol));
     
     obj = "";
 
@@ -290,6 +296,7 @@ $("#btn-reset").click(function(){
 
     editable_volume();
     editable_disc();
+    editable_harga_akhir();
 
   });
 
@@ -308,6 +315,14 @@ $("#btn-reset").click(function(){
   });
 
   $("select#select-kode").on("change", function(){
+
+    if($("input[name='Employee_po[area_id]']").val() == "")
+    {
+      _alert("Pilih Kelurahan terlebih dahulu");
+      $(this).val("");
+      return false;
+    }
+
       var id_select = $(this).val();
       if(id_select != ""){
 
@@ -323,21 +338,56 @@ $("#btn-reset").click(function(){
               $("label.label-modal-uraian").html(obj.uraian); 
               $("label.label-modal-satuan").html(obj.satuan);
               $("label.label-modal-weight").html(obj.weight);
+              $("label.label-modal-transport").html( numberWithComma(obj.weight * parseInt($("input[name='transport_area']").val())) );
+
               $("label.label-modal-price").html('<a href="#" class="editable-price" title="Klik untuk rubah manual Harga">'+ numberWithComma(obj.price) +"</a>");
               $('input#input-disc_ppn').val(0);
 
-              $('.editable-price').editable({
-                validate: function(value) {
-                  obj.price = value.replace(",", '');
-                  console.log(obj.price);
-                },
-                type: 'text',
-                title: 'Rubah manual Harga'
-              });
+              // $('.editable-price').editable({
+              //   validate: function(value) {
+              //     obj.price = value.replace(",", '');
+              //     console.log(obj.price);
+              //   },
+              //   type: 'text',
+              //   title: 'Rubah manual Harga'
+              // });
+              
+              obj.harga_up = obj.price;
+
+              $("input[name='products[disc_ppn]']").on('input', function(){
+
+                if($(this).val() == "")
+                {
+                  return false;
+                }
+
+                var tmp_p = obj.price;
+                
+                if($("select.select_transport").val() == 1) // Incude Transport
+                {
+                  //var harga_up =  (tmp_p + (parseInt($("input[name='transport_area']").val()) * obj.weight)) * (1+parseInt($(this).val()) / 100);
+                  var harga_up = (parseInt(obj.price) + (parseInt($("input[name='transport_area']").val()) * obj.weight) ) * (1+parseInt($(this).val()) / 100);
+                }
+                else
+                {
+                  var harga_up = ( tmp_p * (1+parseInt($(this).val()) / 100)) + (parseInt($("input[name='transport_area']").val())  * obj.weight);
+                }
+                
+                obj.harga_up = harga_up;
+
+                $('label.label-modal-price-up').html(numberWithComma(precisionRound(harga_up, -2)));
+              }); 
+
+              
             }
         });
       }
   });
+
+function precisionRound(number, precision) {
+  var factor = Math.pow(10, precision);
+  return Math.round(number * factor) / factor;
+}
 
 function cek_product(id)
 {
@@ -370,7 +420,8 @@ function editable_volume()
       var harga_diskon = parseInt(price_) * parseInt(disc_ppn_) / 100;
       harga_diskon = parseInt(price_) - parseInt(harga_diskon);
 
-      tr_.find('td.disc_harga_satuan').html('Rp. '+ numberWithComma(harga_diskon));
+      //tr_.find('td.disc_harga_satuan').html('Rp. '+ numberWithComma(harga_diskon));
+      tr_.find('td.harga_akhir').html('Rp. '+ numberWithComma(harga_diskon));
       tr_.find('td.subtotal').html("Rp. "+numberWithComma(harga_diskon * value));
       
       var total = 0;
@@ -418,11 +469,55 @@ function editable_disc()
 
       var sub_total = 0;
 
-      var harga_diskon = parseInt(price_) * parseInt(disc_ppn_) / 100;
-      harga_diskon = parseInt(price_) - parseInt(harga_diskon);
+      harga_akhir = precisionRound(parseInt(price_) * (1 - parseInt(disc_ppn_) / 100 ), -2);
 
-      tr_.find('td.disc_harga_satuan').html('Rp. '+ numberWithComma(harga_diskon));
-      tr_.find('td.subtotal').html("Rp. "+numberWithComma(harga_diskon * volume));
+      tr_.find('td.harga_akhir .editable-harga_akhir').html('Rp. '+ numberWithComma(harga_akhir));
+      tr_.find('td.subtotal').html("Rp. "+numberWithComma(harga_akhir * volume));
+      tr_.find('input.input-hidden-harga').val(harga_akhir);
+      tr_.find('input.input-hidden-disc_ppn').val(disc_ppn_);
+      
+      var total = 0;
+      $("tr.list-product").each(function(){
+          
+          var vol_ = $(this).find('input.input-hidden-vol').val();
+          var price_ = $(this).find('input.input-hidden-harga').val();
+          var disc_ppn_ = $(this).find('input.input-hidden-disc_ppn').val();
+
+          harga_akhir = precisionRound(parseInt(price_) * (1 - parseInt(disc_ppn_) / 100 ), -2);
+          total += parseInt(harga_akhir) * parseInt(vol_);
+      });
+
+      $('th.total_').html('Rp. '+ numberWithComma(precisionRound(total,-2)));
+
+    },
+    type: 'text',
+    title: 'Rubah Data'
+  });
+}
+
+function editable_harga_akhir()
+{
+  $('.editable-harga_akhir').editable({
+    validate: function(value) {
+     
+
+      var product_id = $(this).attr('data-pk');
+      var tr_ = $('tr.tr-'+product_id);
+
+      var harga_akhir = value.replace(',', '');
+
+      var harga_awal  = tr_.find('.input-hidden-harga').val();
+      var volume = tr_.find('input.input-hidden-vol').val();
+
+      var disc = (1 - harga_akhir / precisionRound(harga_awal, -2)) * 100;
+
+      console.log('harga awal : '+ harga_awal);
+      console.log('harga akhir : '+ harga_akhir);
+
+      tr_.find('td.subtotal').html("Rp. "+numberWithComma(precisionRound(harga_akhir * volume, -2)));
+      tr_.find('td.disc_ppn a.editable-disc').html(Math.round(disc));
+      
+      $(this).find('input.input-hidden-disc_ppn').val(Math.round(disc));
       
       var total = 0;
       $("tr.list-product").each(function(){
@@ -434,10 +529,10 @@ function editable_disc()
           var harga_diskon = parseInt(price_) * parseInt(disc_ppn_) / 100;
           harga_diskon = parseInt(price_) - parseInt(harga_diskon);
 
-          total += parseInt(harga_diskon) * parseInt(vol_);
+          total += precisionRound(parseInt(harga_diskon) * parseInt(vol_), -2);
       });
 
-      $('th.total_').html('Rp. '+ numberWithComma(total));
+      $('th.total_').html('Rp. '+ numberWithComma(precisionRound(total,-2)));
 
     },
     type: 'text',
