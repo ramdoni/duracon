@@ -51,7 +51,7 @@ $("select[name='kecamatan']").on('change', function(){
 });
 
 
-$("select[name='kelurahan']").on('change', function(){
+$("select[name='Employee_po[kelurahan_id]']").on('change', function(){
 
   var provinsi_id   = $("select[name='provinsi']").val();
   var kabupaten_id  = $("select[name='kabupaten']").val();
