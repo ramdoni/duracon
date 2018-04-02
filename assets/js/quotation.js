@@ -77,7 +77,7 @@ $("select[name='Employee_po[kelurahan_id]']").on('change', function(){
 
           $("input[name='Employee_po[area_id]']").val(obj.data.id);
           $('.label-area_kirim').html(obj.data.area);
-          $("input[name='transport_area']").val(obj.data.price);
+          $("input[name='Employee_po[transport]']").val(obj.data.price);
 
         }else{
           _alert("Area kirim tidak ditemukan untuk kelurahan ini, silahkan pilih kelurahan yang lain !");
@@ -242,7 +242,7 @@ $("#btn-reset").click(function(){
         harga_diskon = parseInt(obj.biaya_setting) + harga_diskon;
     }
 
-    var transport = $("input[name='transport_area']").val();
+    var transport = $("input[name='Employee_po[transport]']").val();
 
     var harga_transport = (transport*obj.weight);
 
@@ -252,7 +252,7 @@ $("#btn-reset").click(function(){
                     +"<input type=\"hidden\" value=\""+obj.kode+"\" name=\"ProductForm["+num_row+"][kode]\" />"
                     +"<input type=\"hidden\" value=\""+obj.uraian+"\" name=\"ProductForm["+num_row+"][uraian]\" />"
                     +"<input type=\"hidden\" value=\""+obj.satuan+"\" name=\"ProductForm["+num_row+"][satuan]\" />"
-                    +"<input type=\"hidden\" class=\"input-hidden-harga\" value=\""+obj.harga_up+"\" name=\"ProductForm["+num_row+"][harga_satuan]\" />"
+                    +"<input type=\"hidden\" class=\"input-hidden-harga\" value=\""+obj.price+"\" name=\"ProductForm["+num_row+"][harga_satuan]\" />"
                     +"<input type=\"hidden\" class=\"input-hidden-vol\" value=\""+obj.vol+"\" name=\"ProductForm["+num_row+"][vol]\"  />"
                     +"<input type=\"hidden\" class=\"input-hidden-disc_ppn\" value=\"0\" name=\"ProductForm["+num_row+"][disc_ppn]\" />"
                     +"<input type=\"hidden\" class=\"input-hidden-weight\" value=\""+obj.weight+"\" name=\"ProductForm["+num_row+"][weight]\" />"
@@ -338,7 +338,7 @@ $("#btn-reset").click(function(){
               $("label.label-modal-uraian").html(obj.uraian); 
               $("label.label-modal-satuan").html(obj.satuan);
               $("label.label-modal-weight").html(obj.weight);
-              $("label.label-modal-transport").html( numberWithComma(obj.weight * parseInt($("input[name='transport_area']").val())) );
+              $("label.label-modal-transport").html( numberWithComma(obj.weight * parseInt($("input[name='Employee_po[transport]']").val())) );
 
               $("label.label-modal-price").html('<a href="#" class="editable-price" title="Klik untuk rubah manual Harga">'+ numberWithComma(obj.price) +"</a>");
               $('input#input-disc_ppn').val(0);
@@ -365,12 +365,11 @@ $("#btn-reset").click(function(){
                 
                 if($("select.select_transport").val() == 1) // Incude Transport
                 {
-                  //var harga_up =  (tmp_p + (parseInt($("input[name='transport_area']").val()) * obj.weight)) * (1+parseInt($(this).val()) / 100);
-                  var harga_up = (parseInt(obj.price) + (parseInt($("input[name='transport_area']").val()) * obj.weight) ) * (1+parseInt($(this).val()) / 100);
+                  var harga_up = (parseInt(obj.price) + (parseInt($("input[name='Employee_po[transport]']").val()) * obj.weight) ) * (1+parseInt($(this).val()) / 100);
                 }
                 else
                 {
-                  var harga_up = ( tmp_p * (1+parseInt($(this).val()) / 100)) + (parseInt($("input[name='transport_area']").val())  * obj.weight);
+                  var harga_up = ( tmp_p * (1+parseInt($(this).val()) / 100)) + (parseInt($("input[name='Employee_po[transport]']").val())  * obj.weight);
                 }
                 
                 obj.harga_up = harga_up;

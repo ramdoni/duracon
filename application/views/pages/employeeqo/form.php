@@ -156,7 +156,7 @@
 
               <label class="control-label col-md-6 col-sm-6 col-xs-12 label-area_kirim" style="text-align: left;"><?=isset($data['area_id']) ? $data['area'] : ''?></label>
               <input type="hidden" name="Employee_po[area_id]" class="area_id" value="<?=isset($data['area_id']) ? $data['area_id'] : ''?>" />
-              <input type="hidden" name="transport_area" value="<?=isset($data['transport']) ? $data['transport'] : ''?>" />
+              <input type="hidden" name="Employee_po[transport]" value="<?=isset($data['transport']) ? $data['transport'] : ''?>" />
 
             </div>
           </div>
@@ -251,8 +251,8 @@
                         
                         foreach($products as $key =>  $i):
 
-                          $harga_diskon = $i['harga_satuan'] * $i['disc_ppn'] / 100;
-                          $harga_diskon = $i['harga_satuan'] - $harga_diskon;
+                          $harga_diskon = $i['harga_akhir'] * $i['disc_ppn'] / 100;
+                          $harga_diskon = $i['harga_akhir'] - $harga_diskon;
                     ?>
                         <tr class="tr-<?=$i['id']?> list-product">
                           <td><?=($key+1)?>
