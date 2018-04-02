@@ -232,7 +232,6 @@
                       <th>Kode</th>
                       <th>Uraian</th>
                       <th>Volume</th>
-                      <th>Satuan</th>
                       <th>Price List</th>
                       <th>Transport</th>
                       <th>Harga Awal</th>
@@ -264,17 +263,19 @@
                             <input type="hidden" name="ProductFormTemp[<?=$key?>][harga_satuan]" class="input-hidden-harga" value="<?=$i['harga_satuan']?>" />
                             <input type="hidden" name="ProductFormTemp[<?=$key?>][disc_ppn]" class="input-hidden-disc_ppn" value="<?=$i['disc_ppn']?>" />
                             <input type="hidden" name="ProductFormTemp[<?=$key?>][weight]" class="input-hidden-weight" value="<?=$i['weight']?>" />
+                            <input type="hidden" name="ProductFormTemp[<?=$key?>][harga_awal]" class="input-hidden-weight" value="<?=$i['harga_awal']?>" />
+                            <input type="hidden" name="ProductFormTemp[<?=$key?>][harga_akhir]" class="input-hidden-weight" value="<?=$i['harga_akhir']?>" />
                           </td>
                           <td class="kode"><?=$i['kode']?></td>
                           <td class="uraian"><?=$i['uraian']?></td>
                           <td class="vol">
                             <a href="#" class="editable-vol" data-type="text" data-url="<?=site_url()?>/ajax/savequotationproductvol" data-pk="<?=$i['id']?>" ><?=($i['vol'])?></a>
                           </td>
-                          <td class="satuan"><?=$i['satuan']?></td>
                           <td class="harga_satuan">Rp. <?=number_format($i['harga_satuan'])?></td>
                           <td class="transport"><?=$i['transport']?></td>
-                          <td class="disc_harga_satuan">Rp. <?=number_format($harga_diskon)?></td>
+                          <td class="disc_harga_satuan">Rp. <?=number_format($i['harga_awal'])?></td>
                           <td class="disc_ppn"><?=($i['disc_ppn'])?>%</td>
+                          <td class="disc_harga_satuan">Rp. <?=number_format($i['harga_akhir'])?></td>
                           <td class="disc_harga_akhir"></td>
                           <td class="subtotal">Rp. <?=number_format($harga_diskon*$i['vol'])?></td>
                           <td class="btn-action">

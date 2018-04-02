@@ -257,14 +257,14 @@ $("#btn-reset").click(function(){
                     +"<input type=\"hidden\" class=\"input-hidden-disc_ppn\" value=\"0\" name=\"ProductForm["+num_row+"][disc_ppn]\" />"
                     +"<input type=\"hidden\" class=\"input-hidden-weight\" value=\""+obj.weight+"\" name=\"ProductForm["+num_row+"][weight]\" />"
                     +"<input type=\"hidden\" class=\"input-hidden-transport\" value=\""+transport+"\" name=\"ProductForm["+num_row+"][transport]\" />"
-                    +"<input type=\"hidden\" class=\"input-hidden-harga_akhir\" value=\""+obj.harga_up+"\" />"
+                    +"<input type=\"hidden\" class=\"input-hidden-hara_awal\" value=\""+obj.harga_up+"\" name=\"ProductForm["+num_row+"][harga_awal]\" />"
+                    +"<input type=\"hidden\" class=\"input-hidden-harga_akhir\" value=\""+obj.harga_up+"\" name=\"ProductForm["+num_row+"][harga_akhir]\" />"
                     ;
 
     t_add += "</td>";
     t_add += "<td>"+ obj.kode +"</td>";
     t_add += "<td>"+ obj.uraian +"</td>"; 
     t_add += "<td class=\"vol\"><a href=\"#\" class=\"editable-vol\" data-type=\"text\" data-url=\""+base_url+"ajax/savequotationproductvol\" data-pk=\""+obj.id+"\" >"+ obj.vol +"</a></td>";
-    t_add += "<td>"+ obj.satuan +"</td>";
     t_add += "<td>Rp. "+ numberWithComma(obj.price) +"</td>";
     t_add += "<td>Rp. "+ numberWithComma(harga_transport) +"</td>";
     t_add += "<td class=\"disc_harga_satuan\">Rp. "+ numberWithComma(precisionRound(obj.harga_up, -2)) +"</td>";
@@ -462,7 +462,7 @@ function editable_disc()
 
       var disc_ppn_ = value;
       var volume = tr_.find('input.input-hidden-vol').val();
-      var price_ = tr_.find('input.input-hidden-harga').val();
+      var price_ = tr_.find('input.input-hidden-harga_akhir').val();
       
       tr_.find('input.input-hidden-vol').val(volume);
       tr_.find('input.input-hidden-disc_ppn').val(disc_ppn_);
@@ -473,17 +473,15 @@ function editable_disc()
 
       tr_.find('td.harga_akhir .editable-harga_akhir').html('Rp. '+ numberWithComma(harga_akhir));
       tr_.find('td.subtotal').html("Rp. "+numberWithComma(harga_akhir * volume));
-      tr_.find('input.input-hidden-harga').val(harga_akhir);
+      tr_.find('input.input-hidden-harga_akhir').val(harga_akhir);
       tr_.find('input.input-hidden-disc_ppn').val(disc_ppn_);
       
       var total = 0;
       $("tr.list-product").each(function(){
           
           var vol_ = $(this).find('input.input-hidden-vol').val();
-          var price_ = $(this).find('input.input-hidden-harga').val();
-          var disc_ppn_ = $(this).find('input.input-hidden-disc_ppn').val();
+          var harga_akhir = $(this).find('input.input-hidden-harga_akhir').val();
 
-          harga_akhir = precisionRound(parseInt(price_) * (1 - parseInt(disc_ppn_) / 100 ), -2);
           total += parseInt(harga_akhir) * parseInt(vol_);
       });
 
