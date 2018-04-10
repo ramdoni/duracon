@@ -38,7 +38,7 @@ class Salesso extends CI_Controller {
 	 * [stock_product description]
 	 * @return [type] [description]
 	 */
-	public function stock_product()
+	public function stockproduct()
 	{
 		$params = [];
 

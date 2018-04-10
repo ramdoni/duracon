@@ -62,7 +62,7 @@
 		<tr>
 			<td style="border:0">Phone No.</td>
 			<td style="width: 100px;"><?=$pt['telphone']?></td>
-			<td rowspan="2">Lec :
+			<td rowspan="2">Loc :
 			<?php 
 				$kel = $this->db->query("
 						SELECT k.nama as kelurahan, kab.nama as  kabupaten, kec.nama as kecamatan FROM kelurahan k INNER JOIN kecamatan kec ON kec.id_kec=k.id_kec INNER JOIN kabupaten kab on kab.id_kab=kec.id_kab where k.id_kel=". $data['kelurahan_id'])->row_array();

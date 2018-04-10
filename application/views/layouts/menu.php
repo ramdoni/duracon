@@ -241,7 +241,12 @@ if($access == 3)
 					'label' => 'Pengajuan Dispensasi <span class="label label-danger pull-right">'. $dispensasi.'</span>',
 					'link' => 'salesdispensasi',
 					'icon' => ''
-				]	
+				],
+				[
+					'label' => 'Data Stok',
+					'link' => 'salesso/stockproduct',
+					'icon' => ''
+				],	
 			],
 		],
 		[

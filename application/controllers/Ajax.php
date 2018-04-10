@@ -24,6 +24,22 @@ class Ajax extends CI_Controller {
 	}
 
 	/**
+	 * [volume_so description]
+	 * @return [type] [description]
+	 */
+	public function volume_so()
+	{
+		$sales_order_id = isset($_GET['sales_order_id']) ? $_GET['sales_order_id'] : '';
+
+		$so = $this->db->query("SELECT sum(spmp.volume) as volume FROM surat_perintah_muat spm inner join surat_izin_kirim sik on sik.id=spm.surat_izin_kirim_id inner join surat_perintah_muat_product spmp on spmp.surat_perintah_muat_id=spm.id where (spm.status=0 or spm.status=1 or spm.status=2) and sik.sales_order_id=". $sales_order_id)->row_array();
+
+		if($so)
+		{
+			return $so['volume'];
+		}
+	}
+
+	/**
 	 * [getkabupaten description]
 	 * @return [type] [description]
 	 */
@@ -1055,13 +1071,28 @@ class Ajax extends CI_Controller {
 
 		$data = $this->db->get_where('quotation_order_products', ['quotation_order_id' => $quotation_order_id])->result_array();
 		
-		if(!$data) return;
+		$data_temp = [];
+		foreach($data as $k =>  $i)
+		{
+			$data_temp[$k] = $i;
+ 
+			$so = $this->db->query("SELECT sum(spmp.volume) as volume FROM surat_perintah_muat spm inner join surat_izin_kirim sik on sik.id=spm.surat_izin_kirim_id inner join surat_perintah_muat_product spmp on spmp.surat_perintah_muat_id=spm.id where (spm.status=0 or spm.status=1 or spm.status=2) and spmp.product_id=". $i['product_id'] ." and sik.sales_order_id=". $sales_order_id)->row_array();
+
+			if($so)
+			{
+				$data_temp[$k]['volume_terkirim'] = $so['volume'];
+			}else{
+				$data_temp[$k]['volume_terkirim'] = 0;				
+			}
+		}
+
+		if(!$data_temp) return;
 
 		$this->load->model('Quotationorder_model');
 
 		$result = $this->Quotationorder_model->get_by_id($quotation_order_id);
 
-		$result['data'] = $data;
+		$result['data'] = $data_temp;
 		$result['sales_order'] = $this->db->get_where('sales_order', ['id' => $sales_order_id ])->row_array(); 
 
 		echo json_encode($result);	

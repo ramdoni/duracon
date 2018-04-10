@@ -127,10 +127,11 @@
                       <th>Kode</th>
                       <th>Uraian</th>
                       <th>Volume</th>
-                      <th>Satuan</th>
-                      <th>Harga Satuan</th>
+                      <th>Price List</th>
+                      <th>Transport</th>
+                      <th>Harga Awal</th>
                       <th>Disc</th>
-                      <th>Harga Satuan + Disc</th>
+                      <th>Harga Akhir</th>
                       <th>Subtotal</th>
                     </tr>
                   </thead>
@@ -141,16 +142,16 @@
                       $data_products = $this->db->get_where('quotation_order_products', ['quotation_order_id' => $data['quotation_order_id']])->result_array();
                       foreach($data_products as $key => $value)
                       {
-                        $harga_diskon = $value['harga_satuan'] * $value['disc_ppn'] / 100;
-                        $harga_diskon = $value['harga_satuan'] - $harga_diskon;
+                        $harga_diskon = $i['harga_akhir'] * $i['disc_ppn'] / 100;
+                        $harga_diskon = $i['harga_akhir'] - $harga_diskon;
 
                         echo "<tr>";
                         echo "<td>".($key+1)."</td>";
                         echo "<td>{$value['kode']}</td>";
                         echo "<td>{$value['uraian']}</td>";
                         echo "<td>{$value['vol']}</td>";
-                        echo "<td>{$value['satuan']}</td>";
                         echo "<td>Rp. ". number_format($value['harga_satuan']) ."</td>";
+                        echo "<td>Rp. ". number_format($value['transport']) ."</td>";
                         echo "<td>{$value['disc_ppn']}%</td>";
                         echo "<td>Rp. ". number_format($harga_diskon)."</td>";
                         echo "<td>Rp. ". number_format(($harga_diskon * $value['vol']))."</td>";

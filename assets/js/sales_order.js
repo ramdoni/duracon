@@ -126,24 +126,25 @@ $('.generate-po').click(function(){
               
               $.each(obj.data, function(index, value){
               
-                var harga_diskon = value.harga_satuan * value.disc_ppn / 100;
-                var harga_diskon = value.harga_satuan - harga_diskon;
+                var harga_diskon = value.harga_akhir * value.disc_ppn / 100;
+                var harga_diskon = value.harga_akhir - harga_diskon;
 
                 str += "<tr>";
                 str += "<td>"+(index+1)+"</td>";
                 str += "<td>"+value.kode+"</td>";
                 str += "<td>"+value.uraian+"</td>";
                 str += "<td>"+value.vol+"</td>";
-                str += "<td>"+value.satuan+"</td>";
                 str += "<td>Rp. "+numberWithComma(value.harga_satuan)+"</td>";
-                str += "<td>"+value.disc_ppn+"%</td>";
-                str += "<td>Rp. "+numberWithComma(harga_diskon)+"</td>";
+                str += "<td>"+value.transport+"</td>";
+                str += "<td>Rp. "+numberWithComma(value.harga_awal)+"</td>";
+                str += "<td>"+value.disc_ppn+"</td>";
+                str += "<td>Rp. "+numberWithComma(harga_diskon)+"%</td>";
                 str += "<td>Rp. "+numberWithComma((harga_diskon * value.vol))+"</td>";
                 str += "</tr>";
                 total += harga_diskon * value.vol;
               });
 
-              str += '<tr><th colspan="8" style="text-align:right;">Total</th><th>Rp. '+ numberWithComma(total) +'</th></tr>';
+              str += '<tr><th colspan="9" style="text-align:right;">Total</th><th>Rp. '+ numberWithComma(total) +'</th></tr>';
               
               $('tbody.content-products').html(str);
             }

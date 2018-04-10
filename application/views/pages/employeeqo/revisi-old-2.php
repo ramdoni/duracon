@@ -9,23 +9,6 @@
         <br>
         <form id="form-quotation" method="post" class="form-horizontal form-label-left">
           <input type="hidden" name="Employee_po[proccess]" value="0" />
-          
-            <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_po">Perihal <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <select name="Employee_po[perihal]" required class="form-control">
-                  <option value=""> Pilih Perihal</option>
-                <?php 
-                  $perihal  = ['Penawaran Harga', 'Revisi Penawaran Harga', 'Harga Nett', 'Revisi Harga Nett', 'Harga Satuan'];
-                  foreach($perihal as $item):
-                ?>
-                  <option <?=(isset($data['perihal']) and $item == $data['perihal']) ? 'selected' : ''?>><?=$item?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-          </div>
-          
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_po">No Quotation <span class="required">*</span>
             </label>
@@ -34,46 +17,30 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sales">Customer <span class="required">*</span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sales">Sales <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <select class="form-control select_customer" required name="Employee_po[customer_id]">
-                <option value=""> - Customer - </option>
+              <select class="form-control sales_id" name="Employee_po[sales_id]">
+                <option value=""> - Sales - </option>
                 <?php
-                $customer = $this->db->get('customer');
-
-                foreach($customer->result_array() as $i):
+                $sales = $this->db->get_where('user', ['user_group_id' => 3]);
+                foreach($sales->result_array() as $i):
                   $selected = '';
 
-                  if(isset($data['customer_id']))
+                  if(isset($data['sales_id']))
                   {
-                    if($data['customer_id'] == $i['id'])
+                    if($data['sales_id'] == $i['id'])
                     {
                       $selected = ' selected';
                     }
                   }
-
-                  if($i['tipe_customer'] !== 'Perorangan')
-                  {
-                    $nama_customer = (!empty($i['name']) ? $i['name'].' - ' : '') .$i['company'];
-                    
-                    $nama_customer = ($i['name'] == $i['company'] ? $i['company'] : $nama_customer);
-                  }
-                  else
-                    $nama_customer = $i['name']; 
-              ?>
-                <option value="<?=$i['id']?>" <?=$selected?>><?=$nama_customer?></option>
+                ?>
+                <option value="<?=$i['id']?>" <?=$selected?> data-code="<?=$i['sales_code']?>"><?=$i['name']?></option>
               <?php
                 endforeach;
                 ?>
               </select>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sales">Sales <span class="required">*</span>
-            </label>
-            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-sales_id" style="text-align: left;"><?=isset($data['sales']) ? $data['sales'] : ''?></label>
-            <input type="hidden" name="Employee_po[sales_id]" class="sales_id" value="<?=isset($data['sales_id']) ? $data['sales_id'] : ''?>">
           </div>
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sales">Marketing <span class="required">*</span>
@@ -104,38 +71,52 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sales">Customer / PT <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select class="form-control" required name="Employee_po[customer_id]">
+                <option value=""> - Customer - </option>
+                <?php
+                $customer = $this->db->get('customer');
+
+                foreach($customer->result_array() as $i):
+                  $selected = '';
+
+                  if(isset($data['customer_id']))
+                  {
+                    if($data['customer_id'] == $i['id'])
+                    {
+                      $selected = ' selected';
+                    }
+                  }
+
+                  if($i['tipe_customer'] == 'Perusahaan')
+                  {
+                    $nama_customer = (!empty($i['name']) ? $i['name'].' - ' : '') .$i['company'];
+                    
+                    $nama_customer = ($i['name'] == $i['company'] ? $i['company'] : $nama_customer);
+                  }
+                  else
+                    $nama_customer = $i['name']; 
+              ?>
+                <option value="<?=$i['id']?>" <?=$selected?>><?=$nama_customer?></option>
+              <?php
+                endforeach;
+                ?>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="proyek">Proyek <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="text" id="proyek" required="required" value="<?=(isset($data['proyek']) ? $data['proyek'] : '')?>" name="Employee_po[proyek]" class="form-control col-md-7 col-xs-12">
             </div>
           </div>
-
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kelurahan </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <select class="form-control" name="Employee_po[kelurahan_id]">
-                <option value="">Pilih Kelurahan</option>
-                <?php 
-                  $this->db->from('area_kelurahan a');
-                  $this->db->select('a.*, k.nama as kelurahan, kec.nama as kecamatan, kab.nama as kabupaten');
-                  $this->db->join('kelurahan k', 'k.id_kel=a.kelurahan_id', 'LEFT');
-                  $this->db->join('kecamatan kec', 'kec.id_kec=a.kecamatan_id', 'LEFT');
-                  $this->db->join('kabupaten kab', 'kab.id_kab=a.kabupaten_id', 'LEFT');
-                  $this->db->group_by('a.kelurahan_id');
-
-                  $kelurahan = $this->db->get();
-                  foreach($kelurahan->result_array() as $item):?>
-                  <option value="<?=$item['kelurahan_id']?>" <?=(isset($data['kelurahan_id']) and $data['kelurahan_id'] == $item['kelurahan_id'])? 'selected' : ''?>><?=$item['kelurahan'] .' - '. $item['kecamatan'] .' - '. $item['kabupaten']?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>  
-          </div>
-        
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Area Kirim </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-             <!--  <select name="Employee_po[area_id]" required id="area_id" class="form-control">
+              <select name="Employee_po[area_id]" required id="area_id" class="form-control">
                 <option value=""> - Area Kirim - </option>
                 <?php 
                   $area = $this->db->get('area')->result_array();
@@ -150,21 +131,33 @@
                       }
                     }
                 ?>
-                <option <?=$selected?> value="<?=$i['id']?>" data-price="<?=$i['price']?>"><?=$i['area']?></option>
+                <option <?=$selected?> value="<?=$i['id']?>"><?=$i['area']?></option>
                 <?php endforeach; ?>
-              </select> -->
-
-              <label class="control-label col-md-6 col-sm-6 col-xs-12 label-area_kirim" style="text-align: left;"><?=isset($data['area_id']) ? $data['area'] : ''?></label>
-              <input type="hidden" name="Employee_po[area_id]" class="area_id" value="<?=isset($data['area_id']) ? $data['area_id'] : ''?>" />
-              <input type="hidden" name="Employee_po[transport]" value="<?=isset($data['transport']) ? $data['transport'] : ''?>" />
-
+              </select>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sistem_pembayaran">Sistem Pembayaran <span class="required">*</span>
             </label>
-            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-sistem_pembayaran" style="text-align: left;"><?=isset($data['sistem_pembayaran']) ? $data['sistem_pembayaran'] : ''?></label>
-            <input type="hidden" name="Employee_po[sistem_pembayaran]" class="sistem_pembayaran" value="<?=isset($data['sistem_pembayaran']) ? $data['sistem_pembayaran'] : ''?>">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select name="Employee_po[sistem_pembayaran]" required id="sistem_pembayaran" class="form-control">
+                <option value=""> - Pembayaran - </option>
+                <?php 
+                  foreach(['Cash', 'Kredit', 'SCF'] as $i):
+
+                    $selected = '';
+                    if(isset($data['sistem_pembayaran']))
+                    {
+                      if($data['sistem_pembayaran'] == $i)
+                      {
+                        $selected = ' selected';
+                      }
+                    }
+                ?>
+                <option <?=$selected?>><?=$i?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
           </div>
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tanggal">Tanggal <span class="required">*</span>
@@ -233,11 +226,10 @@
                       <th>Kode</th>
                       <th>Uraian</th>
                       <th>Volume</th>
+                      <th>Satuan</th>
                       <th>Price List</th>
-                      <th>Transport</th>
-                      <th>Harga Awal</th>
                       <th>Disc</th>
-                      <th>Harga Akhir</th>
+                      <th>Harga Satuan</th>
                       <th>Subtotal</th>
                       <th></th>
                     </tr>
@@ -251,8 +243,8 @@
                         
                         foreach($products as $key =>  $i):
 
-                          $harga_diskon = $i['harga_akhir'] * $i['disc_ppn'] / 100;
-                          $harga_diskon = $i['harga_akhir'] - $harga_diskon;
+                          $harga_diskon = $i['harga_satuan'] * $i['disc_ppn'] / 100;
+                          $harga_diskon = $i['harga_satuan'] - $harga_diskon;
                     ?>
                         <tr class="tr-<?=$i['id']?> list-product">
                           <td><?=($key+1)?>
@@ -264,19 +256,17 @@
                             <input type="hidden" name="ProductFormTemp[<?=$key?>][harga_satuan]" class="input-hidden-harga" value="<?=$i['harga_satuan']?>" />
                             <input type="hidden" name="ProductFormTemp[<?=$key?>][disc_ppn]" class="input-hidden-disc_ppn" value="<?=$i['disc_ppn']?>" />
                             <input type="hidden" name="ProductFormTemp[<?=$key?>][weight]" class="input-hidden-weight" value="<?=$i['weight']?>" />
-                            <input type="hidden" name="ProductFormTemp[<?=$key?>][harga_awal]" class="input-hidden-weight" value="<?=$i['harga_awal']?>" />
-                            <input type="hidden" name="ProductFormTemp[<?=$key?>][harga_akhir]" class="input-hidden-weight" value="<?=$i['harga_akhir']?>" />
                           </td>
                           <td class="kode"><?=$i['kode']?></td>
                           <td class="uraian"><?=$i['uraian']?></td>
                           <td class="vol">
                             <a href="#" class="editable-vol" data-type="text" data-url="<?=site_url()?>/ajax/savequotationproductvol" data-pk="<?=$i['id']?>" ><?=($i['vol'])?></a>
                           </td>
+                          <td class="satuan"><?=$i['satuan']?></td>
                           <td class="harga_satuan">Rp. <?=number_format($i['harga_satuan'])?></td>
-                          <td class="transport"><?=$i['transport']?></td>
-                          <td class="disc_harga_satuan">Rp. <?=number_format($i['harga_awal'])?></td>
-                          <td class="disc_ppn"><?=($i['disc_ppn'])?>%</td>
-                          <td class="disc_harga_akhir">Rp. <?=number_format($i['harga_akhir'])?></td>
+                          <td class="disc_ppn">
+                            <a href="#" class="editable-disc" data-type="text" data-url="<?=site_url()?>/ajax/savequotationproductvol" data-pk="<?=$i['id']?>" ><?=($i['disc_ppn'])?></a>%</td>
+                          <td class="disc_harga_satuan">Rp. <?=number_format($harga_diskon)?></td>
                           <td class="subtotal">Rp. <?=number_format($harga_diskon*$i['vol'])?></td>
                           <td class="btn-action">
                               <a href="javascript:" title="Hapus" onclick="hapus_item(<?=$i['id']?>)"><i class="fa fa-remove"></i></a>
@@ -290,7 +280,7 @@
                   </tbody>
                   <tfoot class="footer-date-total">
                     <tr>
-                      <th colspan="9" style="text-align: right;">Total</th>
+                      <th colspan="8" style="text-align: right;">Total</th>
                       <th colspan="2" class="total_">Rp. <?=number_format($total)?></th>
                     </tr>
                   </tfoot>
@@ -299,7 +289,7 @@
             </div>
           </div>
           <div class="ln_solid"></div>
-          <div class="form-group">
+          <div class="form-group"> 
             <div>
               <a href="<?=site_url('employeeqo')?>" class="btn btn-danger btn-sm"><i class="fa fa-arrow-left"></i> Cancel</a>
               <button class="btn btn-warning btn-sm" id="btn-reset" type="reset"><i class="fa fa-refresh"></i> Reset</button>
@@ -347,15 +337,15 @@
             <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-uraian" style="text-align: left;"></label>
           </div>
           <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="satuan">Satuan : </label>
+            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-satuan" style="text-align: left;"></label>
+          </div>
+          <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="weight">Weight : </label>
             <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-weight" style="text-align: left;"></label>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="satuan">Price Transport : </label>
-            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-transport" style="text-align: left;"></label>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Price List : </label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Price : </label>
             <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-price" style="text-align: left;"></label>
           </div>
           <div class="form-group">
@@ -365,31 +355,16 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Transport : </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <select class="form-control select_transport">
-                <option value="1">Include Transport</option>
-                <option value="0">Tidak</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="disc_ppn">Persentase Up</label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="disc_ppn">Disc</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="text" id="input-disc_ppn" required="required" name="products[disc_ppn]" class="form-control col-md-7 col-xs-12">
             </div>
           </div>
-
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Price : </label>
-            <label class="control-label col-md-6 col-sm-6 col-xs-12 label-modal-price-up" style="text-align: left;"></label>
-          </div>
-
           <div class="ln_solid"></div>
           <div class="form-group">
-            <div>
-              <a href="<?=site_url('products')?>" class="btn btn-default btn-sm" data-dismiss="modal"><i class="fa fa-close"></i> Cancel</a>
-              <a class="btn btn-success btn-add-modal btn-sm"  data-dismiss="modal"><i class="fa fa-plus-circle"></i> Add</a>
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+              <a href="<?=site_url('products')?>" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i> Cancel</a>
+              <a class="btn btn-success btn-add-modal"  data-dismiss="modal"><i class="fa fa-plus-circle"></i> Add</a>
             </div>
           </div>
         </form>

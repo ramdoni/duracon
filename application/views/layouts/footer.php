@@ -396,6 +396,7 @@
                   <th>Kode</th>
                   <th>Uraian</th>
                   <th>Volume</th>
+                  <th>Volume Yang Terkirim</th>
                   <th>Harga Satuan</th>
                   <th>Subtotal</th>
                 </tr>

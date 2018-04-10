@@ -187,10 +187,6 @@ class Employeeqo extends CI_Controller {
             $this->db->update($this->model->t_table, $post);
 			$this->db->flush_cache();
 
-			#$this->db->where('quotation_order_id', $id);
-			#$this->db->delete('quotation_order_products');
-			#$this->db->flush_cache();
-
 			$product_table = $this->input->post('ProductForm');
 			if(isset($product_table))
 			{
@@ -228,7 +224,7 @@ class Employeeqo extends CI_Controller {
 	public function revisi($id)
 	{
 		$model = $this->model->get_by_id($id);
-
+ 
 		if(!isset($model))
 		{
 			$this->session->set_flashdata('error', 'No Quotation tidak ditemukan');	
@@ -267,10 +263,6 @@ class Employeeqo extends CI_Controller {
 			$this->db->where('id', $id);
             $this->db->update($this->model->t_table, $post);
 			$this->db->flush_cache();
-
-			#$this->db->where('quotation_order_id', $id);
-			#$this->db->delete('quotation_order_products');
-			#$this->db->flush_cache();
 
 			$product_table = $this->input->post('ProductForm');
 			if(isset($product_table))
