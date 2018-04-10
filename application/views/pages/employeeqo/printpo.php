@@ -9,6 +9,7 @@
 	</style>
 </head>
 <body>
+	<p style="position: absolute; top: 0; right: 10px;"><?=date('d F Y')?></p>
 	<?php 
 		$pt = $this->db->get_where('customer', ['id' => $data['customer_id']])->row_array();
 	?>
