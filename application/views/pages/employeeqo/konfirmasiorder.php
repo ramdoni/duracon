@@ -49,6 +49,10 @@
 				<td>: <?=$data['no_po']?></td>
 			</tr>
 			<tr>
+				<td>No PO</td>
+				<td>: </td>
+			</tr>
+			<tr>
 				<td>Ketentuan Pembayaran</td>
 				<td>: <?=$data['sistem_pembayaran']?></td>
 			</tr>

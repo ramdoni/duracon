@@ -107,8 +107,6 @@ function detail_quotation(id_quotation_order, title)
         var total=0;
 
         var modal_ = $("#modal_detail_products");
-        
-        console.log(obj);
 
         modal_.find('label.label-no_po').html(obj.no_po);
         modal_.find('label.label-sales_id').html(obj.sales);
