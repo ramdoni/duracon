@@ -9,15 +9,21 @@
 	</style>
 </head>
 <body>
-	<p style="position: absolute; top: 0; right: 10px;"><?=date('d F Y')?></p>
 	<?php 
 		$pt = $this->db->get_where('customer', ['id' => $data['customer_id']])->row_array();
 	?>
-	<p>Nomor : <?=$data['no_po']?><br />
-	Perihal : <?=$data['perihal']?><br />
-	Kepada Yth,<br />
-	<?=label_customer($data['customer_id'])?>
-	</p>
+	<div style="float: right; width: 40%;text-align: right;">
+		<?=date('d F Y')?>
+	</div>
+	<div>
+		<p>
+		Nomor : <?=$data['no_po']?><br />
+		Perihal : <?=$data['perihal']?><br />
+		Kepada Yth,<br />
+		<?=label_customer($data['customer_id'])?>
+		</p>
+	</div>
+
 	<table>
 		<tr>
 			<th style="width: 100px;text-align: left;">No. Telp</th>
