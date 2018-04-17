@@ -71,8 +71,7 @@
 		</tr>
 		<?php 
 			$product = $this->db->get_where('quotation_order_products', ['quotation_order_id' => $data['id']])->result_array();
-			$total_price = 0;
-			$sub_total_footer = 0;
+			$sub_total = 0;
 		?>
 		<?php foreach($product as $key => $item):
 
