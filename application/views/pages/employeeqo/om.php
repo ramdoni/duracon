@@ -230,7 +230,7 @@
 								left join `product_specification` ps on ps.id=p.`product_specification_id`
 								where qo.id={$data['id']}
 								group by p.`product_specification_id`")->result_array();
-		
+		 
 		foreach($spesification as $key => $spec):
 		?>
 			<?php 
