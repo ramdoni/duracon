@@ -158,7 +158,7 @@
               <input type="hidden" name="Employee_po[area_id]" class="area_id" value="<?=isset($data['area_id']) ? $data['area_id'] : ''?>" />
               <input type="hidden" name="Employee_po[transport]" value="<?=isset($data['transport']) ? $data['transport'] : ''?>" />
 
-            </div>
+            </div> 
           </div>
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sistem_pembayaran">Sistem Pembayaran <span class="required">*</span>

@@ -230,28 +230,13 @@
 								left join `product_specification` ps on ps.id=p.`product_specification_id`
 								where qo.id={$data['id']}
 								group by p.`product_specification_id`")->result_array();
-		var_dump("SELECT ps.* FROM quotation_order qo
-								inner join quotation_order_products qop on qop.quotation_order_id=qo.id 
-								inner join products p on p.id=qop.product_id
-								left join `product_specification` ps on ps.id=p.`product_specification_id`
-								where qo.id={$data['id']}
-								group by p.`product_specification_id`");
 
 		foreach($spesification as $key => $spec):
 
-			var_dump("SELECT qop.*, qo.penurunan_barang, a.price as ongkos_kirim FROM quotation_order qo
-								inner join quotation_order_products qop on qop.quotation_order_id=qo.id 
-								inner join products p on p.id=qop.product_id
-								inner join area a on a.id=qo.area_id
-								where qo.id={$data['id']} and p.product_specification_id = {$spec['id']};");
-			die;
-
-		?>
-			<?php 
 				$products = $this->db->query("SELECT qop.*, qo.penurunan_barang, a.price as ongkos_kirim FROM quotation_order qo
 								inner join quotation_order_products qop on qop.quotation_order_id=qo.id 
 								inner join products p on p.id=qop.product_id
-								inner join area a on a.id=qo.area_id
+								left join area a on a.id=qo.area_id
 								where qo.id={$data['id']} and p.product_specification_id = {$spec['id']};")->result_array();
 
 				foreach ($products as $key => $p):?>

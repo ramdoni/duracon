@@ -112,7 +112,7 @@ class Ajax extends CI_Controller {
 
 		//$data = $this->db->get_where('area_kelurahan', ['provinsi_id' => $provinsi_id, 'kabupaten_id' => $kabupaten_id, 'kecamatan_id' => $kecamatan_id, 'kelurahan_id' => $kelurahan_id])->row_array();
 
-		$data = $this->db->query('SELECT ak.*, a.area, a.price FROM area_kelurahan ak inner join area a on a.id=ak.area_id where kelurahan_id = '. $kelurahan_id )->row_array();
+		$data = $this->db->query('SELECT ak.*, a.area, a.price, ak.area_id FROM area_kelurahan ak inner join area a on a.id=ak.area_id where kelurahan_id = '. $kelurahan_id )->row_array();
 
 		if($data)
 		{

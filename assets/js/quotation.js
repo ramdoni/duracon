@@ -75,7 +75,7 @@ $("select[name='Employee_po[kelurahan_id]']").on('change', function(){
         { 
           var transport = obj.data.price; 
 
-          $("input[name='Employee_po[area_id]']").val(obj.data.id);
+          $("input[name='Employee_po[area_id]']").val(obj.data.area_id);
           $('.label-area_kirim').html(obj.data.area);
           $("input[name='Employee_po[transport]']").val(obj.data.price);
 
