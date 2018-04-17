@@ -108,22 +108,33 @@
     if(isset($data['quotation_order_id']))
     {
     	$total_tonase = 0;
-      $data_products = $this->db->get_where('quotation_order_products', ['quotation_order_id' => $data['quotation_order_id']])->result_array();
-      foreach($data_products as $key => $value)
-      {
-        echo "<tr>";
-        echo "<td>".($key+1)."</td>";
-        echo "<td>{$value['kode']}</td>";
-        echo "<td>{$value['uraian']}</td>";
-        echo "<td>{$value['vol']}</td>";
-        echo "<td>{$value['satuan']}</td>";
-        echo "<td></td>";
-        echo "</tr>";
-      }
+    	$total_volume = 0;
+      	$data_products = $this->db->get_where('quotation_order_products', ['quotation_order_id' => $data['quotation_order_id']])->result_array();
+      	foreach($data_products as $key => $value)
+      	{
+	        echo "<tr>";
+	        echo "<td>".($key+1)."</td>";
+	        echo "<td>{$value['kode']}</td>";
+	        echo "<td>{$value['uraian']}</td>";
+	        echo "<td style=\"text-align: right;\">{$value['vol']}</td>";
+	        echo "<td style=\"text-align: right;\">". round($value['vol'] * $value['weight'] / 1000)."</td>";
+	        echo "<td></td>";
+	        echo "</tr>";
+
+	        $total_tonase 	+= ($value['vol'] * $value['weight']);
+	        $total_volume 	+= $value['vol'];
+	      }
     }
   ?>
+  <tfoot>
+  		<tr>
+  			<th style="text-align: right;" colspan="3">Total</th>
+  			<th style="text-align: right;"><?=round($total_volume)?></th>
+  			<th style="text-align: right;"><?=number_format(round($total_tonase / 1000))?></th>
+  			<th></th>
+  		</tr>
+  </tfoot>	
 </table>
-<div style="width: 80%;text-align: right;">Total Tonase : </div>
 <p style="background: #2f692f; color: white; padding: 5px; width: 300px;"><strong><i><u>Ketentuan Pengiriman & Produksi</u></i></strong></p>
 <ol>
 	<li style="border-bottom:1px solid #000;padding-left: 25px;">&nbsp;</li>
