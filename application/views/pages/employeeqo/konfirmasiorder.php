@@ -72,13 +72,11 @@
 		<?php 
 			$product = $this->db->get_where('quotation_order_products', ['quotation_order_id' => $data['id']])->result_array();
 			$total_price = 0;
+			$sub_total_footer = 0;
 		?>
 		<?php foreach($product as $key => $item):
 
-			$temp_price = 0;
-			$temp_price = ($item['harga_satuan'] - ($item['harga_satuan']*($item['disc_ppn'] / 100)));
-
-			$total_price +=$temp_price;
+			$sub_total += $item['harga_akhir'] ;
 
 			$p = $this->db->get_where('products', ['id' => $item['product_id']])->row_array();
 		?>
@@ -87,18 +85,18 @@
 				<td><?=$p['uraian']?></td>
 				<td><?=$item['vol']?></td>
 				<td><?=$item['satuan']?></td>
-				<td>Rp. <?=(number_format($temp_price))?></td>
-				<td>Rp. <?=(number_format($temp_price*$item['vol']))?></td>
+				<td>Rp. <?=(number_format($item['harga_akhir']))?></td>
+				<td>Rp. <?=(number_format($item['harga_akhir']*$item['vol']))?></td>
 			</tr>
 		<?php endforeach; ?>
 		<?php 
 
-		$ppn = (($total_price * 10) / 100);
+		$ppn = (($sub_total * 10) / 100);
 
 		?>
 			<tr>
 				<td colspan="5" style="text-align: right;"><strong>Sub Total</strong>&nbsp;&nbsp;&nbsp;</td>
-				<td><strong>Rp. <?=number_format($total_price)?></strong></td>
+				<td><strong>Rp. <?=number_format($sub_total)?></strong></td>
 			</tr>
 			<tr>
 				<td colspan="5" style="text-align: right;"><strong>PPn 10 %</strong>&nbsp;&nbsp;&nbsp;</td>
@@ -107,7 +105,7 @@
 
 			<tr>
 				<td colspan="5" style="text-align: right;"><strong>TOTAL</strong>&nbsp;&nbsp;&nbsp;</td>
-				<td><strong>Rp. <?=number_format($ppn+$total_price)?></strong></td>
+				<td><strong>Rp. <?=number_format($ppn+$sub_total)?></strong></td>
 			</tr>
 			
 		</table>
