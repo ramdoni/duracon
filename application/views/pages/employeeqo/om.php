@@ -227,7 +227,7 @@
 		$spesification = $this->db->query("SELECT ps.* FROM quotation_order qo
 								inner join quotation_order_products qop on qop.quotation_order_id=qo.id 
 								inner join products p on p.id=qop.product_id
-								inner join `product_specification` ps on ps.id=p.`product_specification_id`
+								left join `product_specification` ps on ps.id=p.`product_specification_id`
 								where qo.id={$data['id']}
 								group by p.`product_specification_id`;")->result_array();
 

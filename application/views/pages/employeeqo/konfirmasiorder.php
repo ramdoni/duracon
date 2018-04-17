@@ -113,7 +113,7 @@
 		</table>
 		<br />
 	<div style="width: 50%;">
-		<u><strong>Intruksi &Catatan : </strong></u>
+		<u><strong>Intruksi & Catatan : </strong></u>
 		<ul>
 			<li style="border-bottom: 1px solid;"> &nbsp;</li>
 			<li style="border-bottom: 1px solid;"> &nbsp;</li>
@@ -132,7 +132,7 @@
 		</p>
 	</div>
 	<div style="width: 40%; float: right;">
-		<p>Hormat Kami,</p>
+		<p>&nbsp;</p>
 		<br />
 		<br />
 		<p><?=label_customer_pt($pt['id'])?><br /></p>
