@@ -68,6 +68,8 @@
                   </thead>
                   <tbody class="add-table-lokasi">
                   <?php 
+                    if(isset($data['id']))
+                    {
                       $area = $this->db->query("
 
                           SELECT ak.*, p.nama as provinsi, k.nama as kabupaten, kc.nama as kecamatan, kl.nama as kelurahan FROM area_kelurahan ak
@@ -87,6 +89,7 @@
                           <td><a href="<?=site_url()?>area/hapus_area_kelurahan?id=<?=$item['id']?>&area_id=<?=$data['id']?>" class="btn btn-danger btn-xs" onclick="return confirm('Hapus Area Kelurahan ini ?')">Hapus</a></td>
                       </tr>
                   <?php endforeach; ?>
+                  <?php } ?>
                   </tbody>
                 </table>
                 <a class="btn btn-default btn-sm" style="float: right;" data-toggle="modal" href="#myModal"><i class="fa fa-plus"></i> Add Lokasi</a> 

@@ -41,7 +41,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone">Jabatan <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" id="phone" required="required" name="User[phone]" value="<?=(isset($data['jabatan']) ? $data['jabatan'] : '')?>" class="form-control col-md-7 col-xs-12">
+              <input type="text" id="phone" required="required" name="User[jabatan]" value="<?=(isset($data['jabatan']) ? $data['jabatan'] : '')?>" class="form-control col-md-7 col-xs-12">
             </div>
           </div>
           <div class="form-group">
@@ -151,7 +151,7 @@
 
   $("select[name='User[user_group_id]']").on('change', function(){
     
-    if($(this).val() == 3)
+    if($(this).val() == 3 || $(this).val() == 4)
     {
       $('.sales-code').show();
     }
