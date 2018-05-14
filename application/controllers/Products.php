@@ -66,6 +66,7 @@ class Products extends CI_Controller {
 				error_reporting(E_ALL ^ E_NOTICE);
 
 				$data = $this->excel_reader->sheets[0];
+				
 			    for ($i = 1; $i <= $data['numRows']; $i++) {
 			        
 			        if ($data['cells'][$i][1] == '') continue;
@@ -73,13 +74,18 @@ class Products extends CI_Controller {
 			        if($i==1) continue;
 
 					$dataexcel = [];
-			        $dataexcel['kode'] = $data['cells'][$i][1];
-			        $dataexcel['uraian'] = $data['cells'][$i][2];
-			        $dataexcel['satuan'] = $data['cells'][$i][3];
-			        $dataexcel['weight'] = $data['cells'][$i][4];
-			        $dataexcel['price'] = $data['cells'][$i][5];
-			        $dataexcel['keterangan'] = $data['cells'][$i][6];
-			        $dataexcel['biaya_setting'] = $data['cells'][$i][7];
+			        $dataexcel['uraian'] 	= $data['cells'][$i][1];
+			        $dataexcel['kode'] 		= $data['cells'][$i][2];
+
+			        // find sales
+			        $spec = $this->db->query("SELECT * FROM product_specification where spesifikasi LIKE '%". $data['cells'][$i][10] ."%'")->row_array();
+					if($sales)
+					{
+			        	$dataexcel['product_specification_id'] 		= $data['cells'][$i][3];
+					}
+			        $dataexcel['sub_spesification'] 	= $data['cells'][$i][4];
+			        $dataexcel['weight'] 				= $data['cells'][$i][5];
+			        $dataexcel['price'] 				= $data['cells'][$i][6];
 
 			        $this->db->insert('products', $dataexcel);
 			    }

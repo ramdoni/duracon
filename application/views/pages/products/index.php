@@ -3,6 +3,8 @@
       <div class="x_title">
         <h2>Products</h2> &nbsp;
         <a href="<?=site_url('products/insert')?>" class="btn btn-success btn-sm">Create / Insert</a>
+        <a href="<?=site_url('products/import')?>" class="btn btn-info btn-sm">Import</a>
+
         <ul class="nav navbar-right panel_toolbox">
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
           <li class="dropdown">

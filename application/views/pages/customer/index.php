@@ -3,6 +3,8 @@
       <div class="x_title">
         <h2>Customer</h2> &nbsp;
         <a href="<?=site_url('customer/insert')?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+        <a href="<?=site_url('customer/import')?>" class="btn btn-info btn-sm"><i class="fa fa-upload"></i> Import</a>
+
         <ul class="nav navbar-right panel_toolbox">
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
         </ul>

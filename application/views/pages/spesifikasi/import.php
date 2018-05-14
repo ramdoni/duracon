@@ -1,9 +1,9 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-      <h2>Import Products</h2>
+      <h2>Import Spesifikasi Teknis</h2>
       <ul class="nav navbar-right panel_toolbox">
-        <li><a class="close-link" href="<?=site_url('products')?>"><i class="fa fa-close"></i></a></li>
+        <li><a class="close-link" href="<?=site_url('spesifikasi')?>"><i class="fa fa-close"></i></a></li>
       </ul>
       <div class="clearfix"></div>
     </div>
@@ -16,7 +16,6 @@
           </label>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <input type="file" id="first-name" required="required" name="file" class="form-control col-md-7 col-xs-12">
-            <!-- <p>sample excel <a href="<?=base_url('assets/contoh-import-products.xls')?>" class="link"> <i class="fa fa-cloud-download"></i> Download</a></p> -->
           </div>
         </div>
         <div class="ln_solid"></div>

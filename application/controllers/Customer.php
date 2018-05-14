@@ -34,6 +34,79 @@ class Customer extends CI_Controller {
 
 		$this->load->view('layouts/main', $params);
 	}
+	
+	/**
+	 * [import description]
+	 * @return [type] [description]
+	 */
+	public function import()
+	{
+		$params['page'] = 'customer/import';
+		if($this->input->post())
+		{
+			$post = $this->input->post();
+			# upload file
+			$config = Array();
+			$config['upload_path'] 		= './upload/';
+			$config['allowed_types'] 	= '*';
+			$config['max_size']			= '2000';
+			$config['max_width'] 		= '2000';
+			$config['max_height']		= '2000';
+
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload("file")):
+				$error = array('error' => $this->upload->display_errors());
+				print_r($error);
+			else:
+
+				$upload_data = $this->upload->data();
+				
+				// Load the spreadsheet reader library
+				$this->load->library('Excel_reader');
+
+				$this->excel_reader->setOutputEncoding('230787');
+				$file = $upload_data['full_path'];
+				$this->excel_reader->read($file);
+				error_reporting(E_ALL ^ E_NOTICE);
+
+				$data = $this->excel_reader->sheets[0];
+				
+			    for ($i = 1; $i <= $data['numRows']; $i++) {
+
+			        if($i==1) continue;
+
+					$dataexcel = [];
+			        $dataexcel['tipe_customer'] 	= $data['cells'][$i][1];
+			        $dataexcel['company'] 			= $data['cells'][$i][2];
+			        $dataexcel['name'] 				= $data['cells'][$i][3];
+			        $dataexcel['email'] 			= !empty($data['cells'][$i][4]) ? $data['cells'][$i][4] : '';
+			        $dataexcel['telphone'] 			= !empty($data['cells'][$i][5]) ? $data['cells'][$i][5] : '';
+			        $dataexcel['handphone'] 		= !empty($data['cells'][$i][6]) ? $data['cells'][$i][6] : '';
+			        $dataexcel['fax'] 				= !empty($data['cells'][$i][7]) ? $data['cells'][$i][7] : '';
+			        $dataexcel['address'] 			= !empty($data['cells'][$i][8]) ? $data['cells'][$i][9] : '';
+			        $dataexcel['active'] 			= 1;
+
+			        // find sales
+			        $sales = $this->db->query("SELECT * FROM user where name LIKE '%". $data['cells'][$i][10] ."%' AND user_group_id=3")->row_array();
+					if($sales)
+					{
+						$dataexcel['sales_id'] 			= $sales['id'];
+					}
+			        $dataexcel['kode'] 		= $data['cells'][$i][11];
+
+			        $this->db->insert('customer', $dataexcel);
+			    }
+				
+				//delete file
+	            $file = $config['upload_path'] . $upload_data['file_name'];
+				unlink($upload_data['full_path']);
+
+				redirect(site_url('customer/?import=1&success=true'));
+			endif;
+		}
+		
+		$this->load->view('layouts/main', $params);
+	}
 
 	public function insert()
 	{

@@ -35,6 +35,8 @@ class Spesifikasi extends CI_Controller {
 		$this->load->view('layouts/main', $params);
 	}
 
+
+
 	public function insert()
 	{
 		if($this->input->post())
@@ -79,5 +81,71 @@ class Spesifikasi extends CI_Controller {
 		$this->db->delete($this->model->t_table);
 
 		redirect(site_url('spesifikasi'));
+	}
+
+	/**
+	 * [import description]
+	 * @return [type] [description]
+	 */
+	public function import()
+	{
+		$params['page'] = 'spesifikasi/import';
+		
+		if($this->input->post())
+		{
+			$post = $this->input->post();
+			# upload file
+			$config = Array();
+			$config['upload_path'] 		= './upload/';
+			$config['allowed_types'] 	= '*';
+			$config['max_size']			= '2000';
+			$config['max_width'] 		= '2000';
+			$config['max_height']		= '2000';
+
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload("file")):
+				$error = array('error' => $this->upload->display_errors());
+				print_r($error);
+			else:
+
+				$upload_data = $this->upload->data();
+				
+				// Load the spreadsheet reader library
+				$this->load->library('Excel_reader');
+
+				$this->excel_reader->setOutputEncoding('230787');
+				$file = $upload_data['full_path'];
+				$this->excel_reader->read($file);
+				error_reporting(E_ALL ^ E_NOTICE);
+
+				$data = $this->excel_reader->sheets[0];
+			
+			    for ($i = 1; $i <= $data['numRows']; $i++) {
+			        
+			        if ($data['cells'][$i][1] == '') continue;
+
+			        if($i==1) continue;
+
+					$dataexcel = [];
+			        $dataexcel['spesifikasi'] 		= $data['cells'][$i][1];
+			        $dataexcel['sistem_produksi'] 	= $data['cells'][$i][2];
+			        $dataexcel['mutu_beton'] 		= $data['cells'][$i][3];
+			        $dataexcel['mutu_baja'] 		= $data['cells'][$i][4];
+			        $dataexcel['tipe_semen'] 		= $data['cells'][$i][5];
+			        $dataexcel['system_joint'] 		= $data['cells'][$i][6];
+			        $dataexcel['active'] 			= 1;
+
+			        $this->db->insert('product_specification', $dataexcel);
+			    }
+				
+				//delete file
+	            $file = $config['upload_path'] . $upload_data['file_name'];
+				unlink($upload_data['full_path']);
+
+				redirect(site_url('spesifikasi/?import=1&success=true'));
+			endif;
+		}
+		
+		$this->load->view('layouts/main', $params);
 	}
 }

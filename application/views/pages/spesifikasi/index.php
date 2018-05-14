@@ -3,6 +3,7 @@
       <div class="x_title">
         <h2>Spesifikasi Teknis</h2> &nbsp;
         <a href="<?=site_url('spesifikasi/insert')?>" class="btn btn-success btn-sm">Create / Insert</a>
+        <a href="<?=site_url('spesifikasi/import')?>" class="btn btn-info btn-sm">Import</a>
         <ul class="nav navbar-right panel_toolbox">
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
         </ul>
