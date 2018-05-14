@@ -78,10 +78,10 @@ class Products extends CI_Controller {
 			        $dataexcel['kode'] 		= $data['cells'][$i][2];
 
 			        // find sales
-			        $spec = $this->db->query("SELECT * FROM product_specification where spesifikasi LIKE '%". $data['cells'][$i][10] ."%'")->row_array();
-					if($sales)
+			        $spec = $this->db->query("SELECT * FROM product_specification where spesifikasi LIKE '%". $data['cells'][$i][3] ."%'")->row_array();
+					if($spec)
 					{
-			        	$dataexcel['product_specification_id'] 		= $data['cells'][$i][3];
+			        	$dataexcel['product_specification_id'] 		= $spec['id'];
 					}
 			        $dataexcel['sub_spesification'] 	= $data['cells'][$i][4];
 			        $dataexcel['weight'] 				= $data['cells'][$i][5];
