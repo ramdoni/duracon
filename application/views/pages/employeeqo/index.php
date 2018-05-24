@@ -61,8 +61,6 @@
                       ?>
                     </td>
                     <td>
-
-
                       <a href="<?=site_url("employeeqo/printom/{$item['id']}")?>" target="_blank" class="btn btn-default btn-xs" title="Print"><i class="fa fa-print"></i> Print OM</a><br />
 
                       <?php if($item['position'] > 1 and $item['position']< 4){ ?>

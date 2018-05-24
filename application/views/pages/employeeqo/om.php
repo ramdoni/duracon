@@ -250,11 +250,11 @@
 					else
 						$biaya_setting = 0;
 
-					$material_rp_pc = ($p['harga_satuan'] - $ongkos_kirim_pc - $biaya_setting);
+					$material_rp_pc = ($p['harga_awal'] - $ongkos_kirim_pc - $biaya_setting);
 
 					$disc_real = (($_product['price'] - $material_rp_pc) / $_product['price']) ;
 
-					$price_non_ppn = ($_product['price'] - $p['harga_satuan']) / $_product['price'];
+					$price_non_ppn = ($_product['price'] - $p['harga_awal']) / $_product['price'];
 				?>
 				<tr>
 					<td><?=$p['kode']?></td>
@@ -263,7 +263,7 @@
 					<td><?=$p['vol']?></td>
 					<td><?=$p['satuan']?></td>
 					<td><?=$_product['weight']?></td>
-					<td style="text-align: right;"><?=number_format($p['harga_satuan'])?></td>
+					<td style="text-align: right;"><?=number_format($p['harga_awal'])?></td>
 					<td style="text-align: right;"><?=number_format($ongkos_kirim_pc)?></td>
 					<td style="text-align: right;"><?=number_format($p['ongkos_kirim'])?></td>
 					<td style="text-align: right;"><?=number_format($biaya_setting)?></td>
@@ -307,11 +307,11 @@
 					else
 						$biaya_setting = 0;
 
-					$material_rp_pc = ($_product['price'] - $ongkos_kirim_pc - $biaya_setting);
+					$material_rp_pc = ($p['harga_akhir'] - $ongkos_kirim_pc - $biaya_setting);
 
 					$disc_real = (($_product['price'] - $material_rp_pc) / $_product['price']) ;
 
-					$price_non_ppn = 0 / $_product['price'];
+					$price_non_ppn = ($_product['price'] - $p['harga_akhir']) / $_product['price'];
 				?>
 				<tr>
 					<td><?=$p['kode']?></td>
@@ -320,7 +320,7 @@
 					<td><?=$p['vol']?></td>
 					<td><?=$p['satuan']?></td>
 					<td><?=$_product['weight']?></td>
-					<td style="text-align: right;"><?=number_format($_product['price'])?></td>
+					<td style="text-align: right;"><?=number_format($p['harga_akhir'])?></td>
 					<td style="text-align: right;"><?=number_format($ongkos_kirim_pc)?></td>
 					<td style="text-align: right;"><?=number_format($p['ongkos_kirim'])?></td>
 					<td style="text-align: right;"><?=number_format($biaya_setting)?></td>
@@ -329,7 +329,9 @@
 					<td style="text-align: right;"><?=number_format($_product['price'])?></td>		
 					<td style="text-align: right;"><?=round($disc_real*100)?>%</td>
 					<td style="text-align: right;"><?=round($price_non_ppn*100)?>%</td>
-					<td></td>
+					<td>
+						<?=((1 - $p['harga_akhir'] / $p['harga_awal']) * 100)?>%
+					</td>
 				</tr>
 			<?php endforeach; ?>		
 		<?php endforeach; ?>

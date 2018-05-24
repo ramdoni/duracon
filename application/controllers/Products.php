@@ -84,8 +84,11 @@ class Products extends CI_Controller {
 			        	$dataexcel['product_specification_id'] 		= $spec['id'];
 					}
 			        $dataexcel['sub_spesification'] 	= $data['cells'][$i][4];
-			        $dataexcel['weight'] 				= $data['cells'][$i][5];
+			        $dataexcel['weight'] 				= ceil($data['cells'][$i][5]);
 			        $dataexcel['price'] 				= $data['cells'][$i][6];
+			        $dataexcel['biaya_setting'] 				= $data['cells'][$i][7];
+			        $dataexcel['active'] 				= 1;
+			        $dataexcel['satuan'] 				= 'Pcs';
 
 			        $this->db->insert('products', $dataexcel);
 			    }

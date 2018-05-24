@@ -60,7 +60,7 @@ class Area extends CI_Controller {
 					$param['kecamatan_id'] = $i['kecamatan_id'];
 					$param['kelurahan_id'] = $i['kelurahan_id'];
 
-					$this->db->insert('area_kelurahan', $loc);
+					$this->db->insert('area_kelurahan', $param);
 					$this->db->flush_cache();
 				}
 			}

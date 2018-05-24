@@ -70,10 +70,10 @@ class Customer extends CI_Controller {
 				error_reporting(E_ALL ^ E_NOTICE);
 
 				$data = $this->excel_reader->sheets[0];
-				
+
 			    for ($i = 1; $i <= $data['numRows']; $i++) {
 
-			        if($i==1) continue;
+			        if($i <=2 ) continue;
 
 					$dataexcel = [];
 			        $dataexcel['tipe_customer'] 	= $data['cells'][$i][1];
@@ -83,16 +83,17 @@ class Customer extends CI_Controller {
 			        $dataexcel['telphone'] 			= !empty($data['cells'][$i][5]) ? $data['cells'][$i][5] : '';
 			        $dataexcel['handphone'] 		= !empty($data['cells'][$i][6]) ? $data['cells'][$i][6] : '';
 			        $dataexcel['fax'] 				= !empty($data['cells'][$i][7]) ? $data['cells'][$i][7] : '';
-			        $dataexcel['address'] 			= !empty($data['cells'][$i][8]) ? $data['cells'][$i][9] : '';
+			        $dataexcel['address'] 			= !empty($data['cells'][$i][8]) ? $data['cells'][$i][8] : '';
 			        $dataexcel['active'] 			= 1;
 
 			        // find sales
-			        $sales = $this->db->query("SELECT * FROM user where name LIKE '%". $data['cells'][$i][10] ."%' AND user_group_id=3")->row_array();
+			        $sales = $this->db->query("SELECT * FROM user where name LIKE '%". $data['cells'][$i][9] ."%' AND user_group_id=3")->row_array();
 					if($sales)
 					{
 						$dataexcel['sales_id'] 			= $sales['id'];
 					}
-			        $dataexcel['kode'] 		= $data['cells'][$i][11];
+			        $dataexcel['kode'] 				= $data['cells'][$i][10];
+			        $dataexcel['sistem_pembayaran'] = $data['cells'][$i][11];
 
 			        $this->db->insert('customer', $dataexcel);
 			    }
@@ -100,6 +101,8 @@ class Customer extends CI_Controller {
 				//delete file
 	            $file = $config['upload_path'] . $upload_data['file_name'];
 				unlink($upload_data['full_path']);
+
+				$this->session->set_flashdata('messages', 'Data berhasil di import');
 
 				redirect(site_url('customer/?import=1&success=true'));
 			endif;
