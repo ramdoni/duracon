@@ -10,7 +10,7 @@
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_so">No Invoice</label>
               <div class="col-md-6">
-                <input type="text" required="required" readonly="true" name="Invoice[no_invoice]" value="<?=$no_invoice?>"  class="form-control col-md-7 col-xs-10">
+                <input type="text" required="required" name="Invoice[no_invoice]" value="<?=$no_invoice?>"  class="form-control col-md-7 col-xs-10">
               </div>
             </div> 
             <div class="form-group">

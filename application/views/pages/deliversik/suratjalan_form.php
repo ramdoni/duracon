@@ -13,7 +13,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12">No Surat Jalan
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" class="form-control" value="<?=$no_surat_jalan?>" name="Suratjalan[no]" readonly="true" />
+              <input type="text" class="form-control" value="<?=$no_surat_jalan?>" name="Suratjalan[no]" />
             </div>
           </div>
            <div class="form-group ">

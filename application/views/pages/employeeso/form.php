@@ -13,7 +13,7 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_so">No SO</label>
             <div class="col-md-6">
-              <input type="text" id="no_so" required="required" readonly="true" name="Employee_so[no_so]" value="<?=$no_so?>"  class="form-control col-md-7 col-xs-10">
+              <input type="text" id="no_so" required="required" name="Employee_so[no_so]" value="<?=$no_so?>"  class="form-control col-md-7 col-xs-10">
             </div>
           </div>
 
