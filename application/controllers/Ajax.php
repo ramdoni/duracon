@@ -40,6 +40,34 @@ class Ajax extends CI_Controller {
 	}
 
 	/**
+	 * [getkecamatanarea description]
+	 * @return [type] [description]
+	 */
+	public function getkecamatanarea()
+	{
+		$id = isset($_GET['id']) ? $_GET['id'] : '';
+
+		if($id)
+		{
+			$this->db->select('kelurahan.id_kel as id, kelurahan.nama');
+			$this->db->from('area_kelurahan');
+			$this->db->join('kelurahan', 'kelurahan.id_kec=area_kelurahan.kecamatan_id');
+			$this->db->where(['area_kelurahan.kecamatan_id' => $_GET['id']]);
+			$this->db->group_by('kelurahan.id_kel');
+
+			$kabupaten = $this->db->get()->result_array();
+
+			$html = '<option value="">Pilih Kelurahan</option>';
+			foreach($kabupaten as $item)
+			{
+				$html .= '<option value="'. $item['id'] .'">'. $item['nama'] .'</option>';
+			}
+
+			echo $html;
+		}
+	}
+
+	/**
 	 * [getkabupaten description]
 	 * @return [type] [description]
 	 */

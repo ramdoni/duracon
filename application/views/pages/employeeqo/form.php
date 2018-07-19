@@ -112,22 +112,31 @@
           </div>
 
           <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kelurahan </label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kecamatan </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <select class="form-control" name="Employee_po[kelurahan_id]">
-                <option value="">Pilih Kelurahan</option>
+              <select class="form-control" name="Employee_po[kecamatan_id]">
+                <option value="">Pilih Kecamatan</option>
                 <?php 
                   $this->db->from('area_kelurahan a');
                   $this->db->select('a.*, k.nama as kelurahan, kec.nama as kecamatan, kab.nama as kabupaten');
                   $this->db->join('kelurahan k', 'k.id_kel=a.kelurahan_id', 'LEFT');
                   $this->db->join('kecamatan kec', 'kec.id_kec=a.kecamatan_id', 'LEFT');
                   $this->db->join('kabupaten kab', 'kab.id_kab=a.kabupaten_id', 'LEFT');
-                  $this->db->group_by('a.kelurahan_id');
+                  $this->db->group_by('a.kecamatan_id');
 
                   $kelurahan = $this->db->get();
                   foreach($kelurahan->result_array() as $item):?>
-                  <option value="<?=$item['kelurahan_id']?>" <?=(isset($data['kelurahan_id']) and $data['kelurahan_id'] == $item['kelurahan_id'])? 'selected' : ''?>><?=$item['kelurahan'] .' - '. $item['kecamatan'] .' - '. $item['kabupaten']?></option>
+                  <option value="<?=$item['kecamatan_id']?>" <?=(isset($data['kecamatan_id']) and $data['kecamatan_id'] == $item['kecamatan_id'])? 'selected' : ''?>><?=$item['kecamatan'] .' - '. $item['kabupaten']?></option>
                 <?php endforeach; ?>
+              </select>
+            </div>  
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kelurahan </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select class="form-control" name="Employee_po[kelurahan_id]">
+                <option value="">Pilih Kelurahan</option>
               </select>
             </div>  
           </div>

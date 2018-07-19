@@ -8,6 +8,20 @@ var num_row=0;
 var transport = 0;
 var is_transport = 1;
 
+$("select[name='Employee_po[kecamatan_id]']").on('change', function(){
+
+  var id = $(this).val();
+
+  $.ajax({
+      url: site_url + "ajax/getkecamatanarea", 
+      data: {'id' : id },
+      type: 'GET',
+      success: function(result){
+        $("select[name='Employee_po[kelurahan_id]']").html(result);
+      }
+  })
+});
+
 $("select[name='provinsi']").on('change', function(){
 
   var id = $(this).val();
