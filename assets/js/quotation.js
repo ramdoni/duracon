@@ -540,7 +540,7 @@ function editable_harga_akhir()
       $("tr.list-product").each(function(){
           
           var vol_ = $(this).find('input.input-hidden-vol').val();
-          var price_ = $(this).find('input.input-hidden-harga').val();
+          var price_ = $(this).find('input.input-hidden-harga_akhir').val();
           var disc_ppn_ = $(this).find('input.input-hidden-disc_ppn').val();
 
           var harga_diskon = parseInt(price_) * parseInt(disc_ppn_) / 100;

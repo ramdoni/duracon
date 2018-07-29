@@ -75,7 +75,7 @@
 		?>
 		<?php foreach($product as $key => $item):
 
-			$sub_total += $item['harga_akhir'] ;
+			$sub_total += $item['harga_akhir']*$item['vol'];
 
 			$p = $this->db->get_where('products', ['id' => $item['product_id']])->row_array();
 		?>
