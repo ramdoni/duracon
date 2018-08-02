@@ -92,7 +92,7 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tanggal">Jadwal Mulai</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" readonly="true" value="<?=(isset($data['jadwal_mulai']) ? $data['jadwal_mulai'] : date('Y-m-d'));?>"  required="required" name="Employee_so[jadwal_mulai]" class="form-control col-md-7 col-xs-12">
+              <input type="text" value="<?=(isset($data['jadwal_mulai']) ? $data['jadwal_mulai'] : date('Y-m-d'));?>"  required="required" name="Employee_so[jadwal_mulai]" class="form-control col-md-7 col-xs-12">
             </div>
           </div>
           <div class="form-group">
