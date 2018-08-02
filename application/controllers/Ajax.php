@@ -1056,7 +1056,7 @@ class Ajax extends CI_Controller {
 		
 		$data = $this->Quotationorderhistory_model->get_by_id($id);
 		
-		if(!$data) return;
+		if(!$data) return [];
 
 		echo json_encode($data);
 	}
