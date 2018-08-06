@@ -295,12 +295,22 @@
                         $total += $harga_diskon*$i['vol'];
                         endforeach;
                       }
+
+                      $ppn = $total * 0.11;
                     ?>
                   </tbody>
                   <tfoot class="footer-date-total">
                     <tr>
-                      <th colspan="9" style="text-align: right;">Total</th>
-                      <th colspan="2" class="total_">Rp. <?=number_format($total)?></th>
+                      <th colspan="9" style="text-align: right;">Sub Total</th>
+                      <th colspan="2" class="sub_total">Rp. <?=number_format($total)?></th>
+                    </tr>
+                    <tr>
+                      <th colspan="9" style="text-align: right;">PPN</th>
+                      <th colspan="2" class="total_ppn">Rp. <?=number_format($ppn)?></th>
+                    </tr>
+                    <tr>
+                      <th colspan="9" style="text-align: right;">Sub Total</th>
+                      <th colspan="2" class="total_">Rp. <?=number_format($total + $ppn)?></th>
                     </tr>
                   </tfoot>
                 </table>
@@ -410,4 +420,4 @@
 <script type="text/javascript">
   var total = <?=empty($total) ? 0 : $total?>;
 </script>
-<script src="<?=base_url()?>assets/js/quotation.js?rand=<?=date('His')?>"></script>
+<script src="<?=base_url()?>assets/js/quotation.js?rand=<?=date('YmdHis')?>"></script>

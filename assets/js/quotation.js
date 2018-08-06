@@ -304,9 +304,14 @@ $("#btn-reset").click(function(){
       $(this).val("");
     });
     
-    $('form#modal-product select').val("");
 
-    $('th.total_').html('Rp. '+numberWithComma(total) );
+    $("form#modal-product select[name='product[kode]']").val("");
+
+    var ppn = total * 0.1;
+
+    $('th.sub_total').html('Rp. '+ numberWithComma(precisionRound(total,-2)));
+    $('th.total_ppn').html('Rp. '+ numberWithComma(precisionRound(ppn,-2)));
+    $('th.total_').html('Rp. '+ numberWithComma(precisionRound(total + ppn,-2)));
 
     editable_volume();
     editable_disc();
@@ -451,8 +456,13 @@ function editable_volume()
           total += parseInt(harga_diskon) * parseInt(vol_);
       });
 
-      $('th.total_').html('Rp. '+ numberWithComma(total));
+      var ppn = total * 0.1;
 
+      $('th.sub_total').html('Rp. '+ numberWithComma(precisionRound(total,-2)));
+      $('th.total_ppn').html('Rp. '+ numberWithComma(precisionRound(ppn,-2)));
+      $('th.total_').html('Rp. '+ numberWithComma(precisionRound(total + ppn,-2)));
+
+      
     },
     type: 'text',
     title: 'Rubah Data'
@@ -499,7 +509,11 @@ function editable_disc()
           total += parseInt(harga_akhir) * parseInt(vol_);
       });
 
-      $('th.total_').html('Rp. '+ numberWithComma(precisionRound(total,-2)));
+      var ppn = total * 0.1;
+
+      $('th.sub_total').html('Rp. '+ numberWithComma(precisionRound(total,-2)));
+      $('th.total_ppn').html('Rp. '+ numberWithComma(precisionRound(ppn,-2)));
+      $('th.total_').html('Rp. '+ numberWithComma(precisionRound(total + ppn,-2)));
 
     },
     type: 'text',
@@ -549,7 +563,11 @@ function editable_harga_akhir()
           total += precisionRound(parseInt(harga_diskon) * parseInt(vol_), -2);
       });
 
-      $('th.total_').html('Rp. '+ numberWithComma(precisionRound(total,-2)));
+      var ppn = total * 0.1;
+
+      $('th.sub_total').html('Rp. '+ numberWithComma(precisionRound(total,-2)));
+      $('th.total_ppn').html('Rp. '+ numberWithComma(precisionRound(ppn,-2)));
+      $('th.total_').html('Rp. '+ numberWithComma(precisionRound(total + ppn,-2)));
 
     },
     type: 'text',
