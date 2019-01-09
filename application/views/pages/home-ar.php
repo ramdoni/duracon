@@ -7,7 +7,7 @@
       	<br />
       	<div class="row tile_count">
         <?php
-          $history = $this->db->query("SELECT i.*, q.proyek,s.no_so, q.sistem_pembayaran, c.name FROM invoice i INNER JOIN sales_order s on s.id=i.sales_order_id INNER JOIN quotation_order q on q.id=s.quotation_order_id INNER JOIN customer c on c.id=q.customer_id order by id desc")->result_array(); 
+          //$history = $this->db->query("SELECT i.*, q.proyek,s.no_so, q.sistem_pembayaran, c.name FROM invoice i INNER JOIN sales_order s on s.id=i.sales_order_id INNER JOIN quotation_order q on q.id=s.quotation_order_id INNER JOIN customer c on c.id=q.customer_id order by id desc")->result_array(); 
         ?>  
         <!-- 
         <h2>History Invoice</h2>

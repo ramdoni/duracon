@@ -12,6 +12,24 @@
               <div class="col-md-6">
                 <input type="text" required="required" name="Invoice[no_invoice]" value="<?=$no_invoice?>"  class="form-control col-md-7 col-xs-10">
               </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_so">No PO</label>
+              <div class="col-md-6">
+                <input type="text"  readonly="true" value="<?=$data['no_quotation']?>" class="form-control col-md-7 col-xs-10"> 
+              </div>
+            </div> 
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_so">Nama / PT</label>
+              <div class="col-md-6">
+                <input type="text" required="required" readonly="true" value="<?=$data['customer']?> <?=(!empty($data['company']) ? ' - '. $data['company'] : '' )?>" class="form-control col-md-7 col-xs-10"> 
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_so">Nama Proyek</label>
+              <div class="col-md-6">
+                <input type="text"  readonly="true" value="<?=$data['proyek']?>" class="form-control col-md-7 col-xs-10"> 
+              </div>
             </div> 
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_so">Sistem Pembayaran</label>
@@ -62,7 +80,7 @@
                         inner join surat_izin_kirim sik on sik.id=spm.surat_izin_kirim_id
                         inner join products p on p.id=spmp.product_id
                         inner join mobil m on m.id=spm.mobil_id
-                        where sik.sales_order_id={$data['id']} and spm.status=2 and sj.status_invoice = 0 and sj.status=2
+                        where sik.sales_order_id='{$data['id']}' and spm.status=2 and sj.status_invoice = 0 and sj.status=2
                         group by sj.id
                         ")->result_array();
 

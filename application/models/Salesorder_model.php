@@ -27,7 +27,7 @@
 	 **/
 	public function data_($id=0, $page=0, $limit=0, $search=0)
 	{
-		$this->db->select('sales_order.*, quotation_order.no_po as no_quotation, customer.name as customer, sales.name as sales, quotation_order.proyek, area.area as area');
+		$this->db->select('sales_order.*, quotation_order.no_po as no_quotation, customer.name as customer, sales.name as sales, quotation_order.proyek, area.area as area, customer.company');
 		$this->db->from($this->t_table);
 		$this->db->join('quotation_order', 'quotation_order.id=sales_order.quotation_order_id', 'inner');
 		$this->db->join('user as sales', 'sales.id=quotation_order.sales_id','left');
