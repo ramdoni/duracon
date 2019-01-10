@@ -1,6 +1,26 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
+ * get Kecamatan Area Kirim
+ * @return string
+ */
+function get_kecamatan_area_kirim($id)
+{
+    $ini = get_instance();
+
+    $data  = $ini->db->query("SELECT a.*, ke.nama as kelurahan, kec.nama as kecamatan, kab.nama as kabupaten FROM area_kelurahan a 
+                                                                                INNER JOIN kelurahan ke on ke.id_kel=a.kelurahan_id 
+                                                                                INNER JOIN kecamatan kec on kec.id_kec=a.kecamatan_id
+                                                                                INNER JOIN kabupaten kab on kab.id_kab=a.kabupaten_id
+                                                                                WHERE a.kecamatan_id='". $id ."'
+                                                                                LIMIT 10")->result_array();
+
+    $string =  $item['kelurahan'] .' - '. $item['kecamatan'] .' - '. $item['kabupaten'];   
+
+    return $string;
+}
+
+/**
  * [catatan_so_by_so_id description]
  * @param  [type] $id [description]
  * @return [type]     [description]

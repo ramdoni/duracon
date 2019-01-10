@@ -37,36 +37,8 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sales">Customer <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <select class="form-control select_customer" required name="Employee_po[customer_id]">
-                <option value=""> - Customer - </option>
-                <?php
-                $customer = $this->db->get('customer');
-
-                foreach($customer->result_array() as $i):
-                  $selected = '';
-
-                  if(isset($data['customer_id']))
-                  {
-                    if($data['customer_id'] == $i['id'])
-                    {
-                      $selected = ' selected';
-                    }
-                  }
-
-                  if($i['tipe_customer'] !== 'Perorangan')
-                  {
-                    $nama_customer = (!empty($i['name']) ? $i['name'].' - ' : '') .$i['company'];
-                    
-                    $nama_customer = ($i['name'] == $i['company'] ? $i['company'] : $nama_customer);
-                  }
-                  else
-                    $nama_customer = $i['name']; 
-              ?>
-                <option value="<?=$i['id']?>" <?=$selected?>><?=$nama_customer?></option>
-              <?php
-                endforeach;
-                ?>
-              </select>
+              <input type="text" class="form-control autocomplete-customer" />
+              <input type="hidden" name="Employee_po[customer_id]">
             </div>
           </div>
           <div class="form-group">
@@ -114,21 +86,10 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Kecamatan </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <select class="form-control" name="Employee_po[kecamatan_id]">
-                <option value="">Pilih Kecamatan</option>
-                <?php 
-                  $this->db->from('area_kelurahan a');
-                  $this->db->select('a.*, k.nama as kelurahan, kec.nama as kecamatan, kab.nama as kabupaten');
-                  $this->db->join('kelurahan k', 'k.id_kel=a.kelurahan_id', 'LEFT');
-                  $this->db->join('kecamatan kec', 'kec.id_kec=a.kecamatan_id', 'LEFT');
-                  $this->db->join('kabupaten kab', 'kab.id_kab=a.kabupaten_id', 'LEFT');
-                  $this->db->group_by('a.kecamatan_id');
+             
+              <input type="text" class="form-control autocomplete-kecamatan" />
+              <input type="hidden" name="Employee_po[kecamatan_id]">
 
-                  $kelurahan = $this->db->get();
-                  foreach($kelurahan->result_array() as $item):?>
-                  <option value="<?=$item['kecamatan_id']?>" <?=(isset($data['kecamatan_id']) and $data['kecamatan_id'] == $item['kecamatan_id'])? 'selected' : ''?>><?=$item['kecamatan'] .' - '. $item['kabupaten']?></option>
-                <?php endforeach; ?>
-              </select>
             </div>  
           </div>
 
@@ -144,25 +105,6 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="area_kirim">Area Kirim </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-             <!--  <select name="Employee_po[area_id]" required id="area_id" class="form-control">
-                <option value=""> - Area Kirim - </option>
-                <?php 
-                  $area = $this->db->get('area')->result_array();
-                  foreach($area as $i):
-
-                    $selected = '';
-                    if(isset($data['area_id']))
-                    {
-                      if($data['area_id'] == $i['id'])
-                      {
-                        $selected = ' selected';
-                      }
-                    }
-                ?>
-                <option <?=$selected?> value="<?=$i['id']?>" data-price="<?=$i['price']?>"><?=$i['area']?></option>
-                <?php endforeach; ?>
-              </select> -->
-
               <label class="control-label col-md-6 col-sm-6 col-xs-12 label-area_kirim" style="text-align: left;"><?=isset($data['area_id']) ? $data['area'] : ''?></label>
               <input type="hidden" name="Employee_po[area_id]" class="area_id" value="<?=isset($data['area_id']) ? $data['area_id'] : ''?>" />
               <input type="hidden" name="Employee_po[transport]" value="<?=isset($data['transport']) ? $data['transport'] : ''?>" />
@@ -335,7 +277,6 @@
 <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-    
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -350,15 +291,8 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Kode Product <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <select name="product[kode]" id="select-kode" class="form-control">
-                <option value=""> - Product - </option>
-                <?php 
-                $product = $this->db->get('products');
-                foreach($product->result_array() as $i):
-                ?>
-                <option value="<?=$i['id']?>"><?=$i['kode']?></option>
-              <?php endforeach; ?>
-              </select>
+              <input type="text" class="form-control autocomplete-produk">
+              <input type="hidden" name="product[kode]" />
             </div>
           </div>
           <div class="form-group">
@@ -417,7 +351,84 @@
     </div>
   </div>
 <!-- include file js -->
+<link rel="stylesheet" href="<?=base_url()?>assets/jquery-ui/jquery-ui.css">
+<script src="<?=base_url()?>assets/jquery-ui/jquery-ui.js"></script>
+
 <script type="text/javascript">
   var total = <?=empty($total) ? 0 : $total?>;
+
+  $(".autocomplete-customer" ).autocomplete({
+        minLength:0,
+        limit: 25,
+        source: function( request, response ) {
+            $.ajax({
+              url: "<?=site_url()?>ajax/getcustomerautocomplete",
+              method : 'POST',
+              data: {
+                'name': request.term
+              },
+              dataType: 'json',
+              success: function( data ) {
+                response( data );
+              }
+            });
+        },
+        select: function( event, ui ) {
+          $("input[name='Employee_po[customer_id]']").val(ui.item.id);
+        }
+    }).on('focus', function () {
+      $(this).autocomplete("search", "");
+    });
+
+     $(".autocomplete-produk" ).autocomplete({
+        minLength:0,
+        limit: 25,
+        source: function( request, response ) {
+            $.ajax({
+              url: "<?=site_url()?>ajax/getproductautocomplete",
+              method : 'POST',
+              data: {
+                'name': request.term
+              },
+              dataType: 'json',
+              success: function( data ) {
+                response( data );
+              }
+            });
+        },
+        select: function( event, ui ) {
+          $("input[name='product[kode]']").val(ui.item.id).trigger('change');
+        }
+    }).on('focus', function () {
+      $(this).autocomplete("search", "");
+    });
+
+    $(".autocomplete-kecamatan" ).autocomplete({
+        minLength:0,
+        limit: 25,
+        source: function( request, response ) {
+            $.ajax({
+              url: "<?=site_url()?>ajax/getkecamatanautocomplete",
+              method : 'POST',
+              data: {
+                'name': request.term
+              },
+              dataType: 'json',
+              success: function( data ) {
+                response( data );
+              }
+            });
+        },
+        select: function( event, ui ) {
+          $("input[name='Employee_po[kecamatan_id]']").val(ui.item.id).trigger('change');
+        }
+    }).on('focus', function () {
+      $(this).autocomplete("search", "");
+    });
 </script>
 <script src="<?=base_url()?>assets/js/quotation.js?rand=<?=date('YmdHis')?>"></script>
+<style type="text/css">
+  .ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front {
+    z-index: 10000 !important;
+  }
+</style>

@@ -191,6 +191,71 @@ class Ajax extends CI_Controller {
 	}
 
 	/**
+	 * Get Kecamatan
+	 * @return json
+	 */
+	public function getkecamatanautocomplete()
+	{
+		$post = $this->input->post();
+		$data  = $this->db->query("SELECT a.*, ke.nama as kelurahan, kec.nama as kecamatan, kab.nama as kabupaten FROM area_kelurahan a 
+																					INNER JOIN kelurahan ke on ke.id_kel=a.kelurahan_id 
+																					INNER JOIN kecamatan kec on kec.id_kec=a.kecamatan_id
+																					INNER JOIN kabupaten kab on kab.id_kab=a.kabupaten_id
+																					WHERE ke.nama LIKE '%". $post['name'] ."%'
+																					LIMIT 10")->result_array();
+
+		$params = [];
+
+        foreach($data as $k => $item)
+        {
+        	$params[$k]['id'] 		= $item['kecamatan_id'];
+			$params[$k]['value'] 	= $item['kelurahan'] .' - '. $item['kecamatan'] .' - '. $item['kabupaten'];
+        }	
+
+		echo json_encode($params);
+	}
+
+	/**
+	 * [getcustomer description]
+	 * @return [type] [description]
+	 */
+	public function getcustomerautocomplete()
+	{
+		$post = $this->input->post();
+
+		$data  = $this->db->query("SELECT c.id, c.name FROM customer c WHERE c.name LIKE '%{$post['name']}%' LIMIT 10")->result_array();
+		$params = [];
+
+		foreach($data as $k => $item)
+		{
+			$params[$k]['id'] 		= $item['id'];
+			$params[$k]['value'] 	= $item['name'];
+		}		
+
+		echo json_encode($params);
+	}
+
+	/**
+	 * Get Produk Autocomplete
+	 * @return json
+	 */
+	public function getproductautocomplete()
+	{
+		$post = $this->input->post();
+
+		$data  = $this->db->query("SELECT id, kode as name FROM products  WHERE kode LIKE '%{$post['name']}%' LIMIT 10")->result_array();
+		$params = [];
+
+		foreach($data as $k => $item)
+		{
+			$params[$k]['id'] 		= $item['id'];
+			$params[$k]['value'] 	= $item['name'];
+		}		
+
+		echo json_encode($params);
+	}
+
+	/**
 	 * [getcustomer description]
 	 * @return [type] [description]
 	 */

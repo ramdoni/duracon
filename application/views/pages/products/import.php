@@ -16,7 +16,7 @@
           </label>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <input type="file" id="first-name" required="required" name="file" class="form-control col-md-7 col-xs-12">
-            <!-- <p>sample excel <a href="<?=base_url('assets/contoh-import-products.xls')?>" class="link"> <i class="fa fa-cloud-download"></i> Download</a></p> -->
+            <p>sample excel <a href="<?=base_url('assets/format/data-product.xls')?>" class="link"> <i class="fa fa-cloud-download"></i> Download</a></p>
           </div>
         </div>
         <div class="ln_solid"></div>

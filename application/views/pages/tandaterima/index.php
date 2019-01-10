@@ -147,7 +147,7 @@
                       <?php 
                         if($item['status'] == 0)
                         {
-                          echo '<span class="btn btn-xs btn-warning"> On Progress</span>';
+                          echo '<span class="btn btn-xs btn-warning"> In Progress</span>';
                         }else{
                           echo '<span class="btn btn-xs btn-success"> Done</span>';
                         }

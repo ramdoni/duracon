@@ -71,7 +71,7 @@ class Products extends CI_Controller {
 			        
 			        if ($data['cells'][$i][1] == '') continue;
 
-			        if($i==1) continue;
+			        if($i==1 || $i==2) continue;
 
 					$dataexcel = [];
 			        $dataexcel['uraian'] 	= $data['cells'][$i][1];
@@ -96,7 +96,9 @@ class Products extends CI_Controller {
 				//delete file
 	            $file = $config['upload_path'] . $upload_data['file_name'];
 				unlink($upload_data['full_path']);
-
+				
+				$this->session->set_flashdata('messages', 'Produk berhasil di import');	
+				
 				redirect(site_url('products/?import=1&success=true'));
 			endif;
 		}

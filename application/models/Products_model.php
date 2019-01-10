@@ -30,7 +30,8 @@
 		$this->db->select('products.*, product_specification.spesifikasi as spesifikasi');
 		$this->db->from($this->t_table);
 		$this->db->join('product_specification', 'product_specification.id=products.product_specification_id', 'left');
-		
+		$this->db->order_by('id', 'desc');
+
 		$i = $this->db->get();
 		
 		return $i->result_array();

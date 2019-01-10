@@ -88,7 +88,7 @@
                 ?>
                   <tr>
                     <td rowspan="2">
-                      <input type="checkbox" name="surat_jalan[]" value="<?=$item['id']?>" class="form-control checked-sj" title="Pilih Surat Jalan yang akan di proses" />
+                      <input type="checkbox" name="surat_jalan[]" value="<?=$item['id']?>" class="checked-sj" title="Pilih Surat Jalan yang akan di proses" />
                     </td>
                     <td><?=$item['no_surat_jalan']?></td>
                     <td><?=$item['nama_supir']?></td>

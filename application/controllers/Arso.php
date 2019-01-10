@@ -227,7 +227,7 @@ class Arso extends CI_Controller {
 
 		$html = $this->load->view('pages/ar/invoice_print', $params, true);
 
-        //this the the PDF filename that user will get to download
+		//this the the PDF filename that user will get to download
 		$pdfFilePath = "Invoice-". date('d M Y') .".pdf";
 
         //load mPDF library

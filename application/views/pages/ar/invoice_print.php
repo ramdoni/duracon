@@ -5,7 +5,7 @@
 
 	<style type="text/css">
 		body {
-			font-size: 10px;
+			font-size: 15px;
 		}
 		.green {
 			color: #3f687e;
@@ -35,41 +35,55 @@
 </head>
 <body>
 	<p style="position: absolute;right: 10px; top: 10px;">
-		<?=$invoice['no_invoice']?>
+		<b>No.</b> <?=$invoice['no_invoice']?>
 	</p>
-	<img src="<?=site_url()?>assets/images/logo.png" style="width: 250px;" />
-	<p>
-		Kantor : Jl Ciputat Raya No. 20 H, Pondok Pinang, Jakarta Selatan 12310<br />
-		Phone : 75907375 (Hunting) Fax : 7509486
-	</p>
+	<div class="">
+		<img src="<?=site_url()?>assets/images/small-logo.jpg" style="height: 100px; width: 120px;float: left;" />
+		<div style="float: left;margin-left: 10px;">
+			<p>
+				<b style="font-size: 18px;">PT DURACONINDO PRATAMA</b><br />
+				Kp. Jaha, RT/RW : 03/04, Malang Nengah, Legok - Tangerang <br />
+				No. NPWP : 01.495.350.9-415.000 <br />
+				Kantor : Jl Ciputat Raya No. 20 H, Pondok Pinang, Jakarta Selatan 12310<br />
+				Phone : 75907375 (Hunting) Fax : 7509486
+			</p>
+		</div>
+	</div>
 	<br style="clear: both;" />
 	<table class="table">
 		<tr>
 			<td>Sudah diterima dari </td>
-			<td><strong><?=$qo['customer']?></strong></td>
+			<td style="width: 5px;"> : </td>
+			<td><strong style="font-size: 18px;"><?=$qo['customer']?></strong></td>
 		</tr>
 		<tr>
 			<td>Sejumlah Uang</td>
+			<td> : </td>
 			<td><strong><?=terbilang($invoice['nominal'], 1)?> RUPIAH</strong></td>
 		</tr>
 		<tr>
 			<td>Untuk pembayaran</td>
+			<td> : </td>
 			<td><strong><?=empty($invoice['untuk_pembayaran']) ? 'Komponen Beton Pracetak' : $invoice['untuk_pembayaran']?></strong></td>
 		</tr>
 		<tr>
 			<td>No PO</td>
-			<td><?=$qo['no_po']?></td>
+			<td> : </td>
+			<td><strong><?=$qo['no_po']?></strong></td>
 		</tr>
 		<tr>
 			<td>Proyek / Lokasi</td>
+			<td> : </td>
 			<td><?=$qo['proyek']?></td>
 		</tr>
 		<tr>
 			<td>Komponen franko ditempat Rp. </td>
+			<td> : </td>
 			<td><?=number_format($invoice['nominal'])?></td>
 		</tr>
 		<tr>
 			<td>P.P.N 10% Rp. </td>
+			<td></td>
 			<td>
 				<?php 
 					$ppn = ($invoice['nominal'] * 10 ) / 100;
@@ -79,38 +93,49 @@
 		</tr>
 		<tr>
 			<td>Jumlah Rp. </td>
-			<td><strong><?=number_format($invoice['nominal']+$ppn)?></strong></td>
-			<td style="text-align: center;">
-				<div style="float: right;width: 50%;">
-					<p>Jakarta, <?=date('d F Y')?></p>
-					<br />
-					<br />
-					<p><i>materai 6000</i></p>
-					<br />
-					<br />
-					<p>Bachri Tanu</p>
-				</div>
+			<td></td>
+			<td>
+				<strong style="font-size: 18px;"><?=number_format($invoice['nominal']+$ppn)?></strong><br /><br />
 			</td>
 		</tr>
+		<tr>
 	</table>
-	
-	<div style="float:right; width: 20%;text-align: center;">
-		
+	<div style="float: right;width: 30%;margin-top: -50px;">
+		<p>Jakarta, <?=date('d F Y')?></p>
+		<br />
+		<br />
+		<p><i>materai 6000</i></p>
+		<br />
+		<br />
+		<p>Bachri Tanu</p>
 	</div>
-	<p>
+
+	<p style="margin-top: 150px;">
 		Pembayaran dengan giro/cheque harap atas nama<br />
 		PT. Duraconindo Pratama dan dianggap sah, setelah <br />
 		giro/cheque tersebut dapat diuangkan (clearing)
 	</p>
-	<p><img src="<?=site_url()?>assets/images/bca.png" ></p>
 	<p>
-		Rek BCA :  237 3020 311 <br />
+		Rek BCA :  237-3020-311 <br />
+		Cabang Pondok Indah - Jakarta Selatan<br />
 		<strong>PT. Duraconindo Pratama</strong>
 	</p>
 	<div style="position: absolute;bottom:10px; left:10px;">
 		<small>FOR: C 0806 / 01 Juni 2007 - Rev. 00</small>
 	</div>
-	
+<?php 
+	$surat_jalan = $this->db->query("
+                        SELECT sj.*, p.kode, sum(spmp.volume) as total_volume, p.satuan, p.price FROM surat_jalan sj 
+                        inner join surat_perintah_muat spm on spm.id=sj.surat_perintah_muat_id
+                        inner join surat_perintah_muat_product spmp on spmp.surat_perintah_muat_id=spm.id 
+                        inner join surat_izin_kirim sik on sik.id=spm.surat_izin_kirim_id
+                        inner join products p on p.id=spmp.product_id
+                        where sj.invoice_id = {$invoice['id']}
+                        group by p.id
+                        ")->result_array();
+
+	if(count($surat_jalan) > 0){
+?>
 	<div style="page-break-before: always; "></div>
 	<h3 style="text-align: center;">BERITA ACARA TAGIHAN</h3>
 	<table>
@@ -154,15 +179,6 @@
 			<?php 
 
 				$total = 0;
-				$surat_jalan = $this->db->query("
-                        SELECT sj.*, p.kode, sum(spmp.volume) as total_volume, p.satuan, p.price FROM surat_jalan sj 
-                        inner join surat_perintah_muat spm on spm.id=sj.surat_perintah_muat_id
-                        inner join surat_perintah_muat_product spmp on spmp.surat_perintah_muat_id=spm.id 
-                        inner join surat_izin_kirim sik on sik.id=spm.surat_izin_kirim_id
-                        inner join products p on p.id=spmp.product_id
-                        where sj.invoice_id = {$invoice['id']}
-                        group by p.id
-                        ")->result_array();
 
 				foreach($surat_jalan as $key => $item):
 					$total += ($item['price'] * $item['total_volume']);
@@ -215,7 +231,22 @@
 	<div style="position: absolute;bottom:10px; left:10px;">
 		<small>FOR-C 0804 / 01 Juni 2007-Rev.00</small>
 	</div>
-	
+<?php } ?>
+<?php 
+
+$surat_jalan = $this->db->query("
+                        SELECT sj.*, p.kode, spmp.volume, p.satuan, p.price FROM surat_jalan sj 
+                        inner join surat_perintah_muat spm on spm.id=sj.surat_perintah_muat_id
+                        inner join surat_perintah_muat_product spmp on spmp.surat_perintah_muat_id=spm.id 
+                        inner join surat_izin_kirim sik on sik.id=spm.surat_izin_kirim_id
+                        inner join products p on p.id=spmp.product_id
+                        inner join invoice i on i.id=sj.invoice_id
+                        where sik.sales_order_id = {$so['id']}
+                        group by sj.id
+                        ")->result_array();
+
+if(count($surat_jalan)){
+?>
 	<div style="page-break-before: always; "></div>
 	<h3 style="text-align:center;">REKAPITULASI PENGIRIMAN MATERIAL BETON PRACETAK</h3>
 	<table>
@@ -247,16 +278,7 @@
 			<?php 
 
 				$total = 0;
-				$surat_jalan = $this->db->query("
-                        SELECT sj.*, p.kode, spmp.volume, p.satuan, p.price FROM surat_jalan sj 
-                        inner join surat_perintah_muat spm on spm.id=sj.surat_perintah_muat_id
-                        inner join surat_perintah_muat_product spmp on spmp.surat_perintah_muat_id=spm.id 
-                        inner join surat_izin_kirim sik on sik.id=spm.surat_izin_kirim_id
-                        inner join products p on p.id=spmp.product_id
-                        inner join invoice i on i.id=sj.invoice_id
-                        where sik.sales_order_id = {$so['id']}
-                        group by sj.id
-                        ")->result_array();
+				
 
 				foreach($surat_jalan as $key => $item):
 					$total += ($item['price'] * $item['volume']);
@@ -272,5 +294,6 @@
 		</tbody>
 	</table>
 	<p>OR-C 0804 / 01 Juni 2007 - Rev.00</p>
+<?php } ?>
 </body>
 </html>

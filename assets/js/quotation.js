@@ -333,7 +333,7 @@ $("#btn-reset").click(function(){
     });
   });
 
-  $("select#select-kode").on("change", function(){
+  $("input[name='product[kode]']").on("change", function(){
 
     if($("input[name='Employee_po[area_id]']").val() == "")
     {
