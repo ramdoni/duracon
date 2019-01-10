@@ -102,7 +102,7 @@
 
     public function get_by_id($id)
     {
-    	$this->db->select('quotation_order.*, customer.name as customer, sales.name as sales, proyek, lokasi.name as area_kirim,area.area as area, area.area as area_kirim, marketing.name as marketing,sales.sales_code, lokasi.code as lokasi_code, area_id, marketing.sales_code as marketing_code');
+    	$this->db->select('quotation_order.*, customer.name_prefix, customer.name as customer, sales.name as sales, proyek, lokasi.name as area_kirim,area.area as area, area.area as area_kirim, marketing.name as marketing,sales.sales_code, lokasi.code as lokasi_code, area_id, marketing.sales_code as marketing_code');
 		$this->db->from($this->t_table);
 		$this->db->join('customer', 'quotation_order.customer_id=customer.id', 'left');
 		$this->db->join('user as sales', 'quotation_order.sales_id=sales.id', 'left');

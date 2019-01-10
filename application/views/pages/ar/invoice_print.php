@@ -12,6 +12,7 @@
 		}
 		table {
 			width: 100%;
+			border-spacing: 0;
 		}
 		table.table tr th {
 			background: #3f687e;
@@ -26,7 +27,7 @@
 		}
 
 		table.border tr td, table.border tr th {
-			border: 1px solid;
+			border: 0.25px solid #000;
 		}
 		tfoot.no_border tr td,tfoot.no_border tr th {
 			border: 0;
@@ -38,15 +39,33 @@
 		<b>No.</b> <?=$invoice['no_invoice']?>
 	</p>
 	<div class="">
-		<img src="<?=site_url()?>assets/images/small-logo.jpg" style="height: 100px; width: 120px;float: left;" />
+		<div style="min-height: 300px; width: 100px; float: left">
+			<img src="<?=site_url()?>assets/images/small-logo.jpg" style="height: 60px; width: 80px;" />
+		</div>
 		<div style="float: left;margin-left: 10px;">
-			<p>
-				<b style="font-size: 18px;">PT DURACONINDO PRATAMA</b><br />
-				Kp. Jaha, RT/RW : 03/04, Malang Nengah, Legok - Tangerang <br />
-				No. NPWP : 01.495.350.9-415.000 <br />
-				Kantor : Jl Ciputat Raya No. 20 H, Pondok Pinang, Jakarta Selatan 12310<br />
-				Phone : 75907375 (Hunting) Fax : 7509486
-			</p>
+			<strong style="font-size: 20px;margin-bottom:0;padding-bottom:0">PT DURACONINDO PRATAMA</strong>
+			<table style="margin-top:0px;padding-top:0;font-size: 13px;">
+				<tr>
+					<td style="width: 120px;">Kp. Jaha, RT/RW </td>
+					<td> : 03/04, Malang Nengah, Legok - Tangerang</td>
+				</tr>
+				<tr>
+					<td>No. NPWP </td>
+					<td> : 01.495.350.9-415.000</td>
+				</tr>
+				<tr>
+					<td>Kantor </td>
+					<td>: Jl Ciputat Raya No. 20 H, Pondok Pinang,</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>&nbsp;&nbsp;Jakarta Selatan 12310</td>
+				</tr>
+				<tr>
+					<td>Phone </td>
+					<td> : 75907375 (Hunting) Fax : 7509486</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 	<br style="clear: both;" />
@@ -54,7 +73,7 @@
 		<tr>
 			<td>Sudah diterima dari </td>
 			<td style="width: 5px;"> : </td> 
-			<td><strong style="font-size: 18px;"><?=$qo['customer']?></strong></td>
+			<td><strong style="font-size: 18px;"><i><?=$qo['name_prefix']?>. <?=$qo['customer']?></i></strong></td>
 		</tr>
 		<tr>
 			<td>Sejumlah Uang</td>
@@ -77,14 +96,14 @@
 			<td><?=$qo['proyek']?></td>
 		</tr>
 		<tr>
-			<td>Komponen franko ditempat Rp. </td>
+			<td>Komponen franko ditempat </td>
 			<td> : </td>
-			<td><?=number_format($invoice['nominal'])?></td>
+			<td>Rp. <?=number_format($invoice['nominal'])?></td>
 		</tr>
 		<tr>
-			<td>P.P.N 10% Rp. </td>
-			<td></td>
-			<td>
+			<td>P.P.N 10% </td>
+			<td> : </td>
+			<td> Rp. 
 				<?php 
 					$ppn = ($invoice['nominal'] * 10 ) / 100;
 
@@ -92,15 +111,15 @@
 				<?=number_format($ppn)?></td>
 		</tr>
 		<tr>
-			<td>Jumlah Rp. </td>
-			<td></td>
-			<td>
+			<td>Jumlah </td>
+			<td> : </td>
+			<td> Rp. 
 				<strong style="font-size: 18px;"><?=number_format($invoice['nominal']+$ppn)?></strong><br /><br />
 			</td>
 		</tr>
 		<tr>
 	</table>
-	<div style="float: right;width: 30%;margin-top: -50px;">
+	<div style="float: right;width: 30%;margin-top: -10px;">
 		<p>Jakarta, <?=date('d F Y')?></p>
 		<br />
 		<br />
@@ -110,7 +129,7 @@
 		<p>Bachri Tanu</p>
 	</div>
 
-	<p style="margin-top: 150px;">
+	<p style="margin-top: 150px;font-size: 13px;">
 		Pembayaran dengan giro/cheque harap atas nama<br />
 		PT. Duraconindo Pratama dan dianggap sah, setelah <br />
 		giro/cheque tersebut dapat diuangkan (clearing)
@@ -125,7 +144,7 @@
 	</div>
 <?php 
 	$surat_jalan = $this->db->query("
-                        SELECT sj.*, p.kode, sum(spmp.volume) as total_volume, p.satuan, p.price FROM surat_jalan sj 
+                        SELECT sj.*, p.kode, p.uraian, sum(spmp.volume) as total_volume, p.satuan, p.price FROM surat_jalan sj 
                         inner join surat_perintah_muat spm on spm.id=sj.surat_perintah_muat_id
                         inner join surat_perintah_muat_product spmp on spmp.surat_perintah_muat_id=spm.id 
                         inner join surat_izin_kirim sik on sik.id=spm.surat_izin_kirim_id
@@ -185,7 +204,7 @@
 			?>
 					<tr>
 						<td style="text-align: center"><?=($key+1)?></td>
-						<td><?=($item['kode'])?></td>
+						<td><?=($item['uraian'])?></td>
 						<td style="text-align: center"><?=($item['satuan'])?></td>
 						<td style="text-align: right"><?=($item['total_volume'])?></td>
 						<td style="text-align: right"><?=number_format($item['price'])?></td>
@@ -200,20 +219,20 @@
 		</tbody>
 		<tfoot class="no_border">
 			<tr>
-				<th colspan="5" style="text-align: right;">Subtotal</th>
-				<th><?=number_format($total)?></th>
+				<td colspan="5" style="text-align: right;">Subtotal</td>
+				<th style="text-align: right;"><?=number_format($total)?></th>
 			</tr>
 			<tr>
-				<th colspan="5" style="text-align: right;">PPN 10% </th>
-				<th><?=number_format($ppn)?></th>
+				<td colspan="5" style="text-align: right;">PPN 10% </td>
+				<th style="text-align: right;"><?=number_format($ppn)?></th>
 			</tr>
 			<tr>
-				<th colspan="5" style="text-align: right;">Total Terkirim </th>
-				<th><?=number_format($ppn + $total)?></th>
+				<td colspan="5" style="text-align: right;">Total Terkirim </td>
+				<th style="text-align: right;"><?=number_format($ppn + $total)?></th>
 			</tr>
 			<tr>
-				<th colspan="5" style="text-align: right;">Total Tagihan </th>
-				<th><?=number_format($ppn + $total)?></th>
+				<td colspan="5" style="text-align: right;">Total Tagihan </td>
+				<th style="text-align: right;"><?=number_format($ppn + $total)?></th>
 			</tr>
 		</tfoot>
 	</table>
@@ -232,6 +251,12 @@
 		<small>FOR-C 0804 / 01 Juni 2007-Rev.00</small>
 	</div>
 <?php } ?>
+<style type="text/css">
+	table.border tr td, table.border tr th {
+		padding: 5px 5px;
+		font-size: 13px;
+	}
+</style>
 <?php 
 
 $surat_jalan = $this->db->query("

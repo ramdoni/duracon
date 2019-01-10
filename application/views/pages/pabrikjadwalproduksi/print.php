@@ -29,7 +29,7 @@ $hari = [1 => "Senin", 2 => "Selasa", 3 => "Rabu", 4=> "Kamis",5 => "Jumat", 6 =
 
 <table>
 	<tr>
-		<td rowspan="4">
+		<td rowspan="4" style="text-align: center;">
 			<img src="<?=base_url()?>assets/images/logo.jpg" style="width: 200px;">
 		</td>
 		<td rowspan="2" style="text-align: center;">
@@ -123,8 +123,8 @@ $hari = [1 => "Senin", 2 => "Selasa", 3 => "Rabu", 4=> "Kamis",5 => "Jumat", 6 =
 	foreach($list_plan as $key => $item):?>
 	
 	<?php 
-		$total_cetakan_shift1 = $this->db->query("select (sum(day1_shift1) + sum(day2_shift1) + sum(day3_shift1) + sum(day4_shift1) + sum(day5_shift1) + sum(day6_shift1) + sum(day7_shift1)) as total from product_schedule_plan where product_schedule_id={$data['id']}")->row();
-        $total_cetakan_shift2 = $this->db->query("select (sum(day1_shift2) + sum(day2_shift2) + sum(day3_shift2) + sum(day4_shift2) + sum(day5_shift2) + sum(day6_shift2) + sum(day7_shift2)) as total from product_schedule_plan where product_schedule_id={$data['id']}")->row();
+		$total_cetakan_shift1 = $this->db->query("SELECT (sum(day1_shift1) + sum(day2_shift1) + sum(day3_shift1) + sum(day4_shift1) + sum(day5_shift1) + sum(day6_shift1) + sum(day7_shift1)) as total from product_schedule_plan where product_schedule_id={$data['id']} and product_id='". $item['product_id'] ."'")->row();
+        $total_cetakan_shift2 = $this->db->query("SELECT (sum(day1_shift2) + sum(day2_shift2) + sum(day3_shift2) + sum(day4_shift2) + sum(day5_shift2) + sum(day6_shift2) + sum(day7_shift2)) as total from product_schedule_plan where product_schedule_id={$data['id']}  and product_id='". $item['product_id'] ."'")->row();
 
         $bg = "";
 
@@ -222,9 +222,9 @@ $hari = [1 => "Senin", 2 => "Selasa", 3 => "Rabu", 4=> "Kamis",5 => "Jumat", 6 =
 	<?php endforeach; ?>
 	<?php foreach($list_plan_revisi as $key => $item):?>
 	<?php 
-		$total_cetakan_shift1 = $this->db->query("SELECT (sum(day1_shift1) + sum(day2_shift1) + sum(day3_shift1) + sum(day4_shift1) + sum(day5_shift1) + sum(day6_shift1) + sum(day7_shift1)) as total from product_schedule_plan where product_schedule_id={$data['id']}")->row();
+		$total_cetakan_shift1 = $this->db->query("SELECT (sum(day1_shift1) + sum(day2_shift1) + sum(day3_shift1) + sum(day4_shift1) + sum(day5_shift1) + sum(day6_shift1) + sum(day7_shift1)) as total from product_schedule_plan where product_schedule_id={$data['id']}  and product_id='". $item['product_id'] ."'")->row();
 
-        $total_cetakan_shift2 = $this->db->query("select (sum(day1_shift2) + sum(day2_shift2) + sum(day3_shift2) + sum(day4_shift2) + sum(day5_shift2) + sum(day6_shift2) + sum(day7_shift2)) as total from product_schedule_plan where product_schedule_id={$data['id']}")->row();
+        $total_cetakan_shift2 = $this->db->query("SELECT (sum(day1_shift2) + sum(day2_shift2) + sum(day3_shift2) + sum(day4_shift2) + sum(day5_shift2) + sum(day6_shift2) + sum(day7_shift2)) as total from product_schedule_plan where product_schedule_id={$data['id']}  and product_id='". $item['product_id'] ."'")->row();
 
 	?>
 		<tr style="background: #59d659;">
@@ -366,7 +366,12 @@ $hari = [1 => "Senin", 2 => "Selasa", 3 => "Rabu", 4=> "Kamis",5 => "Jumat", 6 =
 		<br>
 		<br>
 		<br>
-		<strong><u>(M Muchlish M)</u></strong>
+		<?php 
+			$manager = $this->db->get_where('user', ['user_group_id' => 5])->row_array();
+			if($manager){
+		?>
+		<strong><u>( <?=$manager['name']?> )</u></strong>
+	<?php } ?>
 		<p>Plant Manager</p>
 	</div>
 </div>
