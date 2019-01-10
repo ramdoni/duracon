@@ -53,7 +53,7 @@
 	<table class="table">
 		<tr>
 			<td>Sudah diterima dari </td>
-			<td style="width: 5px;"> : </td>
+			<td style="width: 5px;"> : </td> 
 			<td><strong style="font-size: 18px;"><?=$qo['customer']?></strong></td>
 		</tr>
 		<tr>

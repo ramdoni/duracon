@@ -139,7 +139,7 @@ function label_customer_pt($id)
     if($customer)
     {
         if($customer['tipe_customer'] == 'Perorangan')
-            return $customer['name'];
+            return $customer['name_prefix'] .' '. $customer['name'];
         else
             return $customer['company'];    
     }
@@ -205,7 +205,7 @@ function label_customer_kebalik($id)
     if($customer)
     {
         if($customer['tipe_customer'] == 'Perorangan')
-            return $customer['name'];
+            return $customer['name_prefix'] .' '. $customer['name'];
         else
             return '<b>'. $customer['name'] .'</b><br />'. $customer['company'];    
     }
@@ -223,7 +223,7 @@ function label_customer($id)
     if($customer)
     {
         if($customer['tipe_customer'] == 'Perorangan')
-            return $customer['name'];
+            return $customer['name_prefix'] .' '. $customer['name'];
         else
             return $customer['company'] .'<br />'. $customer['name'];    
     }
@@ -242,7 +242,7 @@ function nama_customer($id)
     if($customer)
     {
         if($customer['tipe_customer'] == 'Perorangan')
-            return $customer['name'];
+            return $customer['name_prefix'] .' '. $customer['name'];
         else
             return $customer['company'];    
     }
